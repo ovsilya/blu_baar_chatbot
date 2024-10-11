@@ -4,12 +4,14 @@ from langchain_community.vectorstores import FAISS
 from langchain.text_splitter import NLTKTextSplitter
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
+from langchain.prompts import PromptTemplate
 from nltk.tokenize import sent_tokenize
 import os
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import uuid  # For generating unique user IDs
+import random
 
 app = Flask(__name__)
 CORS(app)
@@ -37,14 +39,32 @@ def split_into_chunks(text, max_chunk_size=500):
         chunks.append(current_chunk.strip())
     return chunks
 
+def load_prompt_template():
+    with open('prompt.txt', 'r') as file:
+        return file.read()
+    
+
+def load_default_replies():
+    with open('default_replies.txt', 'r') as file:
+        replies = [line.strip() for line in file if line.strip()]
+    return replies
 
 
 
+prompt_template = load_prompt_template()
+
+default_replies = load_default_replies()
+
+
+PROMPT = PromptTemplate(
+    template=prompt_template,
+    input_variables=["context", "question", "default_replies"]
+)
 
 text_data = load_chunks()
 chunks = split_into_chunks(text_data, max_chunk_size=500)
 
-print('Chunks: ',chunks[:2])
+# print('Chunks: ',chunks[:2])
 
 
 # Initialize OpenAI embeddings
@@ -70,17 +90,27 @@ else:
 llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY)
 
 
-memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+# memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+memory = ConversationBufferMemory(
+    memory_key="chat_history",
+    input_key = "question",
+    return_messages=True,
+    output_key="answer" 
+)
+
 
 qa = ConversationalRetrievalChain.from_llm(
     llm=llm,
-    retriever=vector_store.as_retriever(),
+    retriever = vector_store.as_retriever(),
     memory=memory,
-    verbose=True
+    verbose=True,
+    combine_docs_chain_kwargs={'prompt': PROMPT},
+    return_source_documents=True,
 )
 
 
 conversation_history = {}
+formatted_default_replies = "\n".join(f"- {reply}" for reply in default_replies)
 
 def interact_with_user(user_message, user_id):
     if user_id not in conversation_history:
@@ -88,8 +118,16 @@ def interact_with_user(user_message, user_id):
     
     chat_history = conversation_history[user_id]
     
-    result = qa({"question": user_message, "chat_history": chat_history})
+    result = qa({"question": user_message, "chat_history": chat_history, "default_replies": formatted_default_replies})
     response = result["answer"]
+
+    # Check if the context is empty or irrelevant
+    source_documents = result.get('source_documents', [])
+
+    blu_baar_keywords = ["Blu-Baar", "blu-baar", "Blu Baar", "blu baar", "blu bar"]
+
+    if not source_documents or not any(keyword in response for keyword in blu_baar_keywords):
+        response = random.choice(default_replies)
     
     # Update conversation history
     chat_history.append({"user": user_message, "assistant": response})
