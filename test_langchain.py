@@ -30,7 +30,7 @@ def split_into_chunks(text, max_chunk_size=500):
     current_chunk = ''
     
     for sentence in sentences:
-        # Check if adding the sentence exceeds the max chunk size
+    
         if len(current_chunk) + len(sentence) + 1 <= max_chunk_size:
             current_chunk += ' ' + sentence
         else:
@@ -53,7 +53,6 @@ def load_default_replies():
 
 
 def retrieve_tool_func(query):
-    # Use the vector store to retrieve relevant documents
     docs = vector_store.similarity_search(query)
     if not docs:
         return ""
@@ -86,12 +85,10 @@ default_replies = load_default_replies()
 
 
 
-# Initialize OpenAI embeddings
 OPENAI_API_KEY = os.environ.get('NAVAICGKEY')
 
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 
-# Load or create FAISS index
 if os.path.exists("faiss_index"):
     vector_store = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
 
@@ -183,7 +180,6 @@ def interact_with_user(user_message, user_id):
     docs = vector_store.similarity_search(user_message)
     
     context = "\n".join([doc.page_content for doc in docs])
-    # Run the agent with the user's message
     # response = agent_executor.run(input=user_message)
     # response = agent_executor.run(input=user_message, context=context)
     result = agent_executor.invoke({"input": user_message, "context": context})
