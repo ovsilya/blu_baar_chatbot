@@ -2,9 +2,11 @@ from langchain_openai.embeddings import OpenAIEmbeddings
 from langchain_openai.chat_models import ChatOpenAI
 from langchain_community.vectorstores import FAISS
 from langchain.text_splitter import NLTKTextSplitter
-from langchain.chains import ConversationalRetrievalChain
+from langchain.chains import ConversationalRetrievalChain, create_retrieval_chain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
+from langchain.agents import Tool, AgentExecutor, initialize_agent, AgentType, create_react_agent, ZeroShotAgent
+from langchain import LLMChain
 from nltk.tokenize import sent_tokenize
 import os
 import os
@@ -50,21 +52,38 @@ def load_default_replies():
     return replies
 
 
+def retrieve_tool_func(query):
+    # Use the vector store to retrieve relevant documents
+    docs = vector_store.similarity_search(query)
+    if not docs:
+        return ""
+    return "\n".join([doc.page_content for doc in docs])
 
-prompt_template = load_prompt_template()
+
+def default_response_tool_func(_):
+    return random.choice(default_replies)
+
+
+
+retrieve_tool = Tool(
+    name="Retriever",
+    func=retrieve_tool_func,
+    description="Use this tool to retrieve information about Blu-Baar. Always invoke this when the user asks for information about the company or its services."
+)
+
+
+default_response_tool = Tool(
+    name="DefaultResponder",
+    func=default_response_tool_func,
+    description="Use this tool when you don't have enough information to answer the user's question."
+)
+
+tools = [retrieve_tool, default_response_tool]
+
+
 
 default_replies = load_default_replies()
 
-
-PROMPT = PromptTemplate(
-    template=prompt_template,
-    input_variables=["context", "question", "default_replies"]
-)
-
-text_data = load_chunks()
-chunks = split_into_chunks(text_data, max_chunk_size=500)
-
-# print('Chunks: ',chunks[:2])
 
 
 # Initialize OpenAI embeddings
@@ -74,14 +93,13 @@ embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 
 # Load or create FAISS index
 if os.path.exists("faiss_index"):
-    # vector_store = FAISS.load_local("faiss_index", embeddings)
     vector_store = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
 
     print("Loaded FAISS index from disk.")
 else:
-    # Assuming 'chunks' is a list of your text data split into chunks
+    text_data = load_chunks()
+    chunks = split_into_chunks(text_data, max_chunk_size=500)
     vector_store = FAISS.from_texts(chunks, embeddings)
-    
     vector_store.save_local("faiss_index")
     print("Created and saved FAISS index.")
 
@@ -89,56 +107,90 @@ else:
 
 llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY)
 
+# prompt_text = load_prompt_template()
+
+# prompt = ZeroShotAgent.create_prompt(
+#     tools=tools,
+#     prefix=prompt_template,
+#     suffix="",
+#     input_variables=["input", "chat_history", "agent_scratchpad"],
+# )
+
+# prompt = PromptTemplate(
+#     template=prompt_text,
+#     input_variables = ["input", "chat_history", "agent_scratchpad", "tool_descriptions"]
+# )
+
+def create_langchain_agent(memory):
+    prompt_text = load_prompt_template()
+    
+    prompt = PromptTemplate(
+        template = prompt_text,
+        input_variables=["input", "context", "chat_history"]
+    )
+    # print("Tools", prompt.tools)
+    # llm_chain = LLMChain(llm=llm, prompt=prompt)
+    
+    # Initialize the ZeroShotAgent with the chain and tools
+    agent = create_react_agent(llm=llm, tools=tools, prompt=prompt)
+    # agent = LLMChain(llm=llm, tools=tools, prompt=prompt)
+    
+    # Create the AgentExecutor
+    agent_executor = AgentExecutor.from_agent_and_tools(
+        agent=agent,
+        tools=tools,
+        verbose=True,
+        memory=memory,
+        handle_parsing_errors=True
+    )
+    return agent_executor
+
+
 
 # memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-memory = ConversationBufferMemory(
-    memory_key="chat_history",
-    input_key = "question",
-    return_messages=True,
-    output_key="answer" 
-)
+# memory = ConversationBufferMemory(
+#     memory_key="chat_history",
+#     input_key = "question",
+#     return_messages=True,
+#     output_key="answer" 
+# )
 
 
-qa = ConversationalRetrievalChain.from_llm(
-    llm=llm,
-    retriever = vector_store.as_retriever(),
-    memory=memory,
-    verbose=True,
-    combine_docs_chain_kwargs={'prompt': PROMPT},
-    return_source_documents=True,
-)
+# qa = ConversationalRetrievalChain.from_llm(
+#     llm=llm,
+#     retriever = vector_store.as_retriever(),
+#     memory=memory,
+#     verbose=True,
+#     combine_docs_chain_kwargs={'prompt': PROMPT},
+#     return_source_documents=True,
+# )
 
 
 conversation_history = {}
-formatted_default_replies = "\n".join(f"- {reply}" for reply in default_replies)
 
 def interact_with_user(user_message, user_id):
     if user_id not in conversation_history:
-        conversation_history[user_id] = []
+        # Each user gets their own memory
+        conversation_history[user_id] = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True,
+            input_key="input"
+        )
     
-    chat_history = conversation_history[user_id]
+    memory = conversation_history[user_id]
+    agent_executor = create_langchain_agent(memory)
+
+    docs = vector_store.similarity_search(user_message)
     
-    result = qa({"question": user_message, "chat_history": chat_history, "default_replies": formatted_default_replies})
-    response = result["answer"]
-
-    # Check if the context is empty or irrelevant
-    source_documents = result.get('source_documents', [])
-
-    blu_baar_keywords = ["Blu-Baar", "blu-baar", "Blu Baar", "blu baar", "blu bar"]
-
-    if not source_documents or not any(keyword in response for keyword in blu_baar_keywords):
-        response = random.choice(default_replies)
+    context = "\n".join([doc.page_content for doc in docs])
+    # Run the agent with the user's message
+    # response = agent_executor.run(input=user_message)
+    # response = agent_executor.run(input=user_message, context=context)
+    result = agent_executor.invoke({"input": user_message, "context": context})
+    response = result["output"]
     
-    # Update conversation history
-    chat_history.append({"user": user_message, "assistant": response})
+    conversation_history[user_id] = memory
     
-    # Optionally, check for lead generation after a certain number of interactions
-    if len(chat_history) >= 3:
-        response += "\n\nIt seems you're interested! Would you like to leave your contact details?"
-        response += " Please provide your name, email, and phone number."
-
-    conversation_history[user_id] = chat_history
-
     return response
 
 
