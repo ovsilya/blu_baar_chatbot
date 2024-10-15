@@ -5,7 +5,7 @@ from langchain.text_splitter import NLTKTextSplitter
 from langchain.chains import ConversationalRetrievalChain, create_retrieval_chain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
-from langchain.agents import Tool, AgentExecutor, initialize_agent, AgentType, create_react_agent, ZeroShotAgent
+from langchain.agents import Tool, AgentExecutor, initialize_agent, AgentType, create_react_agent, create_tool_calling_agent
 from langchain import LLMChain
 from nltk.tokenize import sent_tokenize
 import os
@@ -42,7 +42,7 @@ def split_into_chunks(text, max_chunk_size=500):
     return chunks
 
 def load_prompt_template():
-    with open('prompt.txt', 'r') as file:
+    with open('system_prompt.txt', 'r') as file:
         return file.read()
     
 
@@ -52,11 +52,12 @@ def load_default_replies():
     return replies
 
 
-def retrieve_tool_func(query):
+def retriever_tool_func(query):
     docs = vector_store.similarity_search(query)
     if not docs:
-        return ""
+        return default_response_tool_func(None)
     return "\n".join([doc.page_content for doc in docs])
+
 
 
 def default_response_tool_func(_):
@@ -64,9 +65,9 @@ def default_response_tool_func(_):
 
 
 
-retrieve_tool = Tool(
+retriever_tool = Tool(
     name="Retriever",
-    func=retrieve_tool_func,
+    func=retriever_tool_func,
     description="Use this tool to retrieve information about Blu-Baar. Always invoke this when the user asks for information about the company or its services."
 )
 
@@ -74,11 +75,11 @@ retrieve_tool = Tool(
 default_response_tool = Tool(
     name="DefaultResponder",
     func=default_response_tool_func,
-    description="Use this tool when you don't have enough information to answer the user's question."
+    description="Use this tool when you don't have enough information to answer the user's question.",
+    return_direct=True
 )
 
-tools = [retrieve_tool, default_response_tool]
-
+tools = [retriever_tool, default_response_tool]
 
 
 default_replies = load_default_replies()
@@ -119,18 +120,18 @@ llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY)
 # )
 
 def create_langchain_agent(memory):
-    prompt_text = load_prompt_template()
+    system_prompt_text = load_prompt_template()
     
     prompt = PromptTemplate(
-        template = prompt_text,
-        input_variables=["input", "context", "chat_history"]
+        template = system_prompt_text,
+        input_variables=["input", "context", "chat_history", "tools", "tool_names", "agent_scratchpad"]
     )
     # print("Tools", prompt.tools)
     # llm_chain = LLMChain(llm=llm, prompt=prompt)
     
     # Initialize the ZeroShotAgent with the chain and tools
-    agent = create_react_agent(llm=llm, tools=tools, prompt=prompt)
-    # agent = LLMChain(llm=llm, tools=tools, prompt=prompt)
+    # agent = create_react_agent(llm=llm, tools=tools, prompt=prompt)
+    agent = create_tool_calling_agent(llm=llm, tools=tools, prompt=prompt)
     
     # Create the AgentExecutor
     agent_executor = AgentExecutor.from_agent_and_tools(
@@ -142,25 +143,6 @@ def create_langchain_agent(memory):
     )
     return agent_executor
 
-
-
-# memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-# memory = ConversationBufferMemory(
-#     memory_key="chat_history",
-#     input_key = "question",
-#     return_messages=True,
-#     output_key="answer" 
-# )
-
-
-# qa = ConversationalRetrievalChain.from_llm(
-#     llm=llm,
-#     retriever = vector_store.as_retriever(),
-#     memory=memory,
-#     verbose=True,
-#     combine_docs_chain_kwargs={'prompt': PROMPT},
-#     return_source_documents=True,
-# )
 
 
 conversation_history = {}
@@ -175,15 +157,48 @@ def interact_with_user(user_message, user_id):
         )
     
     memory = conversation_history[user_id]
+
+    # print("Conversation history so far:")
+    # for msg in memory.load_memory_variables({})["chat_history"]:
+    #     print(msg)
+
     agent_executor = create_langchain_agent(memory)
 
     docs = vector_store.similarity_search(user_message)
     
     context = "\n".join([doc.page_content for doc in docs])
+
+    default_responder_invoked = False
+
+    if not docs:  # for not falling into infinite loop of thinking
+        response = default_response_tool_func(None)
+        print("DefaultResponder invoked. Stopping further iteration.")
+        return response
+    
+
     # response = agent_executor.run(input=user_message)
     # response = agent_executor.run(input=user_message, context=context)
-    result = agent_executor.invoke({"input": user_message, "context": context})
-    response = result["output"]
+    # result = agent_executor.invoke({"input": user_message, "context": context})
+    # response = result["output"]
+
+    try:
+        result = agent_executor.invoke({"input": user_message, "context": context})
+        response = result["output"]
+    except Exception as e:
+        if not default_responder_invoked:
+            response = default_response_tool_func(None)
+            default_responder_invoked = True 
+            print("DefaultResponder invoked due to error.")
+            return response
+        else:
+            print(f"Error in agent execution: {str(e)}")
+            response = "An error occurred."
+            return response
+
+
+    # print("Updated conversation history:")
+    # for msg in memory.load_memory_variables({})["chat_history"]:
+    #     print(msg)
     
     conversation_history[user_id] = memory
     
