@@ -9,7 +9,7 @@ You have access to the following tools:
 
 - Retriever: retrieves information about Blu-Baar
 - DefaultResponder: provides a default response if no information is found or the question is irrelevant (i.e. What is the weather today?)
-- LeadFormWidget: this widget give an option for the user to fill their contact information after several interactions with the pot. The LLM has to make decision about when to trigger the lead form based on the conversation's context.
+- LeadFormWidget: this tool deploys a lead from in the bot widget in the frontend. The lead form in the widget gives an option for the user to fill out their contact information after several interactions with the bot. The LLM has to make a decision about when and whether to trigger the lead form based on the conversation's context and engagement of the user.
 
 Begin!
 
