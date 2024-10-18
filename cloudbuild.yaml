@@ -11,9 +11,6 @@ steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: ['run', 'deploy', 'chatbot-app', '--image', 'gcr.io/$PROJECT_ID/chatbot-app', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
-    env:
-    - name: NAVAICGKEY
-      value: sk-proj-KGUXTSrwq2m2wueI4JwKT3BlbkFJHcNZecVcvLRSNxQgMjkM
 
 # Optional: Specify the Cloud Build triggers based on GitHub changes (e.g., when code is pushed)
 substitutions:
