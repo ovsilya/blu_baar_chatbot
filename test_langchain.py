@@ -65,16 +65,13 @@ def default_response_tool_func(_):
 
 
 def lead_form_tool_func(_):
-    """
-    It uses the user_id stored in Flask's 'g' object.
-    """
     user_id = getattr(g, 'current_user_id', None)
     if user_id:
         if user_id not in user_form_trigger_status:
-            #     Trigger the form via the Flask API
-            requests.post("http://localhost:5000/trigger-lead-form", json={"user_id": user_id})
+            # Use the Cloud Run URL instead of localhost
+            cloud_run_url = "https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form"
+            requests.post(cloud_run_url, json={"user_id": user_id})
             user_form_trigger_status[user_id] = True
-    # Return empty string so it doesn't affect the conversation
     return ""
 
 
