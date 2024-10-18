@@ -14,10 +14,13 @@ steps:
 
 # Optional: Specify the Cloud Build triggers based on GitHub changes (e.g., when code is pushed)
 substitutions:
-  _REGION: "northamerica-northeast1"
+  _REGION: "us-central1"
 
 # Logging options
 options:
   logging: CLOUD_LOGGING_ONLY
+
+env:
+  - NAVAICGKEY=sk-proj-KGUXTSrwq2m2wueI4JwKT3BlbkFJHcNZecVcvLRSNxQgMjkM
 
 timeout: "900s"
