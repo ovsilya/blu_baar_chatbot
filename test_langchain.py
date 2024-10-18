@@ -115,7 +115,7 @@ default_replies = load_default_replies()
 
 OPENAI_API_KEY = os.environ.get('NAVAICGKEY')
 
-embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+embeddings = OpenAIEmbeddings(openai_api_key='sk-proj-KGUXTSrwq2m2wueI4JwKT3BlbkFJHcNZecVcvLRSNxQgMjkM’)
 
 if os.path.exists("faiss_index"):
     vector_store = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)

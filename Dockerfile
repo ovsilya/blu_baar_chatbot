@@ -17,8 +17,8 @@ USER myuser
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
 
-# Define environment variables
-ENV NAME AI_Assistant
+# Define environment variable
+ENV PORT 8080
 
 # Run app.py when the container launches
 CMD ["python", "test_langchain.py"]
