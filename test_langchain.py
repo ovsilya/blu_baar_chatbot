@@ -65,6 +65,9 @@ def default_response_tool_func(_):
 
 
 def lead_form_tool_func(_):
+    """
+    It uses the user_id stored in Flask's 'g' object.
+    """
     user_id = getattr(g, 'current_user_id', None)
     if user_id:
         if user_id not in user_form_trigger_status:
@@ -72,6 +75,7 @@ def lead_form_tool_func(_):
             cloud_run_url = "https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form"
             requests.post(cloud_run_url, json={"user_id": user_id})
             user_form_trigger_status[user_id] = True
+    # Return empty string so it doesn't affect the conversation
     return ""
 
 
@@ -159,6 +163,13 @@ def create_langchain_agent(memory):
 
 conversation_history = {}
 user_form_trigger_status = {}
+
+# **Define the initial prompts**
+initial_prompts = {
+    "1": "Learn more about services offered by Blu-Baar.",
+    "2": "What can I do here?",
+    "3": "Leave my contact information."
+}
 
 def interact_with_user(user_message, user_id):
     global conversation_history
@@ -255,13 +266,20 @@ def chat():
     data = request.get_json()
     user_message = data.get("message")
     user_id = data.get("user_id")
+    initial_prompt = data.get("InitialPrompt", "0")
     
     if not user_id:
         # Generate a new user_id if not provided
         user_id = str(uuid.uuid4())
     
-    if not user_message:
-        return jsonify({"error": "No message provided"}), 400
+    if initial_prompt != "0":
+        # Use the corresponding initial prompt message
+        user_message = initial_prompts.get(initial_prompt, "")
+        if not user_message:
+            return jsonify({"error": "Invalid InitialPrompt value provided."}), 400
+    else:
+        if not user_message:
+            return jsonify({"error": "No message provided"}), 400
     
     response, lead_form_triggered = interact_with_user(user_message, user_id)
     
@@ -275,7 +293,7 @@ def chat():
 @app.route('/trigger-lead-form', methods=['POST'])
 def trigger_lead_form():
     data = request.get_json() 
-    user_id = data.get("user_id")  # Extract the user_id from the request
+    user_id = data.get("user_id")
 
 
     if not user_id:
@@ -312,4 +330,3 @@ def form_trigger_status():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
-
