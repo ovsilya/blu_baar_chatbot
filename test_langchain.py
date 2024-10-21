@@ -184,7 +184,7 @@ def interact_with_user(user_message, user_id):
     lead_form_triggered = user_form_trigger_status.get(user_id, False)
 
     if interaction_count >= 7 and not lead_form_triggered:
-        requests.post("http://localhost:5000/trigger-lead-form", json={"user_id": user_id})
+        requests.post("https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form", json={"user_id": user_id})
         user_form_trigger_status[user_id] = True
         lead_form_triggered = True
 
@@ -221,7 +221,7 @@ def interact_with_user(user_message, user_id):
         tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
         if 'LeadForm' in tools_used and not lead_form_triggered:
             # Trigger the lead form via the Flask API
-            requests.post("http://localhost:5000/trigger-lead-form", json={"user_id": user_id})
+            requests.post("https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form", json={"user_id": user_id})
             user_form_trigger_status[user_id] = True
             lead_form_triggered = True
 
