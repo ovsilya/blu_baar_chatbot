@@ -1,16 +1,16 @@
 steps:
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/chatbot-app', '.']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/chatbot-app-initial-prompts', '.']
     
   # Step 2: Push the image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/chatbot-app']
+    args: ['push', 'gcr.io/$PROJECT_ID/chatbot-app-initial-prompts']
     
   # Step 3: Deploy the image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'chatbot-app', '--image', 'gcr.io/$PROJECT_ID/chatbot-app', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'chatbot-app', '--image', 'gcr.io/$PROJECT_ID/chatbot-app-initial-prompts', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
 
 # Optional: Specify the Cloud Build triggers based on GitHub changes (e.g., when code is pushed)
 substitutions:
