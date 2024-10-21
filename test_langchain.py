@@ -14,9 +14,21 @@ from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 import uuid  # For generating unique user IDs
 import random
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 CORS(app)
+
+log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chatbot_interactions.log')
+handler = RotatingFileHandler(log_file_path, maxBytes=5*1024*1024, backupCount=5)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# Create a dedicated logger for your application
+logger = logging.getLogger('chatbot')
+logger.setLevel(logging.INFO)
+logger.addHandler(handler)
 
 
 def load_chunks():
@@ -198,6 +210,7 @@ def interact_with_user(user_message, user_id):
         requests.post("https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form", json={"user_id": user_id})
         user_form_trigger_status[user_id] = True
         lead_form_triggered = True
+        logger.info(f"User ID: {user_id} - Lead form automatically triggered after 7 interactions.")
 
     g.current_user_id = user_id
 
@@ -216,6 +229,7 @@ def interact_with_user(user_message, user_id):
         response = default_response_tool_func(None)
         print("DefaultResponder invoked. Stopping further iteration.")
         # g.current_user_id = None # Not sure about resetting the current ID
+        logger.info(f"User ID: {user_id} - No relevant documents found. Default response used.")
         return response, lead_form_triggered
     
 
@@ -230,25 +244,20 @@ def interact_with_user(user_message, user_id):
         intermediate_steps = result["intermediate_steps"]
 
         tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
+
+        logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
         if 'LeadForm' in tools_used and not lead_form_triggered:
             # Trigger the lead form via the Flask API
             requests.post("https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form", json={"user_id": user_id})
             user_form_trigger_status[user_id] = True
             lead_form_triggered = True
+            logger.info(f"User ID: {user_id} - Lead form triggered by LeadForm tool.")
 
         return response, lead_form_triggered
 
     except Exception as e:
-        # if not default_responder_invoked:
-        #     response = default_response_tool_func(None)
-        #     default_responder_invoked = True 
-        #     print("DefaultResponder invoked due to error.")
-        #     return response
-        # else:
-        #     print(f"Error in agent execution: {str(e)}")
-        #     response = "An error occurred."
-        #     return response
-        print(f"Error in agent execution: {str(e)}")
+
+        logger.error(f"User ID: {user_id} - Error in agent execution: {str(e)}")
         response = "An error occurred."
         return response, lead_form_triggered
 
@@ -281,8 +290,15 @@ def chat():
         if not user_message:
             return jsonify({"error": "No message provided"}), 400
     
+    logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
+
     response, lead_form_triggered = interact_with_user(user_message, user_id)
+
+    logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
     
+    if lead_form_triggered:
+        logger.info(f"User ID: {user_id} - Lead form triggered.")
+
     return jsonify({
         "response": response,
         "user_id": user_id,
@@ -314,7 +330,8 @@ def trigger_lead_form():
     }
 
     user_form_trigger_status[user_id] = True
-    print(f"Lead form triggered for user_id: {user_id}") 
+    # print(f"Lead form triggered for user_id: {user_id}") 
+    logger.info(f"User ID: {user_id} - Lead form sent to user.")
     return jsonify(response), 200
 
 
