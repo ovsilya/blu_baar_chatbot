@@ -86,6 +86,7 @@ def lead_form_tool_func(_):
             # Use the Cloud Run URL instead of localhost
             cloud_run_url = "https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form"
             requests.post(cloud_run_url, json={"user_id": user_id})
+            # requests.post("http://localhost:5000/trigger-lead-form", json={"user_id": user_id})
             user_form_trigger_status[user_id] = True
     # Return empty string so it doesn't affect the conversation
     return ""
@@ -208,6 +209,7 @@ def interact_with_user(user_message, user_id):
 
     if interaction_count >= 7 and not lead_form_triggered:
         requests.post("https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form", json={"user_id": user_id})
+        # requests.post("http://localhost:5000/trigger-lead-form", json={"user_id": user_id})
         user_form_trigger_status[user_id] = True
         lead_form_triggered = True
         logger.info(f"User ID: {user_id} - Lead form automatically triggered after 7 interactions.")
@@ -249,6 +251,7 @@ def interact_with_user(user_message, user_id):
         if 'LeadForm' in tools_used and not lead_form_triggered:
             # Trigger the lead form via the Flask API
             requests.post("https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form", json={"user_id": user_id})
+            # requests.post("http://localhost:5000/trigger-lead-form", json={"user_id": user_id})
             user_form_trigger_status[user_id] = True
             lead_form_triggered = True
             logger.info(f"User ID: {user_id} - Lead form triggered by LeadForm tool.")
@@ -347,3 +350,4 @@ def form_trigger_status():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
+    # app.run(debug=True)
