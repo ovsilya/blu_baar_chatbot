@@ -81,11 +81,11 @@ def initialize_vector_store(file_path, embeddings, language='english'):
 # Initialize embeddings and FAISS vector store
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 # Initialize vector stores for English and German knowledge bases
-vector_store_eng = initialize_vector_store('knowledge_base_eng.txt', embeddings, language='english')
-vector_store_deu = initialize_vector_store('knowledge_base_deu.txt', embeddings, language='german')
+vector_store_eng = initialize_vector_store('knowledge/knowledge_base_eng.txt', embeddings, language='english')
+vector_store_deu = initialize_vector_store('knowledge/knowledge_base_deu.txt', embeddings, language='german')
 
-default_replies_eng = load_default_replies('default_replies_eng.txt')
-default_replies_deu = load_default_replies('default_replies_deu.txt')
+default_replies_eng = load_default_replies('knowledge/default_replies_eng.txt')
+default_replies_deu = load_default_replies('knowledge/default_replies_deu.txt')
 
 ############################################################
 # Define tools for agent
@@ -127,16 +127,11 @@ default_response_tool = Tool(
 )
 
 tools = [retriever_tool, default_response_tool, lead_form_tool]
-############################################################
 
-# Chat model and agent setup
-llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY)
-
-def create_langchain_agent(memory):
+def create_langchain_agent(memory,system_prompt):
     """Create the agent using LangChain's tool calling method."""
-    system_prompt_text = read_file('system_prompt.txt')
     prompt = PromptTemplate(
-        template=system_prompt_text,
+        template=system_prompt,
         input_variables=["input", "context", "chat_history", "tools", "tool_names", "agent_scratchpad"]
     )
     agent = create_tool_calling_agent(llm=llm, tools=tools, prompt=prompt)
@@ -149,6 +144,10 @@ def create_langchain_agent(memory):
         return_intermediate_steps=True
     )
     return agent_executor
+############################################################
+
+# Chat model and agent setup
+llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY)
 
 # Conversation and interaction management
 conversation_history = {}
@@ -156,7 +155,7 @@ user_form_trigger_status = {}
 
 ############################################################
 ############################################################
-def interact_with_user(user_message, user_id):
+def interact_with_user(user_message, user_id,system_prompt):
     """Handle user interaction by retrieving memory, running the agent, and managing lead form triggers."""
     if user_id not in conversation_history:
         conversation_history[user_id] = {
@@ -181,7 +180,7 @@ def interact_with_user(user_message, user_id):
         logger.info(f"User ID: {user_id} - Lead form triggered after 7 interactions.")
 
     g.current_user_id = user_id
-    agent_executor = create_langchain_agent(memory)
+    agent_executor = create_langchain_agent(memory,system_prompt)
     docs = vector_store.similarity_search(user_message)
     context = "\n".join([doc.page_content for doc in docs])
 
@@ -216,6 +215,7 @@ def chat():
     user_message = data.get("message")
     user_id = data.get("user_id", str(uuid.uuid4()))
     initial_prompt = data.get("InitialPrompt", "0")
+    system_prompt = read_file('knowledge/system_prompt.txt')
 
     if initial_prompt != "0":
         user_message = initial_prompts.get(initial_prompt, "")
@@ -224,7 +224,7 @@ def chat():
         return jsonify({"error": "No message provided"}), 400
 
     logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
-    response, lead_form_triggered = interact_with_user(user_message, user_id)
+    response, lead_form_triggered = interact_with_user(user_message, user_id,system_prompt)
     return jsonify({"response": response, "user_id": user_id, "lead_form_triggered": lead_form_triggered})
 
 @app.route('/trigger-lead-form', methods=['POST'])
