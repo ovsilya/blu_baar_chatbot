@@ -38,9 +38,9 @@ def read_file(file_name):
     with open(file_name, 'r') as file:
         return file.read()
 
-def load_default_replies():
+def load_default_replies(file_path):
     """Load default responses for fallback when no relevant documents are found."""
-    replies = [line.strip() for line in read_file('default_replies.txt').splitlines() if line.strip()]
+    replies = [line.strip() for line in read_file(file_path).splitlines() if line.strip()]
     return replies
 
 def split_into_chunks(text, language='english', max_chunk_size=500):
@@ -83,7 +83,9 @@ embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 # Initialize vector stores for English and German knowledge bases
 vector_store_eng = initialize_vector_store('knowledge_base_eng.txt', embeddings, language='english')
 vector_store_deu = initialize_vector_store('knowledge_base_deu.txt', embeddings, language='german')
-default_replies = load_default_replies()
+
+default_replies_eng = load_default_replies('default_replies_eng.txt')
+default_replies_deu = load_default_replies('default_replies_deu.txt')
 
 ############################################################
 # Define tools for agent
@@ -93,8 +95,8 @@ def retriever_tool_func(query):
         return default_response_tool_func(None)
     return "\n".join([doc.page_content for doc in docs])
 
-def default_response_tool_func(_):
-    return random.choice(default_replies)
+def default_response_eng_tool_func(_):
+    return random.choice(default_replies_eng)
 
 def lead_form_tool_func(_):
     user_id = getattr(g, 'current_user_id', None)
@@ -119,7 +121,7 @@ retriever_tool = Tool(
 
 default_response_tool = Tool(
     name="DefaultResponder",
-    func=default_response_tool_func,
+    func=default_response_eng_tool_func,
     description="Fallback when no relevant information is found.",
     return_direct=True
 )
