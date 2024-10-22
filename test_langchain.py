@@ -32,7 +32,7 @@ logger.addHandler(handler)
 
 
 def load_chunks():
-    with open('chunks_for_embeddings.txt', 'r') as file:
+    with open('knowledge_base_eng.txt', 'r') as file:
         return file.read()
     
 

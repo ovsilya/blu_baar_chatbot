@@ -219,51 +219,7 @@ What are the additional costs? - In addition to the rental costs, there are addi
 Is a deposit required? - Yes, as a rule, a rental deposit of three months' rent is required. 
 
 
-Gibt es spezielle Umweltauflagen oder Anforderungen für Mieter? - Bei jedem Mietvertrag wird die Green Lease Klausel implementiert. Die Klausel sagt aus, dass die unterzeichnenden Parteien die gemeinsame nachhaltige Bewirtschaftung des Mietobjekts anstreben. Das wird erreicht, indem die Vertragsparteien sich regelmässig zum Thema Nachhaltigkeit und der auf dem Mietobjekt erfolgten oder angestrebten Massnahme austauschen.
 
-
-
-
-Baubeschrieb
-Übergabezustand des Mietobjekts: das Mietobjekt wird an den Mieter im Ausbauzustand „Grundausbau“ übergeben. Die Flächen sind mit einem Bodenbelag ausgestattet, die Wände sind gestrichen, und die Decken sind geschlossen.
-Zusätzlich verfügen die Räumlichkeiten über Heizkörper, eine Kühlanlage sowie eine Grundlüftung, die für ein angenehmes Raumklima sorgen.
-In jeder Mietfläche, mit Ausnahme der Lagerflächen, stehen dem Mieter hochwertige Teeküchen zur Verfügung, die zur Attraktivität des Mietobjekts beitragen.
-
-
-
-
-Die Mietflächen sind mit einer Grundschliessanlage ausgestattet. Der Mieter hat die Möglichkeit, nach Freigabe des Vermieters ein zusätzliches Zutrittskontrollsystem (ZUKO) zu installieren.
-Die Allgemeinräume sind angemessen beleuchtet. In den Mietflächen kann der Mieter die Beleuchtung entsprechend seinen Ausbauwünschen selbst anbringen.
-Die Toiletten befinden sich entweder direkt bei den Mietflächen oder in unmittelbarer Nähe des Mietobjekts. In der Regel stehen jeweils eine Damen- und eine Herrentoilette zur Verfügung.
-
-
-
-
-Die Raumhöhen betragen durchschnittlich ca. 2.75-3.55 Meter.
-Nutzlasten:
-- UG/Tiefparterre: 800 kg/m²
-- EG/Hochparterre – 3.Obergeschoss: 300 kg/m²
-Die Fensterstoren können in jeder Mietfläche (mit Ausnahme der Lagerräumlichkeiten im Tiefparterre) elektrisch über einen Taster gesteuert werden.
-
-
-
-
-Ausbaustudie
-Im Anhang findest du die Bilder der Ausbaustudien für das Erdgeschoss und das 2. Obergeschoss
-Die Visualisierungen hat mir Sumaia zugestellt.
-Die Studienelemente (Factsheets zu den jeweiligen Mietflächen, Tiefparterre – 3.OG) zeigen verschiedene Layouts auf, die den Mietern helfen, ihre zukünftigen Arbeitsumgebungen effizient zu planen und zu gestalten.
-
-
-
-Hausordnung
-Derzeit existiert noch keine Hausordnung. Diese wird zusätzlich erstellt und dem jeweiligen Mietvertrag beigefügt. Daher kann dieser Punkt zu einem späteren Zeitpunkt berücksichtigt werden.
-
-
-
-
-Zusatzinformationen
-Barrierefreiheit: Die Liegenschaft ist barrierefrei gestaltet, um eine einfache Zugänglichkeit für alle Nutzer zu gewährleisten.
-Mobility Solutions: Die Liegenschaft fördert nachhaltige Mobilitätslösungen, wie beispielsweise Fahrradabstellplätze und Ladestationen für Elektrofahrzeuge, um umweltfreundliche Transportalternativen zu unterstützen.
 
 
 
@@ -271,24 +227,4 @@ Blu-Baar's virtual assistant is here to help you with information about our comp
 
 
 
-Blu-Baar Brand Development Document
-This document explains the creation and development of Blu-Baar's brand identity, detailing the brand values, visual elements, and design philosophy. It focuses on the distinct features that make Blu-Baar stand out in the commercial real estate market.
-You can view it here: https://storage.googleapis.com/my-chatbot-site/BLU%20BAAR%20Herleitung%20Objektmarke.pdf
 
-
-
-Blu-Baar Market Analysis and Usage Concept
-This PDF provides an in-depth market analysis for Blu-Baar, covering target markets, demographic trends, competitor research, and potential usage scenarios for the building. It positions Blu-Baar in the commercial property landscape and discusses its strategic approach to space utilization.
-Access it at: https://storage.googleapis.com/my-chatbot-site/BLU%20BAAR%20Zielmarktanalyse%20u.%20Nutzungskonzept.pdf
-
-
-
-Blu-Baar Expose
-This exposé presents a thorough overview of the Blu-Baar project, highlighting its architectural design, customizable office spaces, and premium amenities. It showcases the building’s blue-glass façade and its suitability for businesses looking for modern workspaces in a vibrant location.
-You can read it here: https://storage.googleapis.com/my-chatbot-site/Blu_Baar_Expose_16zu9-v6.pdf
-
-
-
-Blu-Baar Visual Representation
-This image captures the architectural design of Blu-Baar, focusing on its modern blue-glass façade and innovative structure. The image also reflects the building’s office spaces and outdoor areas, providing a visual preview of the workspace.
-View the image here: https://storage.googleapis.com/my-chatbot-site/YwjM5V6w.jpeg

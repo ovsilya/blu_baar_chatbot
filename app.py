@@ -1,207 +1,247 @@
-import logging
 import os
+import random
 import uuid
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from openai import OpenAI
+import logging
 import requests
-from requests.exceptions import RequestException
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin
-import json
-import time
-import tiktoken
-import re
+from flask import Flask, request, jsonify, g
+from flask_cors import CORS
+from nltk.tokenize import sent_tokenize
+from logging.handlers import RotatingFileHandler
+from langchain_openai.embeddings import OpenAIEmbeddings
+from langchain_openai.chat_models import ChatOpenAI
+from langchain_community.vectorstores import FAISS
+from langchain.text_splitter import NLTKTextSplitter
+from langchain.memory import ConversationBufferMemory
+from langchain.prompts import PromptTemplate
+from langchain.agents import Tool, AgentExecutor, create_tool_calling_agent
 
 app = Flask(__name__)
 CORS(app)
 
-main_url = 'https://navai.ch'
-second_url = 'https://learnwith.navai.ch'
-
-visited_urls = set()
-NAVAICGKEY = os.environ.get('NAVAICGKEY')
-
-# Define the path for the log file
+############################################################
+# Logger setup
 log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chatbot_interactions.log')
-logging.basicConfig(filename=log_file_path, level=logging.INFO)
+handler = RotatingFileHandler(log_file_path, maxBytes=5 * 1024 * 1024, backupCount=5)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
 
-leads_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'leads.json')
+logger = logging.getLogger('chatbot')
+logger.setLevel(logging.INFO)
+logger.addHandler(handler)
 
-def fetch_with_retries(url, retries=3, backoff_in_seconds=1):
-    for i in range(retries):
-        try:
-            response = requests.get(url)
-            response.raise_for_status()
-            return response
-        except RequestException as e:
-            if i < retries - 1:
-                time.sleep(backoff_in_seconds * (2 ** i))
-            else:
-                raise e
+############################################################
+# Load environment variables and data files
+OPENAI_API_KEY = "sk-proj-KGUXTSrwq2m2wueI4JwKT3BlbkFJHcNZecVcvLRSNxQgMjkM"
 
-def scrape_site(url):
-    if url in visited_urls:
-        return []
-    visited_urls.add(url)
-
-    response = fetch_with_retries(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-
-    text_content = []
-    for element in soup.find_all(string=True):
-        if element.parent.name not in ['script', 'style', 'head', 'title', 'meta', '[document]']:
-            text_content.append(element.strip())
-
-    links = soup.find_all('a')
-    for link in links:
-        href = link.get('href')
-        if href and not href.startswith(('#', 'javascript:', 'mailto:', '//')) and href.startswith('/'):
-            full_url = urljoin(url, href)
-            if full_url not in visited_urls:
-                text_content.extend(scrape_site(full_url))
-
-    return text_content
-
-all_text_content = scrape_site(main_url)
-all_text_content_learn_with_navAI = scrape_site(second_url)
-
-text_content = list(dict.fromkeys(all_text_content))
-text_content_program = list(dict.fromkeys(all_text_content_learn_with_navAI))
-
-def load_prompt_template():
-    with open('prompt.txt', 'r') as file:
+def read_file(file_name):
+    """Helper function to read a file's content."""
+    with open(file_name, 'r') as file:
         return file.read()
 
-prompt_template = load_prompt_template()
+def load_default_replies():
+    """Load default responses for fallback when no relevant documents are found."""
+    replies = [line.strip() for line in read_file('default_replies.txt').splitlines() if line.strip()]
+    return replies
 
-client = OpenAI(
-    api_key=NAVAICGKEY,
-    base_url="https://api.openai.com/v1/"
+def split_into_chunks(text, language='english', max_chunk_size=500):
+
+    sentences = sent_tokenize(text, language=language)  # Use the language for tokenization
+    chunks = []
+    current_chunk = ''
+    
+    for sentence in sentences:
+        if len(current_chunk) + len(sentence) + 1 <= max_chunk_size:
+            current_chunk += ' ' + sentence
+        else:
+            if current_chunk:
+                chunks.append(current_chunk.strip())
+            current_chunk = sentence
+    if current_chunk:
+        chunks.append(current_chunk.strip())
+    
+    return chunks
+
+def initialize_vector_store(file_path, embeddings, language='english'):
+
+    if os.path.exists(f"faiss_index_{os.path.basename(file_path).split('.')[0]}"):
+        # Load from the saved FAISS index if it exists
+        vector_store = FAISS.load_local(f"faiss_index_{os.path.basename(file_path).split('.')[0]}", embeddings, allow_dangerous_deserialization=True)
+        print(f"Loaded FAISS index for {file_path} from disk.")
+    else:
+        # If no saved FAISS index, process the file and create a new index
+        text_data = load_chunks(file_path)
+        chunks = split_into_chunks(text_data, language=language, max_chunk_size=500)
+        vector_store = FAISS.from_texts(chunks, embeddings)
+        vector_store.save_local(f"faiss_index_{os.path.basename(file_path).split('.')[0]}")
+        print(f"Created and saved FAISS index for {file_path}.")
+    
+    return vector_store
+
+############################################################
+# Initialize embeddings and FAISS vector store
+embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+# Initialize vector stores for English and German knowledge bases
+vector_store_eng = initialize_vector_store('knowledge_base_eng.txt', embeddings, language='english')
+vector_store_deu = initialize_vector_store('knowledge_base_deu.txt', embeddings, language='german')
+default_replies = load_default_replies()
+
+############################################################
+# Define tools for agent
+def retriever_tool_func(query):
+    docs = vector_store.similarity_search(query)
+    if not docs:
+        return default_response_tool_func(None)
+    return "\n".join([doc.page_content for doc in docs])
+
+def default_response_tool_func(_):
+    return random.choice(default_replies)
+
+def lead_form_tool_func(_):
+    user_id = getattr(g, 'current_user_id', None)
+    if user_id and not user_form_trigger_status.get(user_id):
+        cloud_run_url = "https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form"
+        requests.post(cloud_run_url, json={"user_id": user_id})
+        user_form_trigger_status[user_id] = True
+    return ""
+
+lead_form_tool = Tool(
+    name="LeadForm",
+    func=lead_form_tool_func,
+    description="Triggers lead form silently.",
+    return_direct=False
 )
 
-def generate_response(prompt_input, text_content, text_content_program):
-    string_dialogue = [{"role": "system",
-                        "content": prompt_template.format(text_content=text_content, text_content_program=text_content_program)}]
-    
-    if isinstance(prompt_input, list):
-        prompt_input = json.dumps(prompt_input)
+retriever_tool = Tool(
+    name="Retriever",
+    func=retriever_tool_func,
+    description="Retrieves information from the knowledge base."
+)
 
-    messages = json.loads(prompt_input)
-    for dict_message in messages:
-        string_dialogue.append(dict_message)
+default_response_tool = Tool(
+    name="DefaultResponder",
+    func=default_response_tool_func,
+    description="Fallback when no relevant information is found.",
+    return_direct=True
+)
 
-    
-    output = client.chat.completions.create(
-        model = "gpt-4o",
-        messages=string_dialogue
+tools = [retriever_tool, default_response_tool, lead_form_tool]
+############################################################
+
+# Chat model and agent setup
+llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY)
+
+def create_langchain_agent(memory):
+    """Create the agent using LangChain's tool calling method."""
+    system_prompt_text = read_file('system_prompt.txt')
+    prompt = PromptTemplate(
+        template=system_prompt_text,
+        input_variables=["input", "context", "chat_history", "tools", "tool_names", "agent_scratchpad"]
     )
+    agent = create_tool_calling_agent(llm=llm, tools=tools, prompt=prompt)
+    agent_executor = AgentExecutor.from_agent_and_tools(
+        agent=agent,
+        tools=tools,
+        verbose=True,
+        memory=memory,
+        handle_parsing_errors=True,
+        return_intermediate_steps=True
+    )
+    return agent_executor
 
-    
-    response_text = output.choices[0].message.content
-    response_text = append_link_if_needed(messages, response_text)
-    formatted_response = format_response(response_text)
-    return formatted_response
+# Conversation and interaction management
+conversation_history = {}
+user_form_trigger_status = {}
 
-def append_link_if_needed(messages, response_text):
-    last_message = messages[-1]['content'].lower()
-    links = {
-        "blog": "https://navai.ch/blog/",
-        "team": "https://navai.ch/team/",
-        "academy": "https://academy.navai.ch",
-        "online program": "https://learnwith.navai.ch",
-        "learn-with-navAI": "https://learnwith.navai.ch",
-        "learn with navai": "https://learnwith.navai.ch"
-    }
-    
-    for keyword, url in links.items():
-        if keyword in last_message:
-            response_text += f"\nFor more information, please visit {url}."
-            break
+############################################################
+############################################################
+def interact_with_user(user_message, user_id):
+    """Handle user interaction by retrieving memory, running the agent, and managing lead form triggers."""
+    if user_id not in conversation_history:
+        conversation_history[user_id] = {
+            "memory": ConversationBufferMemory(
+                memory_key="chat_history",
+                return_messages=True,
+                input_key="input",
+                output_key="output"
+            ),
+            "interaction_count": 0
+        }
 
-    return response_text
+    memory = conversation_history[user_id]["memory"]
+    interaction_count = conversation_history[user_id]["interaction_count"] + 1
+    conversation_history[user_id]["interaction_count"] = interaction_count
 
-def remove_double_asterisks(text): 
+    lead_form_triggered = user_form_trigger_status.get(user_id, False)
 
-    pattern = r'\*\*(.*?)\*\*'
-    return re.sub(pattern, r'\1', text)
+    if interaction_count >= 7 and not lead_form_triggered:
+        requests.post("https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form", json={"user_id": user_id})
+        user_form_trigger_status[user_id] = True
+        logger.info(f"User ID: {user_id} - Lead form triggered after 7 interactions.")
 
-def format_response(response_text):
-    lines = response_text.split('\n')
-    formatted_lines = []
-    for line in lines:
-        if line.strip().startswith('-'):
-            formatted_lines.append(f"• {line.strip()[1:].strip()}")
-        elif line.strip().isdigit():
-            formatted_lines.append(f"{line.strip()}.")
-        else:
-            formatted_lines.append(line.strip())
-    return '\n'.join(formatted_lines)
+    g.current_user_id = user_id
+    agent_executor = create_langchain_agent(memory)
+    docs = vector_store.similarity_search(user_message)
+    context = "\n".join([doc.page_content for doc in docs])
 
+    if not docs:
+        logger.info(f"User ID: {user_id} - Default response used due to lack of relevant docs.")
+        return default_response_tool_func(None), lead_form_triggered
+
+    try:
+        result = agent_executor.invoke({"input": user_message, "context": context})
+        response = result["output"]
+        intermediate_steps = result["intermediate_steps"]
+
+        tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
+        logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
+
+        if 'LeadForm' in tools_used and not lead_form_triggered:
+            requests.post("https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form", json={"user_id": user_id})
+            user_form_trigger_status[user_id] = True
+            lead_form_triggered = True
+            logger.info(f"User ID: {user_id} - Lead form triggered by LeadForm tool.")
+
+        return response, lead_form_triggered
+
+    except Exception as e:
+        logger.error(f"User ID: {user_id} - Error: {str(e)}")
+        return "An error occurred.", lead_form_triggered
+
+# Flask routes
 @app.route('/chat', methods=['POST'])
 def chat():
-    try:
-        user_input = request.json.get('messages')
-        session_id = request.json.get('session_id', str(uuid.uuid4()))
+    data = request.get_json()
+    user_message = data.get("message")
+    user_id = data.get("user_id", str(uuid.uuid4()))
+    initial_prompt = data.get("InitialPrompt", "0")
 
-        # Log user interaction with session ID
-        logging.info(f"Session ID: {session_id}, User input: {user_input}")
+    if initial_prompt != "0":
+        user_message = initial_prompts.get(initial_prompt, "")
 
-        if isinstance(user_input, list):
-            user_input = json.dumps(user_input)
-        
-        response = generate_response(user_input, text_content, text_content_program)
-        # print(response)
-        response_content = remove_double_asterisks(response)
+    if not user_message:
+        return jsonify({"error": "No message provided"}), 400
 
-        # Log bot response with session ID
-        logging.info(f"Session ID: {session_id}, Bot response: {response_content}")
-        return jsonify({"content": response_content, "session_id": session_id})
-    except Exception as e:
-        logging.error(f"Error: {e}")
-        return jsonify({"error": str(e)}), 500
-    
+    logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
+    response, lead_form_triggered = interact_with_user(user_message, user_id)
+    return jsonify({"response": response, "user_id": user_id, "lead_form_triggered": lead_form_triggered})
 
-@app.route('/health', methods=['GET'])
-def health():
-    return jsonify({"status": "healthy"}), 200
+@app.route('/trigger-lead-form', methods=['POST'])
+def trigger_lead_form():
+    data = request.get_json()
+    user_id = data.get("user_id")
 
-@app.route('/api', methods=['GET'])
-def api_info():
-    return jsonify({"status": "API is working"}), 200
+    if not user_id:
+        return jsonify({"message": "No user_id provided."}), 400
 
-@app.route('/save_lead', methods=['POST'])
-def save_lead():
-    try:
-        logging.info(f"Request data: {request.data}")
-        lead_data = request.json
-        logging.info(f"Lead data: {lead_data}")
-        
-        session_id = lead_data.get('session_id', str(uuid.uuid4()))
-        if not lead_data.get('name') or not lead_data.get('email'):
-            return jsonify({"error": "Name and Email are required"}), 400
+    if user_form_trigger_status.get(user_id):
+        return jsonify({"message": "Lead form already triggered for this user."}), 200
 
-        # Load existing leads
-        if os.path.exists(leads_file_path):
-            with open(leads_file_path, 'r') as file:
-                leads = json.load(file)
-        else:
-            leads = []
+    user_form_trigger_status[user_id] = True
+    logger.info(f"User ID: {user_id} - Lead form sent to user.")
+    return jsonify({"action": "show_lead_form", "user_id": user_id})
 
-        # Add the new lead
-        leads.append(lead_data)
-
-        # Save leads back to the file
-        with open(leads_file_path, 'w') as file:
-            json.dump(leads, file, indent=4)
-
-        logging.info(f"Session ID: {session_id}, Lead saved: {lead_data}")
-        return jsonify({"status": "Lead saved successfully"})
-    
-    except Exception as e:
-        logging.error(f"Error saving lead: {e}")
-        return jsonify({"error": str(e)}), 500
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+############################################################
+############################################################
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8080, debug=True)
+    # app.run(debug=True)
