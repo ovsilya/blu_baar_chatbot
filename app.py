@@ -201,27 +201,24 @@ def chat():
     else:
         if not user_message:
             return jsonify({"error": "No message provided"}), 400
-        
-    logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
-
-    log_chat_history(user_id)
+    
 
     result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": user_id}})
-
     response = result["output"]
 
+''' FOR DEBUGGING AND TESTING 
+
+    logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
+    log_chat_history(user_id)
     intermediate_steps = result["intermediate_steps"]
-
     # print("history_messages_key: ", result['history_messages_key'])
-
     tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
-
     logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
-
     logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
-
     print("user_id: ",user_id)
     print("store:",store) 
+'''
+
     return jsonify({"response": response, "user_id": user_id})
 
 @app.route('/trigger-lead-form', methods=['POST'])
