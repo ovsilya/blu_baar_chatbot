@@ -40,6 +40,10 @@ When considering the LeadForm tool:
 
 Additionally, remember that after 7 interactions, the lead form will be automatically triggered, even if you haven't used the LeadForm tool.
 
+
+Also use this Conversation history:
+{chat_history}
+
 Begin!
 
 Question: {input}

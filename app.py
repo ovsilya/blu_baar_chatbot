@@ -19,7 +19,6 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
-from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain.tools.retriever import create_retriever_tool
 
 
@@ -67,11 +66,16 @@ default_replies_deu = load_default_replies(f'{folder}/default_replies_deu.txt')
 
 ############################################################
 knowledge_base_eng = read_file(f'{folder}/knowledge_base_eng.txt')
-knowledge_base_deu = read_file(f'{folder}/knowledge_base_deu.txt')
+questions_eng = read_file(f'{folder}/questions_answers_eng.txt')
+full_information_eng = knowledge_base_eng + "\n\n" + questions_eng
 
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-splits_eng = text_splitter.create_documents([knowledge_base_eng])
-splits_deu = text_splitter.create_documents([knowledge_base_deu])
+knowledge_base_deu = read_file(f'{folder}/knowledge_base_deu.txt')
+questions_deu = read_file(f'{folder}/questions_answers_deu.txt')
+full_information_deu = knowledge_base_deu + "\n\n" + questions_deu
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
+splits_eng = text_splitter.create_documents([full_information_eng])
+splits_deu = text_splitter.create_documents([full_information_deu])
 vector_store_eng = Chroma.from_documents(documents=splits_eng, embedding=embeddings)
 vector_store_deu = Chroma.from_documents(documents=splits_deu, embedding=embeddings)
 
@@ -94,7 +98,8 @@ def default_response_deu_tool_func(_):
 def lead_form_tool_func(_):
     user_id = getattr(g, 'current_user_id', None)
     if user_id and not user_form_trigger_status.get(user_id):
-        cloud_run_url = "https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form"
+        # cloud_run_url = "https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form"
+        cloud_run_url = "http://localhost:5000/trigger-lead-form"
         requests.post(cloud_run_url, json={"user_id": user_id})
         user_form_trigger_status[user_id] = True
     return ""
@@ -144,17 +149,32 @@ system_prompt = read_file('knowledge/system_prompt.txt')
 prompt = PromptTemplate(
         template=system_prompt,
         input_variables=[   "input", 
-                            "context",
+                            # "context", ## no need, because we have retriever_tool_eng and retriever_tool_deu, which model uses.
                             "chat_history"]
     )
 agent = create_tool_calling_agent(llm=llm, tools=tools, prompt=prompt)
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+# agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+agent_executor = AgentExecutor.from_agent_and_tools(
+        agent=agent,
+        tools=tools,
+        verbose=True,
+        handle_parsing_errors=True,
+        return_intermediate_steps=True
+    )
+
 agent_with_chat_history = RunnableWithMessageHistory(
     agent_executor,
     get_session_history,
     input_messages_key="input",
-    history_messages_key="chat_history",
+    history_messages_key="chat_history"
+    # memory_key="chat_history",
 )
+
+def log_chat_history(session_id: str):
+    history = get_session_history(session_id)
+    logger.info(f"Chat history for session {session_id}: {history.messages}")
+    # Alternatively, print the history:
+    print(f"Chat history for session {session_id}: {history.messages}")
 
 ############################################################
 ############################################################
@@ -169,7 +189,6 @@ def chat():
     user_id = data.get("user_id")                       ### 2
     initial_prompt = data.get("InitialPrompt", "0")     ### 3
 
-    ################# INITIAL PROMPT ################
     # If user_id is not provided, generate a new one
     if not user_id:
         user_id = str(uuid.uuid4())
@@ -182,12 +201,27 @@ def chat():
     else:
         if not user_message:
             return jsonify({"error": "No message provided"}), 400
+        
+    logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
 
-    ################################################
-    result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": "<foo>"}})
+    log_chat_history(user_id)
+
+    result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": user_id}})
+
     response = result["output"]
-    # print("user_id: ",user_id)
-    # print("store:",store) 
+
+    intermediate_steps = result["intermediate_steps"]
+
+    # print("history_messages_key: ", result['history_messages_key'])
+
+    tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
+
+    logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
+
+    logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
+
+    print("user_id: ",user_id)
+    print("store:",store) 
     return jsonify({"response": response, "user_id": user_id})
 
 @app.route('/trigger-lead-form', methods=['POST'])
@@ -217,4 +251,4 @@ def form_trigger_status():
 ############################################################
 if __name__ == "__main__":
     # app.run(host='0.0.0.0', port=8080, debug=True)
-    app.run()
+    app.run(debug=True)
