@@ -35,3 +35,9 @@
 2024-10-21 20:16:37,708 - INFO - User ID: 2 - Tools used: ['Retriever']
 2024-10-21 20:16:37,708 - INFO - User ID: 2 - Assistant response: 'I can assist you by providing information about Blu-Baar's services, properties, and facilities. I can answer questions related to our office spaces, rental contracts, and additional services we offer. Additionally, I can help with inquiries about our amenities such as conference rooms, reception services, and technical support. If you need further assistance, feel free to ask!'
 2024-10-21 20:16:37,709 - INFO - User ID: 2 - Lead form triggered.
+2024-10-22 18:16:45,995 - INFO - User ID: 1234 - Received message: 'Hello chatbot, how are you?'
+2024-10-22 18:19:55,896 - INFO - User ID: 1234 - Received message: 'Hello chatbot, how are you?'
+2024-10-22 18:20:17,779 - INFO - User ID: 1234 - Received message: 'Hello chatbot, how are you?'
+2024-10-22 18:20:19,184 - INFO - User ID: 1234 - Tools used: []
+2024-10-22 18:21:04,308 - INFO - User ID: 1234 - Received message: 'Is there any Gastronomy near the Blu Baar building?'
+2024-10-22 18:21:07,355 - INFO - User ID: 1234 - Tools used: ['Retriever']

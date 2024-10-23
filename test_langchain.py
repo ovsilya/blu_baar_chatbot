@@ -32,7 +32,7 @@ logger.addHandler(handler)
 
 
 def load_chunks():
-    with open('knowledge_base_eng.txt', 'r') as file:
+    with open('knowledge/knowledge_base_eng.txt', 'r') as file:
         return file.read()
     
 
@@ -54,12 +54,12 @@ def split_into_chunks(text, max_chunk_size=500):
     return chunks
 
 def load_prompt_template():
-    with open('system_prompt.txt', 'r') as file:
+    with open('knowledge/system_prompt.txt', 'r') as file:
         return file.read()
     
 
 def load_default_replies():
-    with open('default_replies.txt', 'r') as file:
+    with open('knowledge/default_replies_eng.txt', 'r') as file:
         replies = [line.strip() for line in file if line.strip()]
     return replies
 
@@ -338,7 +338,6 @@ def trigger_lead_form():
     return jsonify(response), 200
 
 
-
 @app.route('/form-trigger-status', methods=['GET'])
 def form_trigger_status():
     user_id = request.args.get('user_id')
@@ -349,5 +348,5 @@ def form_trigger_status():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
-    # app.run(debug=True)
+    #app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(debug=True)
