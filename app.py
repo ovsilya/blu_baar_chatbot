@@ -52,6 +52,7 @@ def load_default_replies(file_path):
     return replies
 
 store = {}
+user_form_trigger_status = {}
 
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
     if session_id not in store:
@@ -87,6 +88,9 @@ initial_prompts = {
 def default_response_eng_tool_func(_):
     return random.choice(default_replies_eng)
 
+def default_response_deu_tool_func(_):
+    return random.choice(default_replies_deu)
+
 def lead_form_tool_func(_):
     user_id = getattr(g, 'current_user_id', None)
     if user_id and not user_form_trigger_status.get(user_id):
@@ -96,9 +100,16 @@ def lead_form_tool_func(_):
     return ""
 
 default_response_eng_tool = Tool(
-    name="DefaultResponder",
+    name="DefaultResponderENG",
     func=default_response_eng_tool_func,
-    description="Fallback when no relevant information is found.",
+    description="Fallback when no relevant information is found. Use only when user sends message in English.",
+    return_direct=True
+)
+
+default_response_deu_tool = Tool(
+    name="DefaultResponderDEU",
+    func=default_response_deu_tool_func,
+    description="Fallback when no relevant information is found. Use only when user sends message in German.",
     return_direct=True
 )
 
@@ -111,11 +122,22 @@ lead_form_tool = Tool(
 
 retriever_tool_eng = create_retriever_tool(
     retriever_eng,
-    "Retriever",
-    description="Retrieves information from the knowledge base."
+    "RetrieverENG",
+    description="Retrieves information from the knowledge base. Use only if the user asks questions in English."
 )
 
-tools = [retriever_tool_eng, default_response_eng_tool, lead_form_tool]
+retriever_tool_deu = create_retriever_tool(
+    retriever_deu,
+    "RetrieverDEU",
+    description="Retrieves information from the knowledge base. Use only if the user asks questions in German."
+)
+
+tools = [retriever_tool_eng, 
+        retriever_tool_deu, 
+        default_response_eng_tool, 
+        default_response_deu_tool, 
+        lead_form_tool]
+
 llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY)
 system_prompt = read_file('knowledge/system_prompt.txt')
 
@@ -134,23 +156,7 @@ agent_with_chat_history = RunnableWithMessageHistory(
 )
 
 ############################################################
-
-# Conversation and interaction management
-conversation_history = {}
-user_form_trigger_status = {}
-
 ############################################################
-############################################################
-def interact_with_user(user_message, user_id):
-
-    try:
-        result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": "<foo>"}})
-        response = result["output"]
-        return response
-
-    except Exception as e:
-        logger.error(f"User ID: {user_id} - Error: {str(e)}")
-        return "An error occurred."
 
 # Flask routes
 @app.route('/chat', methods=['POST'])
@@ -175,7 +181,8 @@ def chat():
         if not user_message:
             return jsonify({"error": "No message provided"}), 400
 
-    response = interact_with_user(user_message, user_id)
+    result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": "<foo>"}})
+    response = result["output"]
     print("user_id: ",user_id)
     print("store:",store) 
     return jsonify({"response": response, "user_id": user_id})
