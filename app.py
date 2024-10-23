@@ -144,7 +144,8 @@ system_prompt = read_file('knowledge/system_prompt.txt')
 prompt = PromptTemplate(
         template=system_prompt,
         input_variables=[   "input", 
-                            "context"]
+                            "context",
+                            "chat_history"]
     )
 agent = create_tool_calling_agent(llm=llm, tools=tools, prompt=prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
@@ -168,6 +169,7 @@ def chat():
     user_id = data.get("user_id")                       ### 2
     initial_prompt = data.get("InitialPrompt", "0")     ### 3
 
+    ################# INITIAL PROMPT ################
     # If user_id is not provided, generate a new one
     if not user_id:
         user_id = str(uuid.uuid4())
@@ -181,10 +183,11 @@ def chat():
         if not user_message:
             return jsonify({"error": "No message provided"}), 400
 
+    ################################################
     result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": "<foo>"}})
     response = result["output"]
-    print("user_id: ",user_id)
-    print("store:",store) 
+    # print("user_id: ",user_id)
+    # print("store:",store) 
     return jsonify({"response": response, "user_id": user_id})
 
 @app.route('/trigger-lead-form', methods=['POST'])
