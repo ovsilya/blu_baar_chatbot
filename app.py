@@ -20,6 +20,8 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain.tools.retriever import create_retriever_tool
+from langchain.retrievers import EnsembleRetriever
+from langchain_community.retrievers import BM25Retriever
 
 
 app = Flask(__name__)
@@ -67,20 +69,37 @@ default_replies_deu = load_default_replies(f'{folder}/default_replies_deu.txt')
 ############################################################
 knowledge_base_eng = read_file(f'{folder}/knowledge_base_eng.txt')
 questions_eng = read_file(f'{folder}/questions_answers_eng.txt')
-full_information_eng = knowledge_base_eng + "\n\n" + questions_eng
+# full_information_eng = knowledge_base_eng + "\n\n" + questions_eng
 
 knowledge_base_deu = read_file(f'{folder}/knowledge_base_deu.txt')
 questions_deu = read_file(f'{folder}/questions_answers_deu.txt')
-full_information_deu = knowledge_base_deu + "\n\n" + questions_deu
+# full_information_deu = knowledge_base_deu + "\n\n" + questions_deu
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
-splits_eng = text_splitter.create_documents([full_information_eng])
-splits_deu = text_splitter.create_documents([full_information_deu])
+
+# create Knowledge base retrievers
+splits_eng = text_splitter.create_documents([knowledge_base_eng])
+splits_deu = text_splitter.create_documents([knowledge_base_deu])
 vector_store_eng = Chroma.from_documents(documents=splits_eng, embedding=embeddings)
 vector_store_deu = Chroma.from_documents(documents=splits_deu, embedding=embeddings)
-
 retriever_eng = vector_store_eng.as_retriever()
 retriever_deu = vector_store_deu.as_retriever()
+
+# create questions-answers retrievers
+splits_eng_qa = text_splitter.create_documents([questions_eng])
+splits_deu_qa = text_splitter.create_documents([questions_deu])
+vector_store_eng_qa = Chroma.from_documents(documents=splits_eng_qa, embedding=embeddings)
+vector_store_deu_qa = Chroma.from_documents(documents=splits_deu_qa, embedding=embeddings)
+retriever_eng_qa = vector_store_eng_qa.as_retriever()
+retriever_deu_qa = vector_store_deu_qa.as_retriever()
+
+# Create BM25 retrievers
+bm25_retriever_eng = BM25Retriever.from_documents(splits_eng)
+bm25_retriever_deu = BM25Retriever.from_documents(splits_deu)
+
+# Create Ensemble retrievers
+ensemble_retriever_eng = EnsembleRetriever(retrievers=[retriever_eng, bm25_retriever_eng, retriever_eng_qa])
+ensemble_retriever_deu = EnsembleRetriever(retrievers=[retriever_deu, bm25_retriever_deu, retriever_deu_qa])
 
 initial_prompts = {
     "1": "Learn more about services offered by Blu-Baar.",
@@ -126,13 +145,13 @@ lead_form_tool = Tool(
 )
 
 retriever_tool_eng = create_retriever_tool(
-    retriever_eng,
+    ensemble_retriever_eng,
     "RetrieverENG",
     description="Retrieves information from the knowledge base. Use only if the user asks questions in English."
 )
 
 retriever_tool_deu = create_retriever_tool(
-    retriever_deu,
+    ensemble_retriever_deu,
     "RetrieverDEU",
     description="Retrieves information from the knowledge base. Use only if the user asks questions in German."
 )
@@ -174,7 +193,7 @@ def log_chat_history(session_id: str):
     history = get_session_history(session_id)
     logger.info(f"Chat history for session {session_id}: {history.messages}")
     # Alternatively, print the history:
-    print(f"Chat history for session {session_id}: {history.messages}")
+    # print(f"Chat history for session {session_id}: {history.messages}")
 
 ############################################################
 ############################################################
@@ -206,20 +225,20 @@ def chat():
     result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": user_id}})
     response = result["output"]
 
-''' FOR DEBUGGING AND TESTING 
+
+    #FOR DEBUGGING AND TESTING 
 
     logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
     log_chat_history(user_id)
     intermediate_steps = result["intermediate_steps"]
-    # print("history_messages_key: ", result['history_messages_key'])
     tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
     logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
     logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
     print("user_id: ",user_id)
     print("store:",store) 
-'''
 
     return jsonify({"response": response, "user_id": user_id})
+
 
 @app.route('/trigger-lead-form', methods=['POST'])
 def trigger_lead_form():
