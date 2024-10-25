@@ -29,14 +29,14 @@ CORS(app)
 
 ############################################################
 # Logger setup
-log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chatbot_interactions.log')
-handler = RotatingFileHandler(log_file_path, maxBytes=5 * 1024 * 1024, backupCount=5)
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
+# log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chatbot_interactions.log')
+# handler = RotatingFileHandler(log_file_path, maxBytes=5 * 1024 * 1024, backupCount=5)
+# formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+# handler.setFormatter(formatter)
 
-logger = logging.getLogger('chatbot')
-logger.setLevel(logging.INFO)
-logger.addHandler(handler)
+# logger = logging.getLogger('chatbot')
+# logger.setLevel(logging.INFO)
+# logger.addHandler(handler)
 
 ############################################################
 # Load environment variables and data files
@@ -191,7 +191,7 @@ agent_with_chat_history = RunnableWithMessageHistory(
 
 def log_chat_history(session_id: str):
     history = get_session_history(session_id)
-    logger.info(f"Chat history for session {session_id}: {history.messages}")
+    # logger.info(f"Chat history for session {session_id}: {history.messages}")
     # Alternatively, print the history:
     # print(f"Chat history for session {session_id}: {history.messages}")
 
@@ -252,7 +252,7 @@ def trigger_lead_form():
         return jsonify({"message": "Lead form already triggered for this user."}), 200
 
     user_form_trigger_status[user_id] = True
-    logger.info(f"User ID: {user_id} - Lead form sent to user.")
+    # logger.info(f"User ID: {user_id} - Lead form sent to user.")
     return jsonify({"action": "show_lead_form", "user_id": user_id})
 
 
