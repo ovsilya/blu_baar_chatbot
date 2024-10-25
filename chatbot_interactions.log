@@ -503,3 +503,7 @@ For current availability, please refer to the rental overview on our [website](h
 2024-10-25 12:24:57,589 - INFO - Chat history for session 5d69a9d8-6b79-49f7-85d3-04d4fdabb40c: [HumanMessage(content='hi', additional_kwargs={}, response_metadata={}), AIMessage(content='Hello! How can I assist you today with information about Blu-Baar or our services?', additional_kwargs={}, response_metadata={})]
 2024-10-25 12:24:57,590 - INFO - User ID: 5d69a9d8-6b79-49f7-85d3-04d4fdabb40c - Tools used: []
 2024-10-25 12:24:57,590 - INFO - User ID: 5d69a9d8-6b79-49f7-85d3-04d4fdabb40c - Assistant response: 'Hello! How can I assist you today with information about Blu-Baar or our services?'
+2024-10-25 16:22:22,781 - INFO - User ID: 5d69a9d8-6b79-49f7-85d3-04d4fdabb40c - Received message: 'hello'
+2024-10-25 16:22:22,783 - INFO - Chat history for session 5d69a9d8-6b79-49f7-85d3-04d4fdabb40c: [HumanMessage(content='hello', additional_kwargs={}, response_metadata={}), AIMessage(content='Hello! How can I assist you today with information about Blu-Baar or our services?', additional_kwargs={}, response_metadata={})]
+2024-10-25 16:22:22,783 - INFO - User ID: 5d69a9d8-6b79-49f7-85d3-04d4fdabb40c - Tools used: []
+2024-10-25 16:22:22,783 - INFO - User ID: 5d69a9d8-6b79-49f7-85d3-04d4fdabb40c - Assistant response: 'Hello! How can I assist you today with information about Blu-Baar or our services?'

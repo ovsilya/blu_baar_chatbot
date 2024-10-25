@@ -1,2 +1,3 @@
 # Exclude macOS .DS_Store files
 .DS_Store
+knowledge/.DS_Store

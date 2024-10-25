@@ -21,4 +21,4 @@ EXPOSE 8080
 ENV PORT 8080
 
 # Run app.py when the container launches
-CMD ["python", "test_langchain.py"]
+CMD ["python", "app.py"]
