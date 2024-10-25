@@ -225,7 +225,7 @@ def chat():
     result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": user_id}})
     response = result["output"]
 
-'''
+    '''
     #FOR DEBUGGING AND TESTING 
 
     logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
@@ -237,8 +237,9 @@ def chat():
     print("user_id: ",user_id)
     print("store:",store) 
 
+    '''
     return jsonify({"response": response, "user_id": user_id})
-'''
+
 
 @app.route('/trigger-lead-form', methods=['POST'])
 def trigger_lead_form():

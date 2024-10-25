@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=2.0"> <!-- Make the window wider -->
+    <title>BLU-MAX Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        #chat {
+            background: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 1000px; /* Make the chat window wider */
+            margin: 20px auto;
+        }
+        #messages {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #leadForm {
+            display: none;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        h1, h3 {
+            text-align: center;
+        }
+        .prompt-button {
+            margin-right: 5px;
+            background-color: #28a745;
+            color: white;
+        }
+        .prompt-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>BLU-MAX ChatBot</h1>
+    <div id="chat">
+        <div id="messages"></div>
+        <div>
+            <button class="prompt-button" onclick="sendMessage(null, '1')">Learn about services</button>
+            <button class="prompt-button" onclick="sendMessage(null, '2')">Parking is available?</button>
+            <button class="prompt-button" onclick="sendMessage(null, '3')">Leave contact info</button>
+        </div>
+        <input type="text" id="userMessage" placeholder="Type your message here" />
+        <button onclick="sendMessage()">Send</button>
+
+        <div id="leadForm">
+            <h3>Please provide your details:</h3>
+            <input type="text" id="name" placeholder="Name" /><br>
+            <input type="email" id="email" placeholder="Email" /><br>
+            <input type="tel" id="phone" placeholder="Phone" /><br>
+            <button onclick="submitLeadForm()">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = "https://chatbot-app-94777518696.us-central1.run.app";
+        let userId = localStorage.getItem('userId');
+
+        if (!userId) {
+            localStorage.removeItem('userId');
+            userId = null;
+        }
+
+        async function sendMessage(message = null, initialPrompt = "0") {
+            const userMessage = message || document.getElementById("userMessage").value;
+
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: userMessage,
+                    user_id: userId,
+                    InitialPrompt: initialPrompt
+                })
+            });
+
+            const data = await response.json();
+
+            if (!userId && data.user_id) {
+                userId = data.user_id;
+                localStorage.setItem('userId', userId);
+            }
+
+            if (userMessage) {
+                document.getElementById("messages").innerHTML += `<p><strong>User:</strong> ${userMessage}</p>`;
+            }
+
+            // Using innerHTML to allow clickable links in the bot response
+            document.getElementById("messages").innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+
+            document.getElementById("userMessage").value = "";
+
+            if (data.lead_form_triggered) {
+                document.getElementById("leadForm").style.display = "block";
+            }
+
+            scrollToBottom();
+        }
+
+        function scrollToBottom() {
+            const messagesDiv = document.getElementById("messages");
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        async function submitLeadForm() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+
+            const formResponse = await fetch(`${apiUrl}/trigger-lead-form`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                    name,
+                    email,
+                    phone
+                })
+            });
+
+            const result = await formResponse.json();
+            document.getElementById("messages").innerHTML += `<p><strong>Form Response:</strong> ${result.message}</p>`;
+            scrollToBottom();
+        }
+
+        document.getElementById("userMessage").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
