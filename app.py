@@ -3,6 +3,7 @@ import random
 import uuid
 import logging
 import requests
+import re
 from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 from nltk.tokenize import sent_tokenize
@@ -115,8 +116,8 @@ ensemble_retriever_deu = EnsembleRetriever(retrievers=[retriever_deu, bm25_retri
 
 initial_prompts = {
     "1": "Learn more about services offered by Blu-Baar.",
-    "2": "Is parking availbale near the building?",
-    "3": "I want to leave my contact information."
+    "2": "Is parking availbale near or in the building?",
+    "3": "I want to leave my contact information. Show me the LeadForm so i could fill it with my contact information."
 }
 ############################################################
 
@@ -258,7 +259,7 @@ def chat():
         if ('LeadForm' in tools_used or user_interaction_count[user_id] >= 7) and not user_form_trigger_status.get(user_id, False):
             user_form_trigger_status[user_id] = True  # Mark form as shown automatically for this user
             show_lead_form = True
-
+    print("show_lead_form: ", show_lead_form)
     return jsonify({"response": response_content, "user_id": user_id, "show_lead_form": show_lead_form})
 
 
