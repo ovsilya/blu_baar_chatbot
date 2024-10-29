@@ -3,6 +3,7 @@ import random
 import uuid
 import logging
 import requests
+import re
 from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 from nltk.tokenize import sent_tokenize
@@ -52,8 +53,20 @@ def load_default_replies(file_path):
     replies = [line.strip() for line in read_file(file_path).splitlines() if line.strip()]
     return replies
 
+def log_chat_history(session_id: str):
+    history = get_session_history(session_id)
+    # logger.info(f"Chat history for session {session_id}: {history.messages}")
+    # Alternatively, print the history:
+    # print(f"Chat history for session {session_id}: {history.messages}")
+
+def remove_double_asterisks(text): 
+
+    pattern = r'\*\*(.*?)\*\*'
+    return re.sub(pattern, r'\1', text)
+
 store = {}
-user_form_trigger_status = {}
+user_form_trigger_status = {}  # Tracks if lead form has been shown for each user
+user_interaction_count = {}    # Tracks the number of interactions per user
 
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
     if session_id not in store:
@@ -103,8 +116,8 @@ ensemble_retriever_deu = EnsembleRetriever(retrievers=[retriever_deu, bm25_retri
 
 initial_prompts = {
     "1": "Learn more about services offered by Blu-Baar.",
-    "2": "Is parking availbale near the building?",
-    "3": "I want to leave my contact information."
+    "2": "Is parking availbale near or in the building?",
+    "3": "I want to leave my contact information. Show me the LeadForm so i could fill it with my contact information."
 }
 ############################################################
 
@@ -115,12 +128,6 @@ def default_response_deu_tool_func(_):
     return random.choice(default_replies_deu)
 
 def lead_form_tool_func(_):
-    user_id = getattr(g, 'current_user_id', None)
-    if user_id and not user_form_trigger_status.get(user_id):
-        # cloud_run_url = "https://chatbot-app-94777518696.us-central1.run.app/trigger-lead-form"
-        cloud_run_url = "http://localhost:5000/trigger-lead-form"
-        requests.post(cloud_run_url, json={"user_id": user_id})
-        user_form_trigger_status[user_id] = True
     return ""
 
 default_response_eng_tool = Tool(
@@ -189,12 +196,6 @@ agent_with_chat_history = RunnableWithMessageHistory(
     # memory_key="chat_history",
 )
 
-def log_chat_history(session_id: str):
-    history = get_session_history(session_id)
-    # logger.info(f"Chat history for session {session_id}: {history.messages}")
-    # Alternatively, print the history:
-    # print(f"Chat history for session {session_id}: {history.messages}")
-
 ############################################################
 ############################################################
 
@@ -211,12 +212,27 @@ def chat():
     # If user_id is not provided, generate a new one
     if not user_id:
         user_id = str(uuid.uuid4())
-    
+
+    # Initialize interaction count and form trigger status if this is a new user
+    if user_id not in user_interaction_count:
+        user_interaction_count[user_id] = 0  # Start with 0 interactions
+
+    if user_id not in user_form_trigger_status:
+        user_form_trigger_status[user_id] = False  # Form has not been shown for this user
+
+    # Increment the interaction count for this user
+    user_interaction_count[user_id] += 1
+
+    show_lead_form = False
+
     if initial_prompt != "0":
         # Use the corresponding initial prompt message
         user_message = initial_prompts.get(initial_prompt, "")
         if not user_message:
             return jsonify({"error": "Invalid InitialPrompt value provided."}), 400
+        
+        if initial_prompt == "3":
+            show_lead_form = True # Since the user wants to leave contact information, we need to trigger the lead form
     else:
         if not user_message:
             return jsonify({"error": "No message provided"}), 400
@@ -224,37 +240,56 @@ def chat():
 
     result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": user_id}})
     response = result["output"]
+    response_content = remove_double_asterisks(response)
 
-    '''
     #FOR DEBUGGING AND TESTING 
 
-    logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
-    log_chat_history(user_id)
+    # logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
+    # log_chat_history(user_id)
     intermediate_steps = result["intermediate_steps"]
     tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
-    logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
-    logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
+    # logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
+    # logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
     print("user_id: ",user_id)
     print("store:",store) 
 
-    '''
-    return jsonify({"response": response, "user_id": user_id})
+
+    # Check if LeadForm tool was used or interaction count reached 7
+    if not show_lead_form:
+        if ('LeadForm' in tools_used or user_interaction_count[user_id] >= 7) and not user_form_trigger_status.get(user_id, False):
+            user_form_trigger_status[user_id] = True  # Mark form as shown automatically for this user
+            show_lead_form = True
+    print("show_lead_form: ", show_lead_form)
+    return jsonify({"response": response_content, "user_id": user_id, "show_lead_form": show_lead_form})
 
 
 @app.route('/trigger-lead-form', methods=['POST'])
 def trigger_lead_form():
     data = request.get_json()
     user_id = data.get("user_id")
+    name = data.get("name", None)
+    email = data.get("email", None)
+    phone = data.get("phone", None)
 
     if not user_id:
         return jsonify({"message": "No user_id provided."}), 400
 
-    if user_form_trigger_status.get(user_id):
-        return jsonify({"message": "Lead form already triggered for this user."}), 200
+    # Log the form data, even if some fields are missing
+    log_message = f"Lead form submitted by User ID: {user_id}"
+    if name:
+        log_message += f", Name: {name}"
+    if email:
+        log_message += f", Email: {email}"
+    if phone:
+        log_message += f", Phone: {phone}"
+    logger.info(log_message)
 
-    user_form_trigger_status[user_id] = True
-    # logger.info(f"User ID: {user_id} - Lead form sent to user.")
-    return jsonify({"action": "show_lead_form", "user_id": user_id})
+    # # This code resets status, may be we will need it in the future (not sure)
+    # user_form_trigger_status[user_id] = False
+
+    return jsonify({"message": "Thank you for your submission!"})
+
+
 
 
 @app.route('/form-trigger-status', methods=['GET'])
