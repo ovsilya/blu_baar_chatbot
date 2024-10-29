@@ -23,6 +23,8 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from langchain.tools.retriever import create_retriever_tool
 from langchain.retrievers import EnsembleRetriever
 from langchain_community.retrievers import BM25Retriever
+from langchain.docstore.document import Document
+import csv
 
 
 app = Flask(__name__)
@@ -30,14 +32,14 @@ CORS(app)
 
 ############################################################
 # Logger setup
-# log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chatbot_interactions.log')
-# handler = RotatingFileHandler(log_file_path, maxBytes=5 * 1024 * 1024, backupCount=5)
-# formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-# handler.setFormatter(formatter)
+log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chatbot_interactions.log')
+handler = RotatingFileHandler(log_file_path, maxBytes=5 * 1024 * 1024, backupCount=5)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
 
-# logger = logging.getLogger('chatbot')
-# logger.setLevel(logging.INFO)
-# logger.addHandler(handler)
+logger = logging.getLogger('chatbot')
+logger.setLevel(logging.INFO)
+logger.addHandler(handler)
 
 ############################################################
 # Load environment variables and data files
@@ -55,7 +57,7 @@ def load_default_replies(file_path):
 
 def log_chat_history(session_id: str):
     history = get_session_history(session_id)
-    # logger.info(f"Chat history for session {session_id}: {history.messages}")
+    logger.info(f"Chat history for session {session_id}: {history.messages}")
     # Alternatively, print the history:
     # print(f"Chat history for session {session_id}: {history.messages}")
 
@@ -63,6 +65,17 @@ def remove_double_asterisks(text):
 
     pattern = r'\*\*(.*?)\*\*'
     return re.sub(pattern, r'\1', text)
+
+# Fetch data from Google Sheets and create retrievers for PDF descriptions
+def fetch_google_sheet_data():
+    sheet_url = "https://docs.google.com/spreadsheets/d/1DDbmGi6jXYYmqyx7c-csVnb33aFBNYvUJ3BD4pCbxfA/export?format=csv"
+    response = requests.get(sheet_url)
+    response.raise_for_status()
+    data = response.content.decode('utf-8')
+    reader = csv.reader(data.splitlines())
+    records = [row for row in reader]
+    return records
+
 
 store = {}
 user_form_trigger_status = {}  # Tracks if lead form has been shown for each user
@@ -114,6 +127,46 @@ bm25_retriever_deu = BM25Retriever.from_documents(splits_deu)
 ensemble_retriever_eng = EnsembleRetriever(retrievers=[retriever_eng, bm25_retriever_eng, retriever_eng_qa])
 ensemble_retriever_deu = EnsembleRetriever(retrievers=[retriever_deu, bm25_retriever_deu, retriever_deu_qa])
 
+
+# Working with the cvs files with links to the PDF
+# take csv file from google drive
+pdf_records = fetch_google_sheet_data()
+
+# print(f"Total records fetched: {len(pdf_records)}")
+
+# languages = set(rec[1].strip().lower() for rec in pdf_records if len(rec) > 1)
+# print(f"Languages found in data: {languages}")
+
+
+# Assuming the columns are: 0 - name, 1 - language, 2 - description, 3 - link
+pdf_records_eng = [rec for rec in pdf_records if rec[1].strip().lower() == 'eng']
+pdf_records_deu = [rec for rec in pdf_records if rec[1].strip().lower() == 'deu']
+
+
+# Create documents from descriptions
+documents_eng = [
+    Document(
+        page_content=rec[2], 
+        metadata={'name': rec[0], 'link': rec[3]}
+    ) for rec in pdf_records_eng
+]
+
+documents_deu = [
+    Document(
+        page_content=rec[2],
+        metadata={'name': rec[0], 'link': rec[3]}
+    ) for rec in pdf_records_deu
+]
+
+# Create vector stores for PDF descriptions
+vector_store_pdfs_eng = Chroma.from_documents(documents=documents_eng, embedding=embeddings)
+vector_store_pdfs_deu = Chroma.from_documents(documents=documents_deu, embedding=embeddings)
+
+# Create retrievers for PDFs
+retriever_pdfs_eng = vector_store_pdfs_eng.as_retriever()
+retriever_pdfs_deu = vector_store_pdfs_deu.as_retriever()
+
+
 initial_prompts = {
     "1": "Erfahren Sie mehr über die von Blu-Baar angebotenen Dienstleistungen.",
     "2": "Gibt es Parkplätze in der Nähe oder im Gebäude?",
@@ -129,6 +182,29 @@ def default_response_deu_tool_func(_):
 
 def lead_form_tool_func(_):
     return ""
+
+def pdf_retriever_eng_tool_func(query):
+    docs = retriever_pdfs_eng.get_relevant_documents(query)
+    if docs:
+        doc = docs[0]
+        description = doc.page_content
+        link = doc.metadata.get('link', 'No link available.')
+        return f"{description}\n\nLink: {link}"
+    else:
+        return "No relevant document found."
+    
+
+def pdf_retriever_deu_tool_func(query):
+    docs = retriever_pdfs_deu.get_relevant_documents(query)
+    if docs:
+        doc = docs[0]
+        description = doc.page_content
+        link = doc.metadata.get('link', 'Kein Link verfügbar.')
+        return f"{description}\n\nLink: {link}"
+    else:
+        return "Keine relevanten Dokumente gefunden."
+    
+
 
 default_response_eng_tool = Tool(
     name="DefaultResponderENG",
@@ -163,8 +239,24 @@ retriever_tool_deu = create_retriever_tool(
     description="Retrieves information from the knowledge base. Use only if the user asks questions in German."
 )
 
+pdf_retriever_tool_eng = Tool(
+    name="PDFRetrieverENG",
+    func=pdf_retriever_eng_tool_func,
+    description="Retrieves PDF descriptions and links based on user queries in English.",
+    return_direct=True 
+)
+
+pdf_retriever_tool_deu = Tool(
+    name="PDFRetrieverDEU",
+    func=pdf_retriever_deu_tool_func,
+    description="Retrieves PDF descriptions and links based on user queries in German.",
+    return_direct=True
+)
+
 tools = [retriever_tool_eng, 
         retriever_tool_deu, 
+        pdf_retriever_tool_eng,  
+        pdf_retriever_tool_deu,
         default_response_eng_tool, 
         default_response_deu_tool, 
         lead_form_tool]
@@ -193,7 +285,6 @@ agent_with_chat_history = RunnableWithMessageHistory(
     get_session_history,
     input_messages_key="input",
     history_messages_key="chat_history"
-    # memory_key="chat_history",
 )
 
 ############################################################
@@ -244,12 +335,12 @@ def chat():
 
     #FOR DEBUGGING AND TESTING 
 
-    # logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
-    # log_chat_history(user_id)
+    logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
+    log_chat_history(user_id)
     intermediate_steps = result["intermediate_steps"]
     tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
-    # logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
-    # logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
+    logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
+    logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
     print("user_id: ",user_id)
     print("store:",store) 
 
@@ -302,5 +393,5 @@ def form_trigger_status():
 ############################################################
 ############################################################
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
-    # app.run(debug=True)
+    # app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(debug=True)
