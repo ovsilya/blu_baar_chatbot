@@ -1,6 +1,6 @@
 # Custom Chatbot
 
-This repository contains the code for a custom chatbot API built with Python and Flask. It leverages OpenAI's language model API (with LangChain integrations for retrieval and agent handling) and serves responses in both English and German. The application is set up to run on Google Cloud Platform (GCP), utilizing Cloud Build for CI/CD and Cloud Run for containerized deployment.
+This repository contains the code for a custom chatbot API, built with Python and Flask, that uses OpenAI's language model API (with LangChain integrations) to handle queries in English and German. The app is designed to run on Google Cloud Platform (GCP) using Cloud Build for continuous integration and Cloud Run for containerized deployment.
 
 ## Table of Contents
 
@@ -16,24 +16,24 @@ This repository contains the code for a custom chatbot API built with Python and
 
 ## Project Overview
 
-The chatbot is designed to handle interactions in two languages (English and German) and respond with predefined replies when appropriate. It leverages a knowledge base and question-answer documents, which are stored as Chroma vectors for efficient retrieval. It also includes a lead form trigger, which prompts users to enter contact information under certain conditions.
+The chatbot processes queries in English and German, retrieving relevant responses from a knowledge base. When appropriate, it prompts users with a lead form for gathering contact details. Responses are enhanced by using both Chroma and BM25 retrievers for better information retrieval.
 
 ## Features
 
-- **Multi-Language Support:** Supports both English and German language queries.
-- **Knowledge Base Retrieval:** Uses Chroma and BM25-based vector storage to retrieve responses from predefined knowledge bases.
-- **Lead Form Triggering:** Automatically shows a lead form for collecting user contact information.
-- **Interaction History:** Maintains chat history for each user session, allowing for context-aware responses.
-- **Dockerized Deployment:** Deploys to GCP with Docker, Cloud Build, and Cloud Run.
-- **Logging:** Tracks interactions and stores chat history to facilitate debugging and analytics.
+- **Multi-Language Support:** Answers queries in both English and German.
+- **Knowledge Base Retrieval:** Utilizes Chroma and BM25-based vector storage for quick and accurate responses.
+- **Lead Form Triggering:** Automatically prompts users to submit contact information.
+- **Persistent Interaction History:** Saves session-based chat history to enable context-aware responses.
+- **Dockerized Deployment:** Deployed on GCP with Docker, Cloud Build, and Cloud Run.
+- **Logging:** Maintains logs of all chat interactions for debugging and tracking purposes.
 
 ## Project Structure
 
-- `app.py`: Main Flask application that serves as the chatbot API.
-- `Dockerfile`: Defines the container setup for deployment on Cloud Run.
-- `cloudbuild.yml`: Configuration file for Cloud Build to automate the CI/CD pipeline.
-- `knowledge/`: Directory containing English and German knowledge bases (`knowledge_base_eng.txt`, `questions_answers_eng.txt`, etc.).
-- `chatbot_interactions.log`: Log file where interaction logs are stored.
+- `app.py`: Main Flask application serving as the chatbot API.
+- `Dockerfile`: Specifies the container configuration for Cloud Run.
+- `cloudbuild.yml`: Configures Cloud Build to automate CI/CD pipeline for deployment.
+- `knowledge/`: Directory containing knowledge base and question-answer files (`knowledge_base_eng.txt`, `questions_answers_eng.txt`, etc.).
+- `chatbot_interactions.log`: Log file for chat interactions.
 
 ## Setup Instructions
 
@@ -56,7 +56,7 @@ The chatbot is designed to handle interactions in two languages (English and Ger
    pip install -r requirements.txt
    ```
 
-3. **Set up the environment variables** (see the [Environment Variables](#environment-variables) section).
+3. **Set up environment variables** (see the [Environment Variables](#environment-variables) section).
 
 4. **Run the application locally:**
    ```bash
@@ -77,11 +77,9 @@ To set these variables locally, create a `.env` file:
 OPENAI_API_KEY="your_openai_api_key"
 ```
 
-You can load this environment file using `dotenv` or other Python libraries as needed.
-
 ## Deployment
 
-This application is deployed on Google Cloud Platform using Cloud Build and Cloud Run.
+This application is deployed on Google Cloud Platform (GCP) using Cloud Build and Cloud Run. The process is automated using `cloudbuild.yml`, which handles the build, push, and deployment steps.
 
 ### Docker Build
 
@@ -91,24 +89,27 @@ To build the Docker image locally:
 docker build -t custom-chatbot .
 ```
 
-### Deploying with Cloud Build and Cloud Run
+### Google Cloud Platform Deployment
 
 #### Step 1: Set up Cloud Build and Cloud Run on GCP
 
-1. Enable Cloud Build and Cloud Run services on GCP.
-2. Ensure that you have the necessary permissions for deployment.
+1. Enable **Cloud Build** and **Cloud Run** services on GCP.
+2. Ensure permissions are granted for deployment.
 
 #### Step 2: Configure Cloud Build
 
-The `cloudbuild.yml` file contains the configuration for automated deployment using Cloud Build. This configuration triggers on every push to the main branch and deploys the updated container to Cloud Run.
+The `cloudbuild.yml` file defines the CI/CD pipeline:
+- **Step 1**: Builds the Docker image using `gcr.io/cloud-builders/docker`.
+- **Step 2**: Pushes the image to Google Container Registry (GCR).
+- **Step 3**: Deploys the image to Cloud Run using `gcloud run deploy`.
 
-#### Step 3: Deploy the Application
+#### Step 3: Deployment Command (Manual)
 
-To deploy the app manually using the `gcloud` CLI:
+To deploy the app manually with `gcloud`:
 
 ```bash
-gcloud builds submit --tag gcr.io/your-project-id/custom-chatbot
-gcloud run deploy custom-chatbot --image gcr.io/your-project-id/custom-chatbot --platform managed --region us-central1
+gcloud builds submit --tag gcr.io/your-project-id/chatbot-app
+gcloud run deploy chatbot-app --image gcr.io/your-project-id/chatbot-app --platform managed --region us-central1 --allow-unauthenticated
 ```
 
 ## Usage
@@ -135,20 +136,10 @@ The API accepts POST requests to the `/chat` endpoint, with the following struct
   }
   ```
 
-Other routes include `/trigger-lead-form` for manually submitting lead form data and `/form-trigger-status` for checking the form trigger status.
+Additional routes:
+- `/trigger-lead-form` for submitting lead form data.
+- `/form-trigger-status` for checking form trigger status.
 
 ## Logging
 
-Chat interactions and history are logged in `chatbot_interactions.log`, with logs stored in a rotating format (5 backups, 5MB per file). Logs help with debugging and tracking chatbot interactions.
-
-## Contributing
-
-Please feel free to open issues and submit pull requests to contribute to this project.
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
-This README provides a comprehensive overview, from project setup to deployment instructions, making it easy for other developers to understand and use your chatbot project. Adjust details like repository links or Google Cloud project names as needed!
+Chat interactions are logged in `chatbot_interactions.log`, with a rotating log setup to save up to 5 backup files of 5MB each. These logs help with debugging and tracking user interactions.
