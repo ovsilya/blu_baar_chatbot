@@ -241,19 +241,18 @@ def chat():
     response = result["output"]
     response_content = remove_double_asterisks(response)
 
-    '''
     #FOR DEBUGGING AND TESTING 
 
-    logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
-    log_chat_history(user_id)
+    # logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
+    # log_chat_history(user_id)
     intermediate_steps = result["intermediate_steps"]
     tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
-    logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
-    logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
+    # logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
+    # logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
     print("user_id: ",user_id)
     print("store:",store) 
 
-    '''
+
     # Check if LeadForm tool was used or interaction count reached 7
     if not show_lead_form:
         if ('LeadForm' in tools_used or user_interaction_count[user_id] >= 7) and not user_form_trigger_status.get(user_id, False):
