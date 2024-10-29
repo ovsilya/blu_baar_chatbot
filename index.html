@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=2.0"> <!-- Make the window wider -->
+    <meta name="viewport" content="width=device-width, initial-scale=2.0">
     <title>BLU-MAX Chatbot</title>
     <style>
         body {
@@ -17,7 +17,7 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 1000px; /* Make the chat window wider */
+            max-width: 1000px;
             margin: 20px auto;
         }
         #messages {
@@ -117,12 +117,12 @@
                 document.getElementById("messages").innerHTML += `<p><strong>User:</strong> ${userMessage}</p>`;
             }
 
-            // Using innerHTML to allow clickable links in the bot response
             document.getElementById("messages").innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
 
             document.getElementById("userMessage").value = "";
 
-            if (data.lead_form_triggered) {
+            // Corrected condition to check for `show_lead_form` directly
+            if (data.show_lead_form) {
                 document.getElementById("leadForm").style.display = "block";
             }
 
