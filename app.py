@@ -115,9 +115,9 @@ ensemble_retriever_eng = EnsembleRetriever(retrievers=[retriever_eng, bm25_retri
 ensemble_retriever_deu = EnsembleRetriever(retrievers=[retriever_deu, bm25_retriever_deu, retriever_deu_qa])
 
 initial_prompts = {
-    "1": "Learn more about services offered by Blu-Baar.",
-    "2": "Is parking availbale near or in the building?",
-    "3": "I want to leave my contact information. Show me the LeadForm so i could fill it with my contact information."
+    "1": "Erfahren Sie mehr über die von Blu-Baar angebotenen Dienstleistungen.",
+    "2": "Gibt es Parkplätze in der Nähe oder im Gebäude?",
+    "3": "Ich möchte meine Kontaktinformationen hinterlassen. Zeigen Sie mir das LeadFormular, damit ich es mit meinen Kontaktinformationen ausfüllen kann."
 }
 ############################################################
 

@@ -6,7 +6,7 @@
     <title>BLU-MAX Chatbot</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Helvetica Neue, Avenir;
             background-color: #f7f7f7;
             margin: 0;
             padding: 20px;
@@ -17,13 +17,13 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
+            max-width: 500px;
             margin: 20px auto;
         }
         #messages {
             max-height: 400px;
             overflow-y: auto;
-            margin-bottom: 10px;
+            margin-bottom: 110px;
             text-align: left;
         }
         input, button {
@@ -43,7 +43,7 @@
         }
         #leadForm {
             display: none;
-            background: #e9ecef;
+            background: #a3c8ce;
             padding: 10px;
             border-radius: 5px;
             margin-top: 10px;
@@ -53,11 +53,11 @@
         }
         .prompt-button {
             margin-right: 5px;
-            background-color: #28a745;
-            color: white;
+            background-color: #a3c8ce;
+            color: black;
         }
         .prompt-button:hover {
-            background-color: #218838;
+            background-color: #67BFCB;
         }
     </style>
 </head>
@@ -66,18 +66,18 @@
     <div id="chat">
         <div id="messages"></div>
         <div>
-            <button class="prompt-button" onclick="sendMessage(null, '1')">Learn about services</button>
-            <button class="prompt-button" onclick="sendMessage(null, '2')">Parking is available?</button>
-            <button class="prompt-button" onclick="sendMessage(null, '3')">Leave contact info</button>
+            <button class="prompt-button" onclick="sendMessage(null, '1')">Erfahren Sie mehr über Dienstleistungen</button>
+            <button class="prompt-button" onclick="sendMessage(null, '2')">Ist ein Parkplatz verfügbar?</button>
+            <button class="prompt-button" onclick="sendMessage(null, '3')">Kontaktinformationen hinterlassen</button>
         </div>
-        <input type="text" id="userMessage" placeholder="Type your message here" />
+        <input type="text" id="userMessage" placeholder="Ihre Nachricht" />
         <button onclick="sendMessage()">Send</button>
 
         <div id="leadForm">
-            <h3>Please provide your details:</h3>
+            <h3>Bitte geben Sie Ihre Daten an:</h3>
             <input type="text" id="name" placeholder="Name" /><br>
-            <input type="email" id="email" placeholder="Email" /><br>
-            <input type="tel" id="phone" placeholder="Phone" /><br>
+            <input type="email" id="email" placeholder="E-Mail" /><br>
+            <input type="tel" id="phone" placeholder="Telefon" /><br>
             <button onclick="submitLeadForm()">Submit</button>
         </div>
     </div>
