@@ -33,14 +33,14 @@ CORS(app)
 
 ############################################################
 # Logger setup
-log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chatbot_interactions.log')
-handler = RotatingFileHandler(log_file_path, maxBytes=5 * 1024 * 1024, backupCount=5)
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
+# log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chatbot_interactions.log')
+# handler = RotatingFileHandler(log_file_path, maxBytes=5 * 1024 * 1024, backupCount=5)
+# formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+# handler.setFormatter(formatter)
 
-logger = logging.getLogger('chatbot')
-logger.setLevel(logging.INFO)
-logger.addHandler(handler)
+# logger = logging.getLogger('chatbot')
+# logger.setLevel(logging.INFO)
+# logger.addHandler(handler)
 
 ############################################################
 # Load environment variables and data files
@@ -58,7 +58,7 @@ def load_default_replies(file_path):
 
 def log_chat_history(session_id: str):
     history = get_session_history(session_id)
-    logger.info(f"Chat history for session {session_id}: {history.messages}")
+    # logger.info(f"Chat history for session {session_id}: {history.messages}")
     # Alternatively, print the history:
     # print(f"Chat history for session {session_id}: {history.messages}")
 
@@ -164,14 +164,12 @@ documents_deu = [
 ]
 
 # Create vector stores for PDF descriptions
-# vector_store_pdfs_eng = Chroma.from_documents(documents=documents_eng, embedding=embeddings)
 vector_store_pdfs_eng = Chroma.from_documents(
     documents=documents_eng,
     embedding=embeddings,
     collection_name="pdfs_eng"
 )
 
-# vector_store_pdfs_deu = Chroma.from_documents(documents=documents_deu, embedding=embeddings)
 vector_store_pdfs_deu = Chroma.from_documents(
     documents=documents_deu,
     embedding=embeddings,
@@ -182,7 +180,7 @@ vector_store_pdfs_deu = Chroma.from_documents(
 retriever_pdfs_eng = vector_store_pdfs_eng.as_retriever()
 retriever_pdfs_deu = vector_store_pdfs_deu.as_retriever()
 
-# Create partial functions for each language. It is for using function pdf_retriever_tool_func twice with language parameter
+# It is for using function pdf_retriever_tool_func twice with language parameter
 pdf_retriever_eng_tool_func = partial(pdf_retriever_tool_func, retriever=retriever_pdfs_eng, language='ENG')
 pdf_retriever_deu_tool_func = partial(pdf_retriever_tool_func, retriever=retriever_pdfs_deu, language='DEU')
 
@@ -201,29 +199,6 @@ def default_response_deu_tool_func(_):
 
 def lead_form_tool_func(_):
     return ""
-
-# def pdf_retriever_eng_tool_func(query):
-#     docs = retriever_pdfs_eng.get_relevant_documents(query)
-#     if docs:
-#         doc = docs[0]
-#         description = doc.page_content
-#         link = doc.metadata.get('link', 'No link available.')
-#         return f"{description}\n\nLink: {link}"
-#     else:
-#         return "No relevant document found."
-    
-
-# def pdf_retriever_deu_tool_func(query):
-#     docs = retriever_pdfs_deu.get_relevant_documents(query)
-#     if docs:
-#         doc = docs[0]
-#         description = doc.page_content
-#         link = doc.metadata.get('link', 'Kein Link verfügbar.')
-#         return f"{description}\n\nLink: {link}"
-#     else:
-#         return "Keine relevanten Dokumente gefunden."
-    
-
 
 default_response_eng_tool = Tool(
     name="DefaultResponderENG",
@@ -354,12 +329,12 @@ def chat():
 
     #FOR DEBUGGING AND TESTING 
 
-    logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
+    # logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
     log_chat_history(user_id)
     intermediate_steps = result["intermediate_steps"]
     tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
-    logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
-    logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
+    # logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
+    # logger.info(f"User ID: {user_id} - Assistant response: '{response}'")
     print("user_id: ",user_id)
     print("store:",store) 
 
@@ -392,7 +367,7 @@ def trigger_lead_form():
         log_message += f", Email: {email}"
     if phone:
         log_message += f", Phone: {phone}"
-    logger.info(log_message)
+    # logger.info(log_message)
 
     # # This code resets status, may be we will need it in the future (not sure)
     # user_form_trigger_status[user_id] = False
