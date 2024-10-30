@@ -25,6 +25,7 @@ from langchain.retrievers import EnsembleRetriever
 from langchain_community.retrievers import BM25Retriever
 from langchain.docstore.document import Document
 import csv
+from functools import partial
 
 
 app = Flask(__name__)
@@ -75,6 +76,16 @@ def fetch_google_sheet_data():
     reader = csv.reader(data.splitlines())
     records = [row for row in reader]
     return records
+
+def pdf_retriever_tool_func(query, retriever, language):
+    docs = retriever.get_relevant_documents(query)
+    if docs:
+        doc = docs[0] 
+        description = doc.page_content
+        link = doc.metadata.get('link', 'No link available.' if language == 'ENG' else 'Kein Link verfügbar.')
+        return f"{description}\n\nLink: {link}"
+    else:
+        return "No relevant document found." if language == 'ENG' else "Keine relevanten Dokumente gefunden."
 
 
 store = {}
@@ -132,12 +143,6 @@ ensemble_retriever_deu = EnsembleRetriever(retrievers=[retriever_deu, bm25_retri
 # take csv file from google drive
 pdf_records = fetch_google_sheet_data()
 
-# print(f"Total records fetched: {len(pdf_records)}")
-
-# languages = set(rec[1].strip().lower() for rec in pdf_records if len(rec) > 1)
-# print(f"Languages found in data: {languages}")
-
-
 # Assuming the columns are: 0 - name, 1 - language, 2 - description, 3 - link
 pdf_records_eng = [rec for rec in pdf_records if rec[1].strip().lower() == 'eng']
 pdf_records_deu = [rec for rec in pdf_records if rec[1].strip().lower() == 'deu']
@@ -159,13 +164,27 @@ documents_deu = [
 ]
 
 # Create vector stores for PDF descriptions
-vector_store_pdfs_eng = Chroma.from_documents(documents=documents_eng, embedding=embeddings)
-vector_store_pdfs_deu = Chroma.from_documents(documents=documents_deu, embedding=embeddings)
+# vector_store_pdfs_eng = Chroma.from_documents(documents=documents_eng, embedding=embeddings)
+vector_store_pdfs_eng = Chroma.from_documents(
+    documents=documents_eng,
+    embedding=embeddings,
+    collection_name="pdfs_eng"
+)
+
+# vector_store_pdfs_deu = Chroma.from_documents(documents=documents_deu, embedding=embeddings)
+vector_store_pdfs_deu = Chroma.from_documents(
+    documents=documents_deu,
+    embedding=embeddings,
+    collection_name="pdfs_deu"
+)
 
 # Create retrievers for PDFs
 retriever_pdfs_eng = vector_store_pdfs_eng.as_retriever()
 retriever_pdfs_deu = vector_store_pdfs_deu.as_retriever()
 
+# Create partial functions for each language. It is for using function pdf_retriever_tool_func twice with language parameter
+pdf_retriever_eng_tool_func = partial(pdf_retriever_tool_func, retriever=retriever_pdfs_eng, language='ENG')
+pdf_retriever_deu_tool_func = partial(pdf_retriever_tool_func, retriever=retriever_pdfs_deu, language='DEU')
 
 initial_prompts = {
     "1": "Erfahren Sie mehr über die von Blu-Baar angebotenen Dienstleistungen.",
@@ -183,26 +202,26 @@ def default_response_deu_tool_func(_):
 def lead_form_tool_func(_):
     return ""
 
-def pdf_retriever_eng_tool_func(query):
-    docs = retriever_pdfs_eng.get_relevant_documents(query)
-    if docs:
-        doc = docs[0]
-        description = doc.page_content
-        link = doc.metadata.get('link', 'No link available.')
-        return f"{description}\n\nLink: {link}"
-    else:
-        return "No relevant document found."
+# def pdf_retriever_eng_tool_func(query):
+#     docs = retriever_pdfs_eng.get_relevant_documents(query)
+#     if docs:
+#         doc = docs[0]
+#         description = doc.page_content
+#         link = doc.metadata.get('link', 'No link available.')
+#         return f"{description}\n\nLink: {link}"
+#     else:
+#         return "No relevant document found."
     
 
-def pdf_retriever_deu_tool_func(query):
-    docs = retriever_pdfs_deu.get_relevant_documents(query)
-    if docs:
-        doc = docs[0]
-        description = doc.page_content
-        link = doc.metadata.get('link', 'Kein Link verfügbar.')
-        return f"{description}\n\nLink: {link}"
-    else:
-        return "Keine relevanten Dokumente gefunden."
+# def pdf_retriever_deu_tool_func(query):
+#     docs = retriever_pdfs_deu.get_relevant_documents(query)
+#     if docs:
+#         doc = docs[0]
+#         description = doc.page_content
+#         link = doc.metadata.get('link', 'Kein Link verfügbar.')
+#         return f"{description}\n\nLink: {link}"
+#     else:
+#         return "Keine relevanten Dokumente gefunden."
     
 
 
@@ -250,7 +269,7 @@ pdf_retriever_tool_deu = Tool(
     name="PDFRetrieverDEU",
     func=pdf_retriever_deu_tool_func,
     description="Retrieves PDF descriptions and links based on user queries in German.",
-    return_direct=True
+    return_direct=True 
 )
 
 tools = [retriever_tool_eng, 
