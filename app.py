@@ -23,6 +23,9 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from langchain.tools.retriever import create_retriever_tool
 from langchain.retrievers import EnsembleRetriever
 from langchain_community.retrievers import BM25Retriever
+from langchain.docstore.document import Document
+import csv
+from functools import partial
 
 
 app = Flask(__name__)
@@ -63,6 +66,27 @@ def remove_double_asterisks(text):
 
     pattern = r'\*\*(.*?)\*\*'
     return re.sub(pattern, r'\1', text)
+
+# Fetch data from Google Sheets and create retrievers for PDF descriptions
+def fetch_google_sheet_data():
+    sheet_url = "https://docs.google.com/spreadsheets/d/1DDbmGi6jXYYmqyx7c-csVnb33aFBNYvUJ3BD4pCbxfA/export?format=csv"
+    response = requests.get(sheet_url)
+    response.raise_for_status()
+    data = response.content.decode('utf-8')
+    reader = csv.reader(data.splitlines())
+    records = [row for row in reader]
+    return records
+
+def pdf_retriever_tool_func(query, retriever, language):
+    docs = retriever.get_relevant_documents(query)
+    if docs:
+        doc = docs[0] 
+        description = doc.page_content
+        link = doc.metadata.get('link', 'No link available.' if language == 'ENG' else 'Kein Link verfügbar.')
+        return f"{description}\n\nLink: {link}"
+    else:
+        return "No relevant document found." if language == 'ENG' else "Keine relevanten Dokumente gefunden."
+
 
 store = {}
 user_form_trigger_status = {}  # Tracks if lead form has been shown for each user
@@ -114,6 +138,52 @@ bm25_retriever_deu = BM25Retriever.from_documents(splits_deu)
 ensemble_retriever_eng = EnsembleRetriever(retrievers=[retriever_eng, bm25_retriever_eng, retriever_eng_qa])
 ensemble_retriever_deu = EnsembleRetriever(retrievers=[retriever_deu, bm25_retriever_deu, retriever_deu_qa])
 
+
+# Working with the cvs files with links to the PDF
+# take csv file from google drive
+pdf_records = fetch_google_sheet_data()
+
+# Assuming the columns are: 0 - name, 1 - language, 2 - description, 3 - link
+pdf_records_eng = [rec for rec in pdf_records if rec[1].strip().lower() == 'eng']
+pdf_records_deu = [rec for rec in pdf_records if rec[1].strip().lower() == 'deu']
+
+
+# Create documents from descriptions
+documents_eng = [
+    Document(
+        page_content=rec[2], 
+        metadata={'name': rec[0], 'link': rec[3]}
+    ) for rec in pdf_records_eng
+]
+
+documents_deu = [
+    Document(
+        page_content=rec[2],
+        metadata={'name': rec[0], 'link': rec[3]}
+    ) for rec in pdf_records_deu
+]
+
+# Create vector stores for PDF descriptions
+vector_store_pdfs_eng = Chroma.from_documents(
+    documents=documents_eng,
+    embedding=embeddings,
+    collection_name="pdfs_eng"
+)
+
+vector_store_pdfs_deu = Chroma.from_documents(
+    documents=documents_deu,
+    embedding=embeddings,
+    collection_name="pdfs_deu"
+)
+
+# Create retrievers for PDFs
+retriever_pdfs_eng = vector_store_pdfs_eng.as_retriever()
+retriever_pdfs_deu = vector_store_pdfs_deu.as_retriever()
+
+# It is for using function pdf_retriever_tool_func twice with language parameter
+pdf_retriever_eng_tool_func = partial(pdf_retriever_tool_func, retriever=retriever_pdfs_eng, language='ENG')
+pdf_retriever_deu_tool_func = partial(pdf_retriever_tool_func, retriever=retriever_pdfs_deu, language='DEU')
+
 initial_prompts = {
     "1": "Erfahren Sie mehr über die von Blu-Baar angebotenen Dienstleistungen.",
     "2": "Gibt es Parkplätze in der Nähe oder im Gebäude?",
@@ -163,8 +233,24 @@ retriever_tool_deu = create_retriever_tool(
     description="Retrieves information from the knowledge base. Use only if the user asks questions in German."
 )
 
+pdf_retriever_tool_eng = Tool(
+    name="PDFRetrieverENG",
+    func=pdf_retriever_eng_tool_func,
+    description="Retrieves PDF descriptions and links based on user queries in English.",
+    return_direct=True 
+)
+
+pdf_retriever_tool_deu = Tool(
+    name="PDFRetrieverDEU",
+    func=pdf_retriever_deu_tool_func,
+    description="Retrieves PDF descriptions and links based on user queries in German.",
+    return_direct=True 
+)
+
 tools = [retriever_tool_eng, 
         retriever_tool_deu, 
+        pdf_retriever_tool_eng,  
+        pdf_retriever_tool_deu,
         default_response_eng_tool, 
         default_response_deu_tool, 
         lead_form_tool]
@@ -193,7 +279,6 @@ agent_with_chat_history = RunnableWithMessageHistory(
     get_session_history,
     input_messages_key="input",
     history_messages_key="chat_history"
-    # memory_key="chat_history",
 )
 
 ############################################################
@@ -282,7 +367,7 @@ def trigger_lead_form():
         log_message += f", Email: {email}"
     if phone:
         log_message += f", Phone: {phone}"
-    logger.info(log_message)
+    # logger.info(log_message)
 
     # # This code resets status, may be we will need it in the future (not sure)
     # user_form_trigger_status[user_id] = False
