@@ -26,10 +26,13 @@ from langchain_community.retrievers import BM25Retriever
 from langchain.docstore.document import Document
 import csv
 from functools import partial
+from flask_socketio import SocketIO, emit
 
 
 app = Flask(__name__)
 CORS(app)
+
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 ############################################################
 # Logger setup
@@ -284,12 +287,22 @@ agent_with_chat_history = RunnableWithMessageHistory(
 ############################################################
 ############################################################
 
+
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected:', request.sid)
+
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected:', request.sid)
+
+
 # Flask routes
-@app.route('/chat', methods=['POST'])
-def chat():
+@socketio.on('chat_message')
+def chat(data):
 
     # RECEIVE data from the route: user_message & user_id & InitialPrompt
-    data = request.get_json()
     user_message = data.get("message")                  ### 1
     user_id = data.get("user_id")                       ### 2
     initial_prompt = data.get("InitialPrompt", "0")     ### 3
@@ -314,13 +327,15 @@ def chat():
         # Use the corresponding initial prompt message
         user_message = initial_prompts.get(initial_prompt, "")
         if not user_message:
-            return jsonify({"error": "Invalid InitialPrompt value provided."}), 400
+            emit('error', {"error": "Invalid InitialPrompt value provided."})
+            return
         
         if initial_prompt == "3":
             show_lead_form = True # Since the user wants to leave contact information, we need to trigger the lead form
     else:
         if not user_message:
-            return jsonify({"error": "No message provided"}), 400
+            emit('error', {"error": "No message provided"})
+            return
     
 
     result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": user_id}})
@@ -330,7 +345,7 @@ def chat():
     #FOR DEBUGGING AND TESTING 
 
     # logger.info(f"User ID: {user_id} - Received message: '{user_message}'")
-    # log_chat_history(user_id)
+    log_chat_history(user_id)
     intermediate_steps = result["intermediate_steps"]
     tools_used = [step[0].tool for step in intermediate_steps if step[0].tool]
     # logger.info(f"User ID: {user_id} - Tools used: {tools_used}")
@@ -345,19 +360,20 @@ def chat():
             user_form_trigger_status[user_id] = True  # Mark form as shown automatically for this user
             show_lead_form = True
     print("show_lead_form: ", show_lead_form)
-    return jsonify({"response": response_content, "user_id": user_id, "show_lead_form": show_lead_form})
+    emit('chat_response', {"response": response_content, "user_id": user_id, "show_lead_form": show_lead_form})
 
 
-@app.route('/trigger-lead-form', methods=['POST'])
-def trigger_lead_form():
-    data = request.get_json()
+
+@socketio.on('trigger_lead_form')
+def trigger_lead_form(data):
     user_id = data.get("user_id")
     name = data.get("name", None)
     email = data.get("email", None)
     phone = data.get("phone", None)
 
     if not user_id:
-        return jsonify({"message": "No user_id provided."}), 400
+        emit('error', {"message": "No user_id provided."})
+        return
 
     # Log the form data, even if some fields are missing
     log_message = f"Lead form submitted by User ID: {user_id}"
@@ -372,20 +388,25 @@ def trigger_lead_form():
     # # This code resets status, may be we will need it in the future (not sure)
     # user_form_trigger_status[user_id] = False
 
-    return jsonify({"message": "Thank you for your submission!"})
+    emit('lead_form_response', {"message": "Thank you for your submission!"})
 
 
 
 
-@app.route('/form-trigger-status', methods=['GET'])
-def form_trigger_status():
-    user_id = request.args.get('user_id')
+@socketio.on('form_trigger_status')
+def form_trigger_status(data):
+    user_id = data.get('user_id')
     if not user_id:
-        return jsonify({"message": "No user_id provided."}), 400
+        emit('error', {"message": "No user_id provided."})
+        return
+    
     status = user_form_trigger_status.get(user_id, False)
-    return jsonify({"user_id": user_id, "form_triggered": status})
+    # return jsonify({"user_id": user_id, "form_triggered": status})
+    emit('form_trigger_status_response', {"user_id": user_id, "form_triggered": status})
+
 ############################################################
 ############################################################
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    # app.run(host='0.0.0.0', port=8080, debug=True)
     # app.run(debug=True)
+    socketio.run(app, host='0.0.0.0', port=8080, debug=True)
