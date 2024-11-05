@@ -28,7 +28,10 @@ import csv
 from functools import partial
 from flask_socketio import SocketIO, emit
 
+import eventlet
+import eventlet.wsgi
 
+eventlet.monkey_patch()
 app = Flask(__name__)
 CORS(app)
 
@@ -409,4 +412,4 @@ def form_trigger_status(data):
 if __name__ == "__main__":
     # app.run(host='0.0.0.0', port=8080, debug=True)
     # app.run(debug=True)
-    socketio.run(app, host='0.0.0.0', port=8080, debug=True)
+    socketio.run(app, host='0.0.0.0', port=8080, debug=False)
