@@ -10,14 +10,15 @@ steps:
   # Step 3: Deploy the image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'chatbot-app-websocket', '--image', 'gcr.io/$PROJECT_ID/chatbot-app-websocket', '--platform', 'managed', '--region', 'europe-west8', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'chatbot-app-websocket', '--image', 'gcr.io/$PROJECT_ID/chatbot-app-websocket', '--platform', 'managed', '--region', 'europe-west1', '--allow-unauthenticated']
 
 # Optional: Specify the Cloud Build triggers based on GitHub changes (e.g., when code is pushed)
 substitutions:
-  _REGION: "europe-west8"
+  _REGION: "europe-west1"
 
 # Logging options
 options:
   logging: CLOUD_LOGGING_ONLY
 
 timeout: "900s"
+
