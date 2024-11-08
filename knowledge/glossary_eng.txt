@@ -1,0 +1,821 @@
+100 terms in the real estate industry in general:
+
+Land register: Public register that records the legal relationships to land.
+Property: A piece of land with or without a building, legally recorded in the land register.
+Mortgage: Loan security in which a piece of land serves as collateral.
+Cadastral plan: Detailed map that shows the parcel boundaries of a piece of land.
+Use zones: Specified areas that are intended for specific uses such as residential, commercial or agricultural.
+Planning application: Application for approval of a building project from the responsible authority.
+Building rights: The right to build or operate a structure on someone else's land.
+Development: Provision of the necessary infrastructure (e.g. roads, water) for a building plot.
+Management: Management and maintenance of real estate on behalf of the owner.
+Condominium ownership: Co-ownership of a piece of land, combined with an exclusive right of use of an apartment or business unit.
+Investment property: Property that is used to generate rental income.
+Market value: The estimated market value of a property.
+Rent: The amount a tenant pays for the use of a property.
+Imputed rental value: Fictitious income that the owner of a self-occupied residential property must pay taxes on.
+Amortization: Repayment of a loan in regular installments.
+Building line: Line established by law that determines the maximum scope of a construction project.
+Zoning plan: Plan that regulates the use of different areas of a municipality.
+Neighbor law: Regulations that regulate the relationship between neighboring property owners.
+Development plan: Detailed plan that determines the construction use of a specific area.
+Equity: The amount that the buyer himself contributes to finance a property.
+Rental income: Income from renting out a property.
+Development costs: Costs incurred in providing the infrastructure for a building plot.
+Agent commission: Remuneration that a real estate agent receives for brokering a property.
+Building permit: Official permission to carry out a building project.
+Property yield: The percentage return on the capital invested in a property.
+Heating system: System for heating a property.
+Penthouse apartment: Apartment located on the top floor of a building.
+Commercial property: Property used for business purposes.
+Property tax: Tax levied on the ownership of real estate.
+Maintenance costs: Costs for the care and maintenance of a property.
+Area calculation: Process for determining the living or usable area of ​​a property.
+Architectural competition: Process for selecting the best design for a building project.
+Leasehold: Long-term lease of a piece of land that can be built on.
+Vacancy rate: The proportion of vacant apartments or commercial units in a certain area.
+Building land: Land that is approved for development.
+Refurbishment: Renovation or modernization of a building.
+Rent increase: Increase in the rent by the landlord.
+Utility costs: Costs that are incurred in addition to the rent, e.g. for heating and water.
+Living space calculation: A measurement method for determining the total living space of an apartment.
+Down payment: An advance payment when buying a property, often as part of the purchase price.
+Owners' meeting: A meeting of all owners of a condominium association.
+Maintenance: Measures to maintain the functional condition of a property.
+Tenancy agreement: A contract between landlord and tenant regarding the use of a property.
+Management mandate: An order to manage a property by an external company.
+Foreclosure: A sale of a property to pay off the owner's debts.
+Construction loan: A loan to finance a construction project.
+Home ownership: Ownership of an apartment within an apartment building.
+Mortgage: A lien that serves to secure a mortgage.
+Prohibition on sale: A legal restriction on the sale of a property.
+Bail: A security provided by the tenant to the landlord.
+Appraisal: A professional assessment of the value of a property.
+Home loan: A loan used specifically to finance residential properties.
+Property management: A company or person who takes care of the management of a property.
+Rent index: Overview of local comparative rents.
+Home ownership promotion: State support to promote home ownership.
+Urban development planning: Planning the spatial and structural development of an area.
+Common property: Parts of a property that are jointly owned by all owners.
+House rules: Rules for the use of a property and the coexistence of residents.
+Index rent: Rent that is linked to a specific price index.
+Rent extension: Extension of the notice period for a tenant.
+Listed building: Property that is protected for cultural reasons.
+First rental: Renting out a property after completion or renovation.
+Sub-tenant: Person who takes over a rental agreement from a previous tenant.
+Rental deposit: Bank account where the rental deposit is deposited.
+Lease agreement: Contract for the transfer of a property for use in return for payment.
+Housing cooperative: Cooperative that creates and manages housing for its members.
+Interest rate risk: Risk of rising interest rates on variable mortgages.
+Maturity: Time at which a payment or service is due.
+Real encumbrances: Obligations that burden a property, e.g. easements.
+Income value method: Method for determining the value of a property based on the expected income.
+Operating costs statement: Statement of the apportionable additional costs.
+Land value: Average value for one square meter of land in a specific region.
+Start of construction: The official start of a construction project.
+Construction acceptance: Official inspection of a building after completion.
+Second home regulation: Regulations for the use and management of second homes.
+Interim use: Temporary use of a piece of land or building before it is permanently used.
+Promissory note: Document that secures a mortgage.
+Land value: The value of the undeveloped land.
+Loan agreement: Agreement to provide a loan.
+Sales agreement: Agreement to purchase a property.
+Agent agreement: Agreement to broker a property.
+Lien: Right to secure a claim through a property.
+Old building: Building that was built a certain time ago and is older.
+New building: Building that has been newly built.
+Completion date: Planned completion of a construction project.
+Contract term: Duration of a rental or lease agreement.
+Reorganization of building land: Reorganization of land for better use.
+Development contract: Contract to regulate development costs.
+Rental nomads: Tenants who do not pay their rent and change their place of residence frequently.
+Prepayment penalty: Costs incurred when a mortgage is paid off early. Developer: Person or company that finances and manages a construction project.
+Property boundary: Boundary between neighboring properties.
+Shell: Construction that only includes the basic structure.
+Property developer: Company that develops and carries out construction projects.
+Construction monitoring: Control and supervision of the construction process.
+Debtor: Person who is obliged to pay a mortgage or loan.
+Property inspection: Inspection of a property for assessment before buying or renting.
+Pension fund: Institution that can be used for retirement planning, also for financing home ownership.
+Energy certificate: Document that describes the energy efficiency of a property.
+Renovation loan: Loan to finance renovation or refurbishment measures.
+
+100 terms in the real estate industry with a focus on office properties:
+
+Office space: area within a property that is used for office work.
+Coworking space: shared work area that can be used flexibly by different companies and individuals.
+Lease agreement for commercial premises: contract for the use of a property for business purposes.
+Space efficiency: ratio of the area used to the total available office space.
+Shared office: office space shared by several tenants.
+Facility management: administration and maintenance of buildings and the associated infrastructure.
+Open-space office: open-plan office without fixed walls between the workstations.
+Meeting room: specially equipped room for meetings and conferences.
+Office equipment: furniture and technical equipment in an office.
+Rental price per square meter: price for the rent per square meter of office space.
+Caretaker service: services for the maintenance and care of the office building.
+Floor plan: layout planning of the office space for optimal use.
+Workplace density: number of workstations per square meter of office space.
+Lightweight wall: Wall construction used for flexible room layout in offices.
+Ventilation system: Ventilation device that provides fresh air in office buildings.
+LED lighting: Energy-saving lighting solution for office space.
+Meeting room: A room used for formal meetings and sessions.
+Rent adjustment: Change in rent due to contractual conditions or market conditions.
+Office building class: Categorization of office properties according to quality and equipment (e.g. class A, B, C).
+Second use: Use of office space for alternative purposes, e.g. events.
+Operating costs: Additional costs that arise in addition to rent, such as heating, electricity and water.
+Prestigious office space: High-quality office space that supports a professional image.
+Subletting: Subletting of rented office space to third parties.
+Take-up: Total amount of rented office space within a certain period of time.
+Flexible workspaces: Office areas that can be adapted to different usage requirements.
+Wi-Fi coverage: Wireless internet availability in office buildings.
+Single office: A closed room for a single person or a limited number of employees.
+Space requirement: Amount of space required for a company's business operations.
+Raised floor: Raised floor under which pipes and cables run.
+Acoustic ceiling: Special ceiling paneling to improve the acoustics of a room.
+Rental deposit: Security deposit that a tenant pays to the landlord.
+Home office compatibility: Equipment and flexibility of an office to support home office work.
+Access control system: Electronic system to control access to office buildings.
+Ergonomic workplace: Workplace designed to meet health requirements.
+Kitchenette: Small kitchen within an office space for catering to employees.
+Cleaning concept: Plan for regular cleaning and maintenance of an office building.
+Fire protection concept: Measures to prevent and fight fires in office buildings.
+Utilities: Power, water and internet connections in office buildings.
+Lighting concept: Planning the lighting for optimal working conditions.
+Workplace mobility: Ability to work flexibly within the office.
+Floor usage: Use of office space per floor of a building.
+Air conditioning: System for cooling and air conditioning office buildings.
+Security service: External service that ensures security in the office building.
+Meeting room management: Organization and booking of meeting rooms.
+Workplace reservation system: Digital system for reserving workstations.
+High-rise office: Office in a high-rise building.
+Demolition obligation: Tenant's obligation to reverse changes to the office space when moving out.
+Trade tax: Tax on the income of commercial enterprises, which also applies to office properties.
+Area measurement: Exact measurement of the office space to determine the rental area.
+Green facades: Facades with plants to improve air quality and the building climate.
+Office modular construction: Prefabricated construction in which modules are put together to form office buildings.
+Business center: Building or part of a building that offers office space for short-term rental.
+Facility manager: Person responsible for the maintenance and management of office buildings.
+Rental price analysis: Investigation and evaluation of rental prices for office space.
+Collaboration areas: Areas designed for collaboration and group work in offices.
+Shared desk: Concept in which employees do not have a fixed workstation, but use flexible spaces.
+Prestigious location: Location of an office building that is popular due to its attractiveness and accessibility.
+Double glazing: Window construction for better insulation of offices.
+Transport links: Connection of the office building to public transport and main roads.
+Lease term: Duration of a lease for office space.
+Energy certificate for office buildings: Document that evaluates the energy efficiency of the building.
+Contract negotiations: Discussions to determine the terms of a lease.
+Idle costs: Costs that arise when an office space is vacant.
+Maintenance work: Regular maintenance work to maintain the office space.
+Conversion measures: Changes to the existing office structure to adapt to new requirements.
+Underground car park: Underground parking for office buildings.
+Office space expansion: Expansion of unfinished areas into usable office space.
+Technical equipment: Equipping the office with technological equipment and installations.
+Glass facade: Modern facade construction made of glass for more daylight and aesthetics.
+Rent staggering: Contract clause in which the rent increases at regular intervals.
+Occupancy rate: Percentage of occupied office space in a building.
+Commercial tenancy law: Legal regulations that affect tenancies for commercial space.
+Accessibility: Equipment in office buildings that enables disabled-friendly access.
+IT infrastructure: Technical equipment for digital work processes in the office.
+Attractiveness factors: Features that make an office building attractive to potential tenants.
+Office usage costs: Total costs associated with using an office.
+Noise level control: Measures to reduce noise pollution in office spaces.
+Atrium: Open area within an office building that provides natural light.
+Office neighborhood: Companies and shops located near an office building.
+Demolition costs: Costs incurred to restore the office space to its original condition.
+Utilization strategy: Plan for marketing and using office properties.
+Rent adjustment clause: Provision in the lease that regulates changes in rent.
+Digital office: Office with comprehensive digitalization to optimize work processes.
+Maintenance contract: Contract for the regular maintenance of technical systems in office buildings.
+Number of people per floor: Number of employees who work on one floor of an office building.
+Ventilation shaft: Component for air circulation in office buildings.
+Technical services: Services that ensure the technical functionality of the office building.
+Storage area in the office building: Area for storing materials and documents.
+Canteen: Catering facility within an office building.
+Real estate valuation: Procedure for determining the market value of an office building.
+Workplace lighting: Special lighting that ensures optimal working conditions.
+Preliminary lease agreement: Preliminary agreement on the rental of office space.
+Energy consumption index: Value that describes the energy consumption of an office building.
+Extension: Structural extension of an office building by additional floors.
+Locking system: Security system for managing access rights in office buildings.
+Home automation: Systems for the automated control of lighting, heating and security technology.
+Early purpose binding: Contractual determination of the use of office space for specific purposes.
+Acquisition costs: Costs incurred when purchasing an office building.
+Special areas: Special areas within an office building, such as cafeterias or lounges.
+Income value method: Method for calculating the value of an office building based on the expected rental income.
+
+100 terms in the real estate industry with a focus on construction topics:
+
+Construction plan: Drawing that shows the planned construction of a building.
+Excavation pit: Earth excavated to prepare the foundation of a building.
+Shell: Construction stage of a building in which the supporting structure is completed.
+Supporting structure: Structural elements of a building that carry and distribute loads.
+Concrete: Building material made of cement, water and aggregates that is used for foundations and walls.
+Masonry: Construction made of stones stacked on top of each other, e.g. bricks or concrete blocks.
+Statics: Area of ​​civil engineering that deals with the stability and strength of buildings.
+Insulation: Material or process used to reduce heat or sound loss.
+Foundation: Component that transfers the load of the building into the ground.
+Reinforced concrete: Concrete that is reinforced with steel inserts to increase the load-bearing capacity.
+Base plate: Flat foundation of a building.
+Facade: The external front of a building that defines its appearance.
+Roof truss: The supporting structure of a roof.
+Waterproofing: A method of protecting a building from water ingress.
+Drywall: A method of construction that does not use water-containing building materials.
+Lintel: A structural member above a window or doorway.
+Structural engineering: The field of study that deals with the calculation and dimensioning of structural elements.
+Facing brickwork: A visible outer layer of masonry that serves a decorative purpose.
+Formwork: A temporary form into which concrete is poured.
+Reinforcement: Steel inserts used to strengthen concrete.
+Load transfer: A mechanism by which loads are distributed among structural elements.
+Construction management: The responsibility for carrying out and monitoring construction projects.
+Energy efficiency: A measure of a building's energy consumption in relation to its performance.
+Thermal bridge: An area in the building envelope that conducts more heat than the surrounding materials.
+Ventilation system: Mechanical or natural system for ventilating a building.
+Subsoil: Soil condition of a plot of land that is crucial for the load-bearing capacity of a structure.
+Building construction: Construction of buildings that extend above the surface of the earth.
+Civil engineering: Construction of structures that lie below the surface of the earth, such as foundations or tunnels.
+Prefabricated construction: Construction method in which prefabricated components are assembled on site.
+Topping-out ceremony: Celebration to mark the completion of the shell and roof structure of a building.
+Gypsum board: Building material used in interior construction for walls and ceilings.
+Clinker: High-fired brick used for facades.
+Sound insulation: Measures to reduce noise pollution in buildings.
+Dry screed: Finished floor structure that is laid without water.
+Insulated glass windows: Windows that consist of two or more layers of glass to improve thermal insulation.
+Exterior plaster: Layer of plaster on the exterior wall of a building for protection and aesthetics.
+Partition wall: Non-load-bearing wall that separates rooms within a building.
+Fire wall: Wall designed to withstand a certain period of time in the event of a fire.
+Lumber: Wood that is specially prepared for construction purposes.
+Galvanized steel: Steel that has been coated with a zinc layer to protect it from corrosion.
+Vacant lot: Undeveloped land within an already built-up area.
+Construction project: Planned project to build or alter a structure.
+Architrave: Load-bearing crossbeam above columns or pillars.
+Ceiling structure: Component that forms the separation between the floors of a building.
+Roof waterproofing: Protective layer that protects the roof from water.
+Light well: Component that brings daylight and ventilation into basement rooms.
+Prefinished parquet: Prefabricated wooden floor that can be easily installed.
+Columns: Vertical components that carry and support loads.
+Window sill: Horizontal closure below a window.
+Solid construction: Construction method in which load-bearing walls and ceilings are made of solid material.
+Glass facade: Facade construction made of glass to increase natural lighting.
+Roof overhang: Part of the roof that extends beyond the outer wall and protects against the weather.
+Terrace roof: Covering of terrace areas.
+Building technology: All technical facilities such as heating, ventilation and electricity in a building.
+Concrete ceiling: Load-bearing ceiling made of concrete.
+Building materials: Materials used to construct buildings, e.g. wood, brick, concrete.
+Steel beam: A structural element made of steel that carries loads over large spans.
+Construction cost plan: A list of the expected costs for a construction project.
+Architectural details: Special design features of a building.
+Laminate flooring: Floor covering consisting of a plastic surface and a wood fiber board.
+Construction technology: Techniques and methods used in the construction of buildings.
+Building structure: The totality of the structural and non-structural elements of a building.
+Window profile: Frame in which the glass pane of a window is held.
+Ground floor ceiling: Ceiling that forms the lower end of a building.
+Construction defects: Errors or defects that are discovered during or after construction.
+Partition wall: Non-load-bearing wall for dividing rooms.
+Roof pitch: Angle that the roof surface forms with the horizontal.
+Fire-resistant glazing: Special glazing that offers protection in the event of a fire.
+Wet room: Room with water connections, such as a bathroom.
+Building fabric: The entirety of the materials and components of an existing building.
+Floor covering: Surface that covers the floor of a room.
+Curtain wall: Non-load-bearing exterior wall construction, often made of glass.
+Roof construction: Layered structure of a roof, consisting of insulation, supporting structure and waterproofing.
+Exposed concrete: Concrete that is used as a finished surface without cladding.
+Cracking: Formation of cracks in the building material due to stress or aging.
+Skylight: Window that is integrated into a roof surface.
+Prefabricated construction: Construction method in which prefabricated components are assembled on site.
+Construction supervision: Monitoring of construction to ensure compliance with building regulations.
+Steel construction: Supporting structure that consists primarily of steel.
+Flat roof: Roof shape with a slight slope.
+Beam construction: Construction method in which load-bearing elements consist of beams.
+Core renovation: Fundamental renovation of a building down to the load-bearing structures.
+Drywall: Lightweight wall that is built without masonry.
+Roof insulation: Insulating material used to insulate a roof from the heat.
+Lintel construction: A structural element above a door or window opening to support loads.
+Timber frame construction: A type of construction in which the load-bearing elements are made of timber frames.
+Scaffolding: A temporary structure used during the construction or renovation of a building.
+Sliding door: A door that slides sideways and takes up little space.
+Insulating plaster: Plaster with insulating properties.
+Chimney installation: Installation of a fireplace or chimney.
+Underlay: A vapor-permeable protective layer under the roof covering.
+Concrete pillar: A vertical concrete structure used to support structures.
+Construction schedule: The scheduling of the construction phases of a project.
+Construction acceptance: The official inspection and acceptance of a completed building.
+Load calculation: The calculation of the loads that a structural element must withstand.
+Energy-saving windows: Windows with special insulation to reduce energy consumption.
+Demolition work: The demolition and removal of old buildings or structures. Joint sealing: Material or method for sealing the joints between building components.
+Dormer window: Structure in the roof to create additional space and light.
+Ventilation system: Technical device for air circulation and ventilation of buildings.
+
+100 terms in the real estate industry with a focus on management topics and facility management:
+
+Facility management: All measures for the administration, management and maintenance of buildings and their facilities.
+Maintenance: Measures to maintain the functional condition of a building.
+Cleaning concept: Plan for regular cleaning and maintenance of office space.
+Caretaker service: Services for minor repairs and maintenance work in office buildings.
+Security service: External service responsible for the security and monitoring of the office building.
+Maintenance plan: Planned implementation of regular maintenance measures to prevent damage.
+Building management system (BMS): Central control of building functions such as heating, ventilation and lighting.
+Defect management: System for recording and correcting defects and damage in the building.
+Cleaning service provider: External company that ensures the cleanliness and hygiene of a building.
+Winter service: Measures for clearing snow and combating ice on the outside areas of the office building.
+Green space maintenance: Care and maintenance of outdoor facilities and green spaces.
+Energy efficiency management: Strategies for optimizing the energy consumption of a building.
+Fire protection concept: Measures and regulations for protection against fire.
+Locking system: Mechanical or electronic system for managing access authorizations.
+Facility manager: Person responsible for the management and maintenance of a building.
+Space management: Planning and optimizing the use of office space.
+Tenant support: Services to support and satisfy tenants.
+Technical facility management: Area of ​​facility management that deals with the maintenance and care of technical systems.
+Commercial facility management: Management and control of the financial aspects of building operations.
+Service contract: Contract for the provision of services for the management of the building.
+Contract management: Management of service contracts and supplier contracts.
+Repair management: Coordination and implementation of necessary repairs.
+Recycling management: Organization and implementation of recycling and waste disposal measures.
+Garbage disposal: Regular removal of garbage in the office building.
+Ventilation system: Technical equipment for ventilation and air circulation in office buildings.
+Elevator maintenance: Regular inspection and maintenance of elevator systems.
+Building cleaning: Cleaning of interiors, facades and common areas.
+Cost control: Monitoring of costs incurred to adhere to the budget.
+Service Level Agreement (SLA): Agreement between the service provider and the owner on the services to be provided.
+Defect report: Documentation of defects and damage identified.
+Relocation management: Planning and implementation of office moves inside or outside the building.
+House rules: Rules for the use and maintenance of the building and the interaction between tenants.
+Access control system: Electronic system for controlling access to various areas of the building.
+Emergency plan: Plan of action to deal with emergencies such as fires or floods.
+Repair work: Repairs to repair damage and restore the original condition.
+Fire protection maintenance: Regular inspection of fire extinguishers, sprinkler systems and other fire protection equipment.
+Facility service desk: Central contact for faults and service requests in the office building.
+Building technology inspection: Regular inspection of the technical equipment and systems in the building.
+Utility billing: Billing of operating costs that are passed on to the tenants.
+Insurance management: Management of insurance policies that cover the building.
+Heating maintenance: Regular inspection and maintenance of the heating system.
+Pest control: Measures to prevent or eliminate pests.
+Air conditioning technology: Technical equipment for regulating temperature and humidity.
+Facility management software: IT tool for managing and organizing all facility management tasks.
+Indoor air quality: Monitoring and ensuring good indoor air quality.
+Escape route management: Planning and maintaining escape routes in the building.
+System monitoring: Monitoring and controlling the technical equipment in the building.
+Emergency lighting: Lighting that is activated in the event of a power failure to mark escape routes.
+Rental management: Management of vacancies and rental of office space.
+Operations management: All activities to maintain daily operations in the office building.
+Building documentation: Collection of all important documents and plans for a building.
+Facility checklist: List of tasks that must be checked when inspecting a building.
+Infrastructure maintenance: Care and maintenance of the structural infrastructure of an office building.
+Winterization: Measures to prepare the building for cold weather conditions.
+Technical building equipment (TGA): All of the technical systems in a building, e.g. ventilation, plumbing, electrical.
+Elevator service: Regular maintenance and repair of elevator systems.
+Building services: Technical equipment of the building, including heating, ventilation and air conditioning.
+Glass cleaning: Cleaning the windows and glass surfaces of an office building.
+Floor cleaning: Regular maintenance of the floor coverings.
+Signage: Attaching instructions and signs to provide orientation in the building.
+Energy audit: Checking the energy consumption of a building to determine potential savings.
+Facility cost analysis: Assessment of the costs incurred in facility management.
+Repair service: Immediate repair of minor damage in the building.
+Entrance management: Organization of the reception and security service in the building.
+Hygiene concepts: Measures to ensure cleanliness and hygiene in the office building.
+Commissioning: The process of starting operations after completion of construction work or renovation.
+Inspection tours: Regular tours to check the condition of the building.
+Outdoor facility maintenance: Maintenance of outdoor areas such as parking spaces and sidewalks.
+Locksmith service: Service for managing and providing keys for the office building.
+Disposal logistics: Organization of waste disposal and recycling.
+Climate protection measures: Steps to reduce the building's CO2 emissions.
+Contract controlling: Monitoring and reviewing contracts to ensure compliance.
+Fire alarm system: Technical system for the early detection of fires.
+Underground car park management: Organization and maintenance of the underground parking areas.
+Sanitary maintenance: Care and maintenance of the sanitary facilities.
+Water treatment: Systems to improve the water quality in the building.
+Personnel planning: Deployment planning of the facility management staff.
+Light management: Management and optimization of the lighting in the building.
+Facility inspection: Regular inspection of building facilities and systems.
+Malfunction log: Documentation of technical faults and their elimination.
+Consumption monitoring: Control of energy and water consumption in the building.
+Ventilation filter change: Regular replacement of filters in ventilation systems.
+Component maintenance: Care and maintenance of specific components such as facades or window frames.
+Operational planning: Planning the scheduling of maintenance and repair measures.
+User comfort: Measures to increase the satisfaction of building users.
+Technical maintenance: Regular care and inspection of technical facilities.
+Waste management: Organization of waste collection and disposal.
+Lighting inspection: Checking the function and efficiency of lighting systems.
+Cleaning plan: Schedule for organizing cleaning work.
+Fire protection training: Training of employees in fire protection measures.
+Air conditioning: System for temperature control and ventilation in the building.
+Damage analysis: Investigation of the causes and consequences of building damage.
+Emergency lighting: Lighting that serves to ensure the safety of users, e.g. in emergencies.
+Facility report: Report on the status and activities in facility management.
+Maintenance contract: Contract for regular maintenance of certain building facilities.
+Space planning: Planning the optimal use of office space.
+Technical rooms: Rooms in which the technical systems of the building are housed.
+Building monitoring: Monitoring and analysis of the status and operation of a building.
+Alarm system: Security system for monitoring the building.
+Emergency service: Emergency service in the event of technical faults or damage to the building.
+
+100 typical terms from the real estate industry with a focus on the location quality of office properties (micro location, macro location)
+
+Micro location: Immediate surroundings of a property, e.g. streets, neighboring buildings, infrastructure.
+Macro location: Larger geographical context in which the property is located, e.g. city, region.
+Infrastructure: Totality of public facilities and facilities that influence the use of the property.
+Transport links: Accessibility of the location by public transport and roads.
+Pedestrian zone: Area in the city that is reserved for pedestrian traffic and increases the attractiveness of the location.
+Local amenities: Presence of shops, supermarkets and other services nearby.
+Parking options: Availability of parking spaces for employees and visitors.
+Public transport: Bus, tram or subway lines near the location.
+Commuter flows: Number and frequency of people who commute to work from the location.
+Retail amenities: Presence of shops and shopping facilities nearby.
+Traffic density: Amount of traffic a street or area has at certain times.
+Main road access: Proximity to highways and major transport routes.
+Railway proximity: Distance to the nearest train station or railway station.
+Airport proximity: Accessibility of an airport from the location.
+Economic attractiveness: Importance of the location for business and commerce.
+Population density: Number of people per square kilometer in the area surrounding the location.
+Environmental quality: Air and water quality and other environmental factors at the location.
+Noise pollution: Level of noise in the area surrounding the property.
+Labor market access: Proximity to skilled labor and educational institutions.
+Tax climate: Tax advantages or disadvantages offered by the location.
+Competitive analysis: Presence of competing companies in the area.
+Rental level: Average rental price in the area for office space.
+Urbanity: Level of urban development and amenities nearby.
+Social structure: Demographic composition of the neighborhood.
+Location image: Perception of the location by the public and potential business partners.
+Security situation: Crime rate and security measures in the area.
+Green spaces: Presence of parks and other green spaces nearby.
+Hotel availability: Proximity to accommodation for business travelers.
+Cultural and leisure offer: Cultural facilities and leisure opportunities in the area.
+Restaurants and cafes: Availability of dining options for employees.
+Tenant mix: Mix of tenants in the area and their industries.
+Regional development stage: Stage of urban or regional development.
+Demographic change: Changes in the age structure and population development of the region.
+Office space availability: Number and variety of available office space in the region.
+Innovation cluster: Proximity to areas with a high density of research and technology companies.
+Logistics access: Accessibility for deliveries and logistical requirements.
+Location sustainability: Environmental friendliness and ecological practices in the area.
+Walking accessibility: Walking distance to important facilities.
+Regional economic growth: Growth of the local economy and the economic stability of the region. Recreational areas: Proximity to natural recreational areas such as lakes or forests.
+Market attractiveness: Attractiveness of the location for investors and companies.
+Office vacancy: Percentage of unused office space in the area.
+Network coverage: Quality of mobile network and internet connections at the location.
+Urban attractiveness: Overall impression of the urban design in the area.
+Investment potential: Potential for future investment and development at the location.
+Construction projects nearby: Current and planned construction projects that may affect the location.
+Transport links to freight transport: Access to rail or truck connections for freight transport.
+Educational facilities: Proximity to schools, universities and further education institutions.
+Accessibility for customers: How easily customers can reach the location.
+Technology availability: Access to technological infrastructure such as fiber optic internet.
+Nightlife: Availability of bars, clubs and other leisure options.
+Distances to business centers: Proximity to major economic centers of the city.
+Public facilities: Presence of authorities and institutions nearby.
+Flexibility of office space: Ability of office space to adapt to different needs.
+Purchasing power of the region: Average income of the population in the area.
+Future prospects of the region: Development potential and planned projects.
+Traffic safety: Safety of the traffic infrastructure around the building.
+Water access: Availability and proximity to waterways such as rivers or lakes.
+Property price level: Level of property prices in the region.
+Climatic conditions: Weather and climate conditions at the location.
+Neighborhood reputation: Reputation and social standing of the surrounding area.
+Location classification: Categorization of the location into locations such as A, B or C location.
+Business partner proximity: Proximity to existing or potential business partners.
+Historical relevance: Influence of monuments and historical buildings in the area.
+Availability of commercial space: Amount of available space for commercial purposes.
+Disturbance factors: Elements such as noise, air pollution or other influences that reduce the attractiveness of the location.
+Regional support programs: Government support and support programs for the region.
+Charging infrastructure for electric vehicles: Availability of charging stations for electric cars.
+Spatial planning policy: Regulations and plans that affect the development of the area.
+Building quality: Construction quality of existing and neighboring properties.
+Attractiveness for skilled workers: The attractiveness of the location for qualified employees.
+Real estate: Type and condition of existing real estate in the area.
+Competition analysis: Analysis of the competition in the area.
+Project development risk: Risks associated with future developments in the area.
+Economic stability: Solid economy in the region as a basis for company relocation.
+Accessibility for suppliers: Accessibility of the location for suppliers and service providers.
+Inhabitant structure: Composition of the population in the area surrounding the property.
+Road quality: Condition of the road infrastructure around the location.
+Zoning plans: Planning and regulations for the use of different areas.
+Availability of office buildings: Quantity and type of existing office buildings in the area.
+Neighborhood development: Degree of urbanization and planned developments in the neighborhood.
+Cultural offering: Museums, theaters and cultural events nearby.
+Visibility of the location: How well the location is perceived in the cityscape.
+Political stability: Influence of the political situation on the security and attractiveness of the location.
+Job creation: Potential of the location to generate new jobs.
+Availability of workspace: Availability of flexible workspaces in the area.
+Motorway connectivity: Accessibility via motorways and main roads.
+Development potential: Opportunities for expansion or new construction.
+Event venues: Convention centers and event venues nearby.
+Local amenities infrastructure: Density and variety of shops nearby.
+Urban growth: Pace of urban development in the area.
+Hospital accessibility: Access to medical care in the area.
+Civic centers: Community and civic centers nearby.
+Urban development concept: Plans and strategies for urban development.
+Residential potential: Ability to use the site for residential purposes.
+Findability in navigation systems: How well the site is listed in digital maps and navigation systems.
+Tax advantages: Regional tax incentives for businesses.
+Recreational infrastructure: Availability of sports and recreational facilities.
+Competition for space: Competition for available space in the area.
+Land value: Average property value in the area.
+
+50 typical terms from the field of signage and orientation in office properties
+
+Signage: The entirety of the visual and physical elements that serve to orientate oneself in buildings.
+Orientation system: System that guides visitors and employees through a building.
+Direction sign: Signage that shows the way to different areas.
+Room signage: Signage to mark rooms such as offices and meeting rooms.
+Entrance signage: Signs at the main entrance that provide the most important information about the building.
+Door sign: Sign on or next to a door to identify a room or office.
+Emergency exit sign: Illuminated sign that indicates emergency exits.
+Floor display: Sign that indicates the respective floor in an office building.
+Pictogram: Symbol that graphically represents information or a function, e.g. toilets or stairs.
+Wayfinding system: System of signs and symbols that show the routes in the building.
+Floor plan: Map that shows the floor plan of a floor with the most important orientation points.
+Information column: Freestanding column with information on floors and room distribution.
+Digital orientation system: Electronic display or app that makes it easier for visitors and employees to find their way around.
+Lobby signage: Signage that is installed in the entrance hall and provides initial orientation.
+Emergency plan: Plan that shows the escape routes and emergency exits in the event of an emergency.
+Elevator signage: Signs that identify the elevator and contain floor information.
+Wall lettering: Text or symbols attached directly to the wall for orientation.
+Illuminated signs: Illuminated symbols or signs that are visible even in the dark.
+Stairwell sign: Marking of staircases for orientation and safety.
+Tactile signs: Signs with tactile elements, e.g. Braille, for people with visual impairments.
+Escape route signage: Signs that indicate escape routes and emergency exits.
+Multi-tenant: A building that is used by several different tenants.
+Single-tenant: A building used exclusively by a single tenant.
+Fire safety sign: Identification of fire extinguishers, fire hydrants and fire protection devices.
+Visual guidance system: Set of visual cues that enable navigation through the building.
+Access sign: Sign that regulates access to areas, e.g. "Access for authorized persons only".
+Room numbering: System for marking rooms with numbers for easier orientation.
+Meeting room sign: Sign that indicates which room is used for meetings.
+Wayfinding board: Large, clearly visible board with directions and room information.
+Elevator display: Digital or analog system for displaying the elevator location and direction of travel.
+Main wayfinding sign: Large signage that indicates the main routes within the building.
+Access control system: System that controls and regulates access to specific areas.
+Signage concept: Planning and implementation of a unified system for signing the building.
+Attention fields: Areas highlighted by special signage, e.g. entrances.
+Guidance symbol: Symbol that shows the way, e.g. arrows or distinctive icons.
+Color coding: Use of colors for better orientation, e.g. each floor in a different color.
+Room use indication: Sign that indicates the type of room use, e.g. "conference room" or "office".
+Interactive information board: Electronic display that shows information about rooms and locations.
+Roof signage: Signage on the roof that is visible from a distance, e.g. company logo.
+Parking garage guidance system: Signs and displays that guide the way to and in a parking garage.
+Access code sign: Signage with information about access codes or access devices.
+Sanitation signage: Signs to identify toilets and washrooms.
+Foyer orientation: Signage in the entrance area to navigate to different areas.
+Visitor guidance system: Specific signs tailored to visitor needs.
+Access restriction: Notices indicating limited access options.
+Historic preservation notices: Signs indicating protected or listed parts of the building.
+Facade signage: Signs or logos on the building facade to identify the building.
+Table sign: Sign on or at a table to identify people or meetings.
+Building navigation: Overall system for orientation and navigation within an office complex.
+Sign holders: Holders or stands for signs that can be positioned flexibly.
+
+100 relevant terms from the real estate industry with a focus on the marketing and leasing of office space
+
+Exposé: Document describing a property in detail for marketing purposes.
+Lease agreement: Contract between landlord and tenant regarding the use of office space.
+Tenant profile: Description of the ideal tenant based on the landlord's requirements.
+Viewing appointment: Agreed time to show the property to potential tenants.
+Rental price per square meter: Cost of rent per square meter of office space.
+Rent adjustment: Change in the rental price over the course of the contract term.
+Agent commission: Fee that a real estate agent receives for brokering.
+Vacancy rate: Percentage of unrented office space in a certain area.
+Contract term: Duration of the lease, e.g. fixed-term or unlimited.
+Rent increase clause: Contract clause that regulates possible increases in the rent.
+Basic rent: Rent without additional costs such as heating and electricity.
+Warm rent: Rent including additional costs.
+Transport links: Accessibility of the office space by public transport and roads.
+Target group definition: Analysis of potential tenant groups.
+Office equipment: Equipment of the office space such as furniture and technical infrastructure.
+Utility bill: List of operating costs that the tenant pays in addition to the rent.
+Space efficiency: Relationship between the rented and actually usable space.
+Negotiation strategy: Procedure for optimally structuring the contract terms.
+Prepayment of rent: Rent amount to be paid in advance before using the office space.
+Rental deposit: Security deposit from the tenant to the landlord.
+Index rent: Rent that is linked to a price index (e.g. the consumer price index).
+Space optimization: Adjustment of the office space to make it more attractive to potential tenants.
+Property photos: Images that show the property for marketing purposes.
+Marketing concept: Plan for advertising and marketing an office property.
+Marketing campaign: Measure to advertise a property, e.g. via digital channels.
+Online real estate portals: websites on which office space is advertised.
+Viewing protocol: documentation of the viewing appointments carried out.
+Real estate appraisal: professional assessment of the market value of an office property.
+Tenant acquisition: process of attracting new tenants for office space.
+Office real estate market: market for the purchase, sale and rental of office space.
+Office space mix: mix of different office types, e.g. open-plan offices and individual offices, in one property.
+Marketing budget: budget available for marketing the property.
+Social media marketing: advertising office space via social networks.
+Virtual viewing: digital tour of the property using 360-degree technology.
+Brokerage contract: contract between owner and broker for marketing the property.
+Contract negotiation: discussions to determine the terms of the lease.
+Potential analysis: assessment of the rental opportunities and attractiveness of the office space.
+Office space for subletting: office space that an existing tenant sublets to third parties.
+Target group approach: strategies to specifically address potential tenants.
+Presentation folder: Folder with all important information about the property for potential tenants.
+Tenancy agreement conditions: Details and conditions of a tenancy agreement.
+Property inspection: On-site inspection of the property by potential tenants.
+Marketing materials: Brochures, flyers and other documents to promote the property.
+Vacancy management: Strategies to reduce vacant office space.
+Fixed interest rate: In the case of rent-to-own or financing, the commitment to a fixed interest rate.
+Property description: Detailed description of the office space, including special features.
+Offer letter: Written offer to rent the office space.
+Location assessment: Analysis of the location quality for marketing the office space.
+Viewing calendar: Schedule for agreed viewing appointments.
+Depreciation: Tax deduction of the value of a property over a certain period of time.
+Tenant analysis: Assessment of the creditworthiness and seriousness of a potential tenant.
+Service level agreement (SLA): Agreement on services provided by the landlord.
+Maintenance costs: Costs for maintenance and care of the office space.
+Rental property description: Comprehensive description of the rental property for marketing purposes.
+Operating costs: Additional costs to the rent, e.g. for electricity, heating, cleaning.
+Property valuation: Determination of the market value of the office property.
+Exclusive mandate: Sole contract to market a property to an agent.
+Rental space optimization: Adjustments for better use or division of the rental space.
+Commission-free: Rental offers without agent commission.
+Credit check: Checking the solvency of a potential tenant.
+Location analysis: Examination of the location and its advantages for marketing the office space.
+Rental staggering: Agreement on increasing rental prices over a certain period of time.
+Tenant bonus: Incentives granted to the tenant when the contract is signed, e.g. months of rent-free.
+Property management: Management and maintenance of an office property.
+Viewing criteria: Features that are assessed when viewing an office space.
+Search order: Order that a potential tenant gives to an agent to find suitable office space.
+Permanent rental: Long-term rental of an office space.
+Rental waiver: Agreement in which the landlord temporarily waives rent payments.
+Tenant retention: Strategies for long-term retention of a tenant.
+Conclusion of contract: Formal conclusion of the rental contract. Net area: Usable office space excluding communal areas such as corridors or toilets.
+Cold calling: Proactively approaching potential tenants without prior contact.
+Lease renewal: Extension of an existing lease.
+Vacancy costs: Costs incurred by unused office space.
+Reckoning calculation: Calculation of the profitability of an office rental.
+Commercial use: Use of the office space for business purposes.
+Rental price index: Index for determining the average rental price development.
+Conversion measures: Adjustments and renovations to the office space for rental.
+Location of the property: Position and surroundings of an office property.
+Lease agency: Company that specializes in the marketing and rental of properties.
+Lease agreement template: Standard contract for tenancies.
+Property analysis: Detailed examination of the property to determine its rentability.
+Marketing costs: Costs incurred for advertising the property.
+Direct approach: Targeted approach to potential tenants by the landlord or agent.
+Prepayment: Advance payment by the tenant for certain agreements.
+Landlord obligations: Legal and contractual obligations of the landlord.
+Office usage period: Period in which the office space is used, e.g. standard office hours.
+Approaching investors: Specific marketing measures to attract investors for office space.
+Facility service: Services for the maintenance and care of the office space.
+Building acceptance: Official handover and inspection of the office space before renting.
+Negotiation of terms: Negotiation of the terms of the rental agreement.
+Online exposé: Digital document for presenting the property.
+Occupancy rate: Proportion of the area used compared to the total area.
+Agent network: Association of agents for better marketing of properties.
+Valuation: Procedure for determining the current value of a property.
+Move-out clause: Contractual regulation on the process when the tenant moves out.
+Subletting: Process of renting out the space after the end of a tenancy.
+Occupancy concept: Planning the use and distribution of rental space.
+Tenant strategy: Strategies for approaching and selecting tenants.
+Property maintenance: Measures to maintain the condition of the property during the rental period.
+
+100 relevant terms from the real estate industry with a focus on interior design and interior architecture
+
+Interior architecture: Design and planning of interior spaces from a functional and aesthetic point of view.
+Room concept: Overall concept for the functional and aesthetic design of an interior.
+Use of space: Optimal distribution of space in a room to maximize its functionality.
+Open space design: Design of rooms without fixed walls to create an open and flexible working environment.
+Acoustic panels: Sound-absorbing elements to improve room acoustics.
+Lighting concept: Planning and design of the lighting conditions in a room.
+Ergonomics: Design of workstations and furniture to promote health and productivity.
+Furniture: Selection and arrangement of furniture in a room.
+Color scheme: Selection and combination of colors for the design of an interior.
+Material selection: Selection of materials for floors, walls and furniture.
+Room dividers: Elements for separating rooms, e.g. partition walls or plants.
+Floor covering: Material that covers the floor of an interior space, e.g. carpet, wood or tiles.
+Ceiling height: Vertical distance between the floor and ceiling of a room.
+Drywall: Construction method for erecting non-load-bearing interior walls.
+Decorative elements: Objects such as works of art or plants that contribute to the aesthetics of the room.
+Lighting planning: Detailed planning of the position and type of lighting in the room.
+Wall design: Design of the walls using paint, wallpaper or wall coverings.
+Built-in cupboard: Fixed cupboard that is integrated into the structure of the room.
+Workplace design: Planning and furnishing work areas in office properties.
+Acoustic ceiling: Special ceiling covering to reduce sound reflections.
+Interior lighting: Totality of light sources within a room.
+Lounge area: Relaxation zone within an office or public facility.
+Indirect lighting: Light source that is not directly visible but illuminates via reflections.
+Glass partition wall: Wall made of glass to separate rooms while allowing light to enter.
+Multifunctional furniture: Furniture that serves multiple functions, e.g. a desk with storage space.
+Acoustic curtains: Curtains with sound-absorbing properties.
+Zone division: Division of the room into different areas of use, e.g. work and break areas.
+Color psychology: Influence of colors on the mood and behavior of people in the room.
+Design furniture: High-quality, often tailor-made pieces of furniture with a special design requirement.
+Modular construction: Interior design style based on modular, flexible elements.
+Wall cladding: Materials or panels for cladding and designing walls.
+Use of daylight: Maximum use of natural light to save energy and improve the indoor climate.
+Sound insulation: Measures to reduce the transmission of noise between rooms.
+Loft style: Style that characterizes open, industrial spaces with high ceilings and large windows.
+Smart home technology: Integration of automated controls for light, temperature and security.
+Minimalism: Design approach that relies on simple, clear lines and few but functional pieces of furniture.
+Work ergonomics: Adjusting work areas to improve the health and productivity of users.
+Decorative lighting: Light sources primarily used to beautify the space.
+Functionality: Practical usability of a room or furniture.
+Indoor acoustics: Science and art of controlling sound in indoor spaces.
+Accent lighting: Light source used to highlight certain elements.
+Sliding door: Door that slides sideways and saves space.
+Design concept: Overarching idea that guides the design and furnishing of a room.
+Wood paneling: Wall paneling with wood to add warmth and texture.
+Insulation materials: Materials used to insulate heat and sound in walls and ceilings.
+Indoor climate: Quality of air and temperature control in an interior space.
+Space-saving furniture: Furniture items specifically designed to save space.
+False ceiling: Ceiling mounted below the actual ceiling, often to conceal technology.
+Room accents: Details or elements that add character to the room.
+Vertical gardens: Plant installations on the walls to improve indoor air quality and aesthetics.
+Designer lights: Special lamps that stand out due to their design.
+Partition curtains: Curtains that are used to flexibly divide rooms.
+Industrial style: Style based on robust materials such as concrete and metal.
+Individualized furnishing: Tailor-made furnishings that meet the needs of users.
+Space planning: Process of organizing and dividing interior spaces.
+Textile design: Use of fabrics such as curtains and carpets to design the space.
+Decorative objects: Smaller elements such as vases, sculptures or pictures that decorate a room.
+Spot lighting: Small, directed light sources that illuminate specific areas.
+Panel curtains: Large curtains or panels that serve as room dividers or privacy screens.
+Creative spaces: Specially designed areas to encourage creativity and idea generation.
+Interior colors: Color design of a room for atmosphere and impact.
+Conference room design: Planning and furnishing a room for meetings and conferences.
+Room acoustic optimization: Measures to improve sound quality and distribution in the room.
+Wallpapers: Printed or textured wallpapers to decorate the walls.
+Mood lighting: Lighting that helps create a certain atmosphere.
+Seating: Selection of chairs, sofas and armchairs for comfort and style.
+Shelving systems: Flexible and permanently installed shelves for storing objects.
+Light temperature: The color of the light that influences the mood in the room.
+Visual connection: Design elements that visually connect rooms.
+Ceiling decorations: Stucco work or wooden beams that embellish the ceiling.
+Wall mirrors: Large mirrors that visually enlarge and brighten rooms.
+Art in construction: Works of art that are integrated into the architecture of a building.
+Office furniture: Special pieces of furniture for use in work environments.
+Window films: Decorative or protective films that are applied to glass surfaces.
+Pedestal: Raised area in the room to create different levels.
+Wall niches: Recesses in the wall for placing decorations or storage space.
+Lighting control systems: Automated control of light sources for different lighting moods.
+Sliding partition wall: Movable wall for flexible room division.
+Workplace lighting: Lighting that has been specially developed for workplaces.
+Climate control: Techniques for regulating the temperature and humidity in the room.
+Acoustic partition: Wall designed specifically to isolate sound.
+Sense of space: The way a space is perceived and felt by its users.
+Ceiling lighting: The main source of light that is attached to the ceiling.
+Custom-made furniture: Furniture that is individually adapted to the needs and conditions of a space.
+Soundproof panels: Acoustic panels to reduce noise pollution.
+Wood slats: Wooden strips used to decorate and improve the acoustics of a room.
+Design guidelines: Guidelines and standards for the design of an interior space.
+Sun protection systems: Devices such as blinds and shutters that regulate the amount of light entering.
+Accent wall: A wall in a room that is highlighted by color or material.
+Model room: Model room used to demonstrate the design concept.
+Flexible furniture: Furniture that can be easily moved and change the space.
+Room ventilation: Systems that improve the air quality in the interior.
+Office design: Planning and designing office spaces.
+Wall textures: Surface materials with texture for visual and tactile interest.
+Multifunctional rooms: Rooms that can be used for different purposes.
+Interior concept: Overall concept for the interior design of a building.
+Ceiling accents: Design elements such as beams or lighting on the ceiling.
+Indoor greenery: Integration of plants to improve the indoor climate and aesthetics.
+Separation systems: Systems for the flexible separation of rooms.
+Ergonomic chairs: Special chairs that support the back and promote comfortable sitting.
+
+50 terms from the real estate industry with a focus on the topic of "New Work"
+
+New Work: Concept for new forms of work that emphasize flexibility, personal responsibility and digital work processes.
+Co-working space: Shared work environment that can be used flexibly by different people and companies.
+Flex office: Office that can be used flexibly, without fixed workstations.
+Home office: Working from home as a fixed or flexible part of everyday work.
+Activity-based working: Working model in which employees switch between different work areas depending on the task.
+Hybrid work: Combination of office work and remote work.
+Desk sharing: Concept in which several employees share a workstation.
+Remote work: Working outside the traditional office, e.g. from home or on the go.
+Open space office: Open-plan office without fixed partitions for more flexibility and communication.
+Hot desking: System in which workstations are not permanently assigned and are used flexibly.
+Agile working: Working method based on flexible, iterative processes and rapid adjustments. Work-life balance: A balanced relationship between working time and free time to increase well-being.
+Breakout areas: Areas in the office that are used for relaxation or informal meetings.
+Meeting pods: Small, soundproof rooms for meetings or phone calls.
+Virtual collaboration: Use of digital tools and platforms for collaboration.
+Collaboration space: Space specially designed for collaboration and teamwork.
+Flexible working hours: Working model that allows employees to individually organize their working hours.
+Workplace mobility: Ability to work independently of the physical workplace.
+Digital infrastructure: Technical equipment that supports remote work and digital processes.
+Shared office: Office space shared by several companies or individuals.
+Office concept: Design and planning of office space to support modern ways of working.
+Workplace design: Design and organization of workplaces to promote efficiency and well-being.
+Focus zone: Area in the office designed for concentrated work.
+Open innovation spaces: Areas that serve to promote creativity and innovation processes.
+Flexible lease: Lease agreements that allow flexible use and terms for office space.
+Cloud solutions: Technology that enables access to data and applications from anywhere.
+Ergonomic workplaces: Workplaces that offer health-promoting furniture and equipment.
+New work culture: Corporate culture based on self-determination, flexibility and flat hierarchies.
+Sustainable office design: Designing office space with environmental friendliness and sustainability in mind.
+Shared services: Shared use of resources and services within an office complex.
+Innovation laboratory: Room or department used to develop and test new ideas.
+Smart Office: Office with intelligent technologies for automation and increased efficiency.
+Corporate Coworking: Co-working areas provided within a company.
+Management at a distance: Management of teams that work in different locations.
+Virtual Office: Office service that offers business addresses and other office functions without physical space.
+Working World 4.0: Digital transformation of the working world with a focus on networking and automation.
+Flexible meeting rooms: Rooms that can be used flexibly for different types of meetings.
+Design Thinking Spaces: Rooms that are specially designed for creative processes and workshops.
+Digital Nomads: People who work independently of location and use the latest technology.
+Coworking Membership: Membership in a co-working space for flexible access to office space.
+Personalized Workspaces: Customizable workspaces that are tailored to the needs of the users.
+Modular Workspace: Office space that consists of modular elements and can be easily redesigned.
+Work Café: Hybrid between a café and a workplace for informal work meetings.
+Biophilic design: Interior design principle that integrates natural elements to increase well-being.
+On-Demand Office: Office space that is used and rented only when needed.
+Network offices: Offices that serve as hubs for exchange and collaboration between companies.
+Job sharing: Workspace shared by two or more employees.
+Well-Being Spaces: Areas in the office that are specifically designed for employee well-being.
+Dynamic space layout: Flexible design of office space to respond to changing needs.
+Digital Workplace: Digital platform that provides tools and resources for seamless remote work.
