@@ -109,6 +109,10 @@ default_replies_eng = load_default_replies(f'{folder}/default_replies_eng.txt')
 default_replies_deu = load_default_replies(f'{folder}/default_replies_deu.txt')
 
 ############################################################
+# Read the glossary files
+glossary_eng = read_file(f'{folder}/glossary_eng.txt')
+glossary_deu = read_file(f'{folder}/glossary_deu.txt')
+
 knowledge_base_eng = read_file(f'{folder}/knowledge_base_eng.txt')
 questions_eng = read_file(f'{folder}/questions_answers_eng.txt')
 # full_information_eng = knowledge_base_eng + "\n\n" + questions_eng
@@ -118,6 +122,14 @@ questions_deu = read_file(f'{folder}/questions_answers_deu.txt')
 # full_information_deu = knowledge_base_deu + "\n\n" + questions_deu
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
+
+# create the glossary text retrievers
+splits_glossary_eng = text_splitter.create_documents([glossary_eng])
+splits_glossary_deu = text_splitter.create_documents([glossary_deu])
+vector_store_glossary_eng = Chroma.from_documents(documents=splits_glossary_eng, embedding=embeddings,collection_name="glossary_eng")
+vector_store_glossary_deu = Chroma.from_documents(documents=splits_glossary_deu,embedding=embeddings,collection_name="glossary_deu")
+retriever_glossary_eng = vector_store_glossary_eng.as_retriever()
+retriever_glossary_deu = vector_store_glossary_deu.as_retriever()
 
 # create Knowledge base retrievers
 splits_eng = text_splitter.create_documents([knowledge_base_eng])
@@ -190,9 +202,13 @@ pdf_retriever_eng_tool_func = partial(pdf_retriever_tool_func, retriever=retriev
 pdf_retriever_deu_tool_func = partial(pdf_retriever_tool_func, retriever=retriever_pdfs_deu, language='DEU')
 
 initial_prompts = {
-    "1": "Erfahren Sie mehr über die von Blu-Baar angebotenen Dienstleistungen.",
-    "2": "Gibt es Parkplätze in der Nähe oder im Gebäude?",
-    "3": "Ich möchte meine Kontaktinformationen hinterlassen. Zeigen Sie mir das LeadFormular, damit ich es mit meinen Kontaktinformationen ausfüllen kann."
+    # "1": "Erfahren Sie mehr über die von Blu-Baar angebotenen Dienstleistungen.",
+    # "2": "Gibt es Parkplätze in der Nähe oder im Gebäude?",
+    # "3": "Ich möchte meine Kontaktinformationen hinterlassen. Zeigen Sie mir das LeadFormular, damit ich es mit meinen Kontaktinformationen ausfüllen kann."
+    "1": "Ich möchte wissen, welche Büroflächen derzeit verfügbar sind?",
+    "2": "Ich möchte wissen, was den Mietern zur Verfügung steht?",
+    "3": "Ich möchte wissen, ob es möglich ist, die Büroräume individuell zu gestalten?",
+    "4": "Ich möchte meine Kontaktinformationen hinterlassen. Zeigen Sie mir das Lead-Formular, damit ich es mit meinen Kontaktinformationen ausfüllen kann."
 }
 ############################################################
 
@@ -204,6 +220,19 @@ def default_response_deu_tool_func(_):
 
 def lead_form_tool_func(_):
     return ""
+
+# Create retriever tools for the glossary
+retriever_tool_glossary_eng = create_retriever_tool(
+    retriever_glossary_eng,
+    "GlossaryRetrieverENG",
+    description="Retrieves definitions from the real estate industry glossary. Use only if the user asks for definitions in English."
+)
+
+retriever_tool_glossary_deu = create_retriever_tool(
+    retriever_glossary_deu,
+    "GlossaryRetrieverDEU",
+    description="Retrieves definitions from the real estate industry glossary. Use only if the user asks for definitions in German."
+)
 
 default_response_eng_tool = Tool(
     name="DefaultResponderENG",
@@ -258,7 +287,9 @@ tools = [retriever_tool_eng,
         pdf_retriever_tool_deu,
         default_response_eng_tool, 
         default_response_deu_tool, 
-        lead_form_tool]
+        lead_form_tool,
+        retriever_tool_glossary_eng,
+        retriever_tool_glossary_deu]
 
 llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY)
 system_prompt = read_file('knowledge/system_prompt.txt')
@@ -332,7 +363,7 @@ def chat(data):
             emit('error', {"error": "Invalid InitialPrompt value provided."})
             return
         
-        if initial_prompt == "3":
+        if initial_prompt == "4":
             show_lead_form = True # Since the user wants to leave contact information, we need to trigger the lead form
     else:
         if not user_message:
