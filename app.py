@@ -72,6 +72,9 @@ def remove_double_asterisks(text):
     pattern = r'\*\*(.*?)\*\*'
     return re.sub(pattern, r'\1', text)
 
+# def replace_sharp_s(text):
+#     return text.replace("ß", "ss")
+
 # Fetch data from Google Sheets and create retrievers for PDF descriptions
 def fetch_google_sheet_data():
     sheet_url = "https://docs.google.com/spreadsheets/d/1DDbmGi6jXYYmqyx7c-csVnb33aFBNYvUJ3BD4pCbxfA/export?format=csv"
@@ -88,7 +91,9 @@ def pdf_retriever_tool_func(query, retriever, language):
         doc = docs[0] 
         description = doc.page_content
         link = doc.metadata.get('link', 'No link available.' if language == 'ENG' else 'Kein Link verfügbar.')
-        return f"{description}\n\nLink: {link}"
+        doc_name = doc.metadata.get('name', 'Relevant Document' if language == 'ENG' else 'Einschlägiges Dokument')
+        # Ensure the clickable format with relevant word in square brackets followed by link in parentheses
+        return f"[{doc_name}]({link})\n\n{description}"
     else:
         return "No relevant document found." if language == 'ENG' else "Keine relevanten Dokumente gefunden."
 
@@ -270,14 +275,14 @@ retriever_tool_deu = create_retriever_tool(
 pdf_retriever_tool_eng = Tool(
     name="PDFRetrieverENG",
     func=pdf_retriever_eng_tool_func,
-    description="Retrieves PDF descriptions and links based on user queries in English.",
+    description="Retrieves PDF descriptions and links based on user queries in English. Use this structure: relevant clickable word in square brackets followed by a link in round brackets",
     return_direct=True 
 )
 
 pdf_retriever_tool_deu = Tool(
     name="PDFRetrieverDEU",
     func=pdf_retriever_deu_tool_func,
-    description="Retrieves PDF descriptions and links based on user queries in German.",
+    description="Ruft PDF-Beschreibungen und Links basierend auf Benutzeranfragen in deutscher Sprache ab. Verwenden Sie diese Struktur: relevantes anklickbares Wort in eckigen Klammern, gefolgt von einem Link in runden Klammern",
     return_direct=True 
 )
 
@@ -374,6 +379,7 @@ def chat(data):
     result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": user_id}})
     response = result["output"]
     response_content = remove_double_asterisks(response)
+    # response_content = replace_sharp_s(response_content)
 
     #FOR DEBUGGING AND TESTING 
 
@@ -389,8 +395,8 @@ def chat(data):
 
     # Check if LeadForm tool was used or interaction count reached 7
     if not show_lead_form:
-        if ('LeadForm' in tools_used or user_interaction_count[user_id] >= 7) and not user_form_trigger_status.get(user_id, False):
-            user_form_trigger_status[user_id] = True  # Mark form as shown automatically for this user
+        if ('LeadForm' in tools_used or user_interaction_count[user_id] == 7): # and not user_form_trigger_status.get(user_id, False):
+            # user_form_trigger_status[user_id] = True  # Mark form as shown automatically for this user
             show_lead_form = True
     print("show_lead_form: ", show_lead_form)
     emit('chat_response', {"response": response_content, "user_id": user_id, "show_lead_form": show_lead_form})
@@ -421,7 +427,8 @@ def trigger_lead_form(data):
     # # This code resets status, may be we will need it in the future (not sure)
     # user_form_trigger_status[user_id] = False
 
-    emit('lead_form_response', {"message": "Thank you for your submission!"})
+    # emit('lead_form_response', {"message": "Thank you for your submission!"})
+    emit('lead_form_response', {"message": "Vielen Dank für Ihren Beitrag!"})
 
 
 
