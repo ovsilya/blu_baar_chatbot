@@ -1,8 +1,8 @@
-"Blu-Baar" ist ein moderner Büroraum in Baar, Schweiz
-Adresse des Gebäudes: Zugerstrasse 57, Baar, Schweiz
-
-8.946 m² Gesamtfläche verfügbar ab Anfang 2026
-Großzügige, anpassbare Fläche
+- "Blu-Baar" ist ein moderner Büroraum in Baar, Schweiz
+- Adresse des Gebäudes: Zugerstrasse 57, Baar, Schweiz
+- Website: https://www.blu-baar.ch/?prv=07_2024
+- 8.946 m² Gesamtfläche verfügbar ab Anfang 2026
+- Großzügige, anpassbare Fläche
 
 Objektübersicht: Moderne Büroflächen in Baar:
 Baar ist zentral gelegen und durch die gute Verkehrsanbindung an Zürich, Zug und Luzern wirtschaftlich bedeutend. Eingebettet zwischen Albis und Zugerberg bietet Baar viele Erholungs- und Freiräume.
@@ -74,7 +74,7 @@ Direkte Nachbarn
 - Sanitär- und Baubranche: Firmen im Bereich Sanitär und Bauinstallation sind ebenfalls in dieser Region vertreten
 
 
-
+########################################################################
 ***Geschichtliche Aspekte:***
 - Die Geschichte der Liegenschaft an der Zugerstrasse 57 in Baar hat sich in den letzten 100 Jahren erheblich gewandelt.
 
@@ -88,6 +88,7 @@ Direkte Nachbarn
 - Um das Jahr 1920 war die Umgebung von Baar noch stark landwirtschaftlich geprägt. Die Zugerstrasse, einschliesslich der Nummer 57, war Teil eines ländlichen Dorfes, das sich hauptsächlich entlang der Strasse zwischen dem Zugersee und dem Zürichsee erstreckte. Die Region begann erst nach dem Zweiten Weltkrieg, eine stärkere Industrialisierung und Kommerzialisierung zu erfahren
 
 
+########################################################################
 ***Warum heisst Blu-Baar so?***
 „Blu“ ist eine phonetische Anspielung auf das Wort „blau“ und verweist auf die getönte Glasfassade der Liegenschaft, die in einem charakteristischen Blauton reflektiert. Diese prägnante Begrifflichkeit symbolisiert die markante blaue Reflexion der Fassade. Der Begriff „Baar“ verweist einerseits auf den Standort des Gebäudes, andererseits lässt sich „Bar“ auch als „Riegel“ im Englischen verstehen. Somit ergibt sich das Bild eines „blauen Riegels“ – eine perfekte Verbindung von Standort und Design.
 
@@ -113,7 +114,7 @@ Die Marke der Geschäftsimmobilie Blu-Baar basiert auf einer klaren, modernen un
 - Die Marke „Blu-Baar“ vereint somit modernes Design, lokale Verankerung und internationale Verständlichkeit, was der Immobilie eine starke, wiedererkennbare Identität verleiht, die über reine Vermarktung hinausgeht
 
 
-
+########################################################################
 ***Projektbeschrieb (cst, 24.9.24 patchwork verschiedene quellen):***
 
 1. Objektbeschreibung
@@ -129,15 +130,18 @@ Baar im Verhältnis zu anderen Städten:
 - Zug: ca. 10 km entfernt, 15 Minuten mit dem Auto oder 10 Minuten mit dem Zug
 - Luzern: ca. 35 km entfernt, 40 Minuten mit dem Auto oder 50 Minuten mit dem Zug
 
+Wie weit ist es zum Flughafen?
+Die Entfernung vom Blu-Baar zum Flughafen Zürich beträgt mit dem Auto etwa 37 Minuten und mit öffentlichen Verkehrsmitteln rund 52 Minuten. Für genauere Details zur Route empfehlen wir die Nutzung eines Kartendienstes oder einer Navigations-App.
+
 Diese zentrale Lage erlaubt es Unternehmen und Mitarbeitern, schnell und effizient zu pendeln, was die Attraktivität des Standorts weiter erhöht. Zug ist ein führendes Wirtschaftszentrum in der Schweiz, das durch niedrige Unternehmenssteuern und eine unternehmensfreundliche Politik geprägt ist. Dies hat zahlreiche internationale Unternehmen, vor allem aus den Bereichen Finanzdienstleistungen, Technologie und Pharma, angezogen. Das wirtschaftliche Umfeld fördert Innovationen und trägt zu Stabilität und Wachstum in der Region bei.
+
+Wer ist Eigentümer der Liegenschaft Blu-Baar:
+Swiss Prime Site ist die grösste börsenkotierte Immobiliengesellschaft der Schweiz mit einem Portfolio von rund CHF 13 Milliarden. Das Unternehmen investiert in erstklassig gelegene Qualitätsliegenschaften, die hauptsächlich von kommerziellen Mietern genutzt werden. Weitere Informationen auf www.sps.swiss
 
 2. Flächenangebot
 - Die zur Verfügung stehende Bürofläche umfasst eine grosszügige Gesamtfläche von 8'946 m², die als Single-Tenant-Objekt ab Anfang 2026 verfügbar ist. Die Flächenaufteilung sieht wie folgt aus:
-	Erdgeschoss: 2'247 m²
-	1.Obergeschoss: 2'028 m²
-	2.Obergeschoss: 2'076 m²
-	3. Obergeschoss: 1'105 m²
-	Tiefparterre: 1'490 m²
+
+Das Gebäude Blu-Baar verfügt über mehrere Geschosse, darunter ein Erdgeschoss, mehrere Obergeschosse und eine weitläufige Terrasse im Obergeschoss. Die verfügbaren Flächen reichen von 179 m² bis zu 1'969 m², verteilt über das 1., 2., und 3. Obergeschoss, sowie ein Untergeschoss mit Flächen zwischen 36 m² und 1'060 m². Diese modernen Räume bieten flexible Arbeitskonzepte und zahlreiche Annehmlichkeiten.
 
 Die Flächen sind vollständig individualisierbar und bieten Unternehmen die Möglichkeit, massgeschneiderte Raumkonzepte zu entwickeln. Ob Teamräume, Besprechungsräume, Kreativbereiche oder Rückzugszonen für konzentriertes Arbeiten – die Büros lassen sich flexibel an die spezifischen Bedürfnisse der Mieter anpassen. Auch moderne Arbeitskonzepte wie Open-Space-Strukturen oder Desk-Sharing-Modelle können problemlos implementiert werden.
 
@@ -172,7 +176,7 @@ T: +41 58 317 16 67
 E-Mail: olivia.feller@sps.swiss
 Zögern Sie nicht, einen Besichtigungstermin zu vereinbaren. Wir freuen uns darauf, gemeinsam mit Ihnen Ihre neuen Büroflächen zu realisieren.
 
-__________________________________________________________________
+########################################################################
 
 ***Baubeschrieb***
 - Übergabezustand des Mietobjekts: das Mietobjekt wird an den Mieter im Ausbauzustand „Grundausbau“ übergeben. Die Flächen sind mit einem Bodenbelag ausgestattet, die Wände sind gestrichen, und die Decken sind geschlossen.
@@ -181,6 +185,10 @@ __________________________________________________________________
 - Die Mietflächen sind mit einer Grundschliessanlage ausgestattet. Der Mieter hat die Möglichkeit, nach Freigabe des Vermieters ein zusätzliches Zutrittskontrollsystem (ZUKO) zu installieren.
 - Die Allgemeinräume sind angemessen beleuchtet. In den Mietflächen kann der Mieter die Beleuchtung entsprechend seinen Ausbauwünschen selbst anbringen.
 - Die Toiletten befinden sich entweder direkt bei den Mietflächen oder in unmittelbarer Nähe des Mietobjekts. In der Regel stehen jeweils eine Damen- und eine Herrentoilette zur Verfügung.
+
+
+Lagerraummiete möglich:
+Lagerräume können angemietet werden. Im Untergeschoss von Blu-Baar befinden sich aktuell vier Lagerflächen von 45 bis 90 m² Größe.
 
 
 Die Raumhöhen betragen durchschnittlich ca. 2.75-3.55 Meter.
