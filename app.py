@@ -91,8 +91,9 @@ def pdf_retriever_tool_func(query, retriever, language):
         doc = docs[0] 
         description = doc.page_content
         link = doc.metadata.get('link', 'No link available.' if language == 'ENG' else 'Kein Link verfügbar.')
+        doc_name = doc.metadata.get('name', 'Relevant Document' if language == 'ENG' else 'Einschlägiges Dokument')
         # Ensure the clickable format with relevant word in square brackets followed by link in parentheses
-        return f"Hier ist der Link: \n\n[Einschlägiges Dokument]({link})\n\n{description}"
+        return f"[{doc_name}]({link})\n\n{description}"
     else:
         return "No relevant document found." if language == 'ENG' else "Keine relevanten Dokumente gefunden."
 
