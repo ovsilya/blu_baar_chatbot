@@ -27,6 +27,8 @@ from langchain.docstore.document import Document
 import csv
 from functools import partial
 from flask_socketio import SocketIO, emit
+from langdetect import detect
+from langdetect.lang_detect_exception import LangDetectException
 
 import eventlet
 import eventlet.wsgi
@@ -72,8 +74,12 @@ def remove_double_asterisks(text):
     pattern = r'\*\*(.*?)\*\*'
     return re.sub(pattern, r'\1', text)
 
-# def replace_sharp_s(text):
-#     return text.replace("ß", "ss")
+def detect_language(text):
+    try:
+        lang = detect(text)
+        return 'ENG' if lang == 'en' else 'DEU' if lang == 'de' else None
+    except LangDetectException:
+        return None
 
 # Fetch data from Google Sheets and create retrievers for PDF descriptions
 def fetch_google_sheet_data():
@@ -101,6 +107,7 @@ def pdf_retriever_tool_func(query, retriever, language):
 store = {}
 user_form_trigger_status = {}  # Tracks if lead form has been shown for each user
 user_interaction_count = {}    # Tracks the number of interactions per user
+message_language = {}         # Tracks language of the user 
 
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
     if session_id not in store:
@@ -345,6 +352,9 @@ def chat(data):
     user_id = data.get("user_id")                       ### 2
     initial_prompt = data.get("InitialPrompt", "0")     ### 3
 
+    language = detect_language(user_message)
+    message_language[user_id] = language
+
     # If user_id is not provided, generate a new one
     if not user_id:
         user_id = str(uuid.uuid4())
@@ -427,8 +437,14 @@ def trigger_lead_form(data):
     # # This code resets status, may be we will need it in the future (not sure)
     # user_form_trigger_status[user_id] = False
 
-    # emit('lead_form_response', {"message": "Thank you for your submission!"})
-    emit('lead_form_response', {"message": "Vielen Dank für Ihren Beitrag!"})
+    language = message_language.get(user_id, 'DEU')  # Default to 'DEU' if language not set
+
+    if language == 'ENG':
+        emit('lead_form_response', {"message": "Thank you for your submission!"})
+    elif language == 'DEU':
+        emit('lead_form_response', {"message": "Vielen Dank fuer Ihren Beitrag!"})
+    else:
+        emit('lead_form_response', {"message": "Thank you for your submission!"}) 
 
 
 
