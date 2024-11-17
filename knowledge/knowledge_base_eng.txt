@@ -29,39 +29,41 @@ Ground Floor 	--- 2,247 m²
 Basement 		--- 1,490 m²
 
 ########################################################################
-***Urban infrastructure (i.e. micro-location/micro-position) around Zugerstrasse 57, Baar***
+***Urban infrastructure (i.e. micro-location/micro-position/mikrolage) around Zugerstrasse 57, Baar***
+
+**Urban infrastructure** can be referred to "Mikrolage" (or micro-location) - immediate surroundings of a property and its specific local characteristics that influence its value and appeal. This includes factors such as proximity to public transportation, local amenities like shops and schools, green spaces, and the overall neighborhood atmosphere.
 
 Gastronomy/Restaurants nearby:
 - Ristorante Pizzeria Maddalena (150 m) – Italian cuisine
 - Thai Cuisine Benjarong (150 m) – Thai-Gerichte
 - McDonald's (300 m)
 
-Business and services:
+Business and services nearby:
 - Butcher's shop Zumbach (600 m)
 - Post Baar (550 m)
 
-Leisure & Fitness:
+Leisure & Fitness nearby:
 - Fitnesspark Zug (1.2 km)
 
-Health care:
+Health care nearby:
 - General Practitioner Centre Baar (800 m)
 - Zahnarzt Dr. Schmid (600 m)
 - Apotheke Baar (550 m)
 
-Hotels & Conferences:
+Hotels & Conferences nearby:
 - ibis Baar Zug (550 m)
 - Visibility : 2 km
 
-Daycare centres:
+Daycare centres nearby:
 - Island4Kids (Weststrasse 3, 900 m)
 - Kita Zwergenburg (Huebweid 1.1 km)
 - Kidscare Baar (Zugerstrasse 50, 300 m)
 
-Supermarkets & Shopping:
+Supermarkets & Shopping nearby:
 - Coop Pronto (Zugerstrasse 64, 200 m)
 - Lidl (Sagistrasse 10, 500 m)
 
-Direct neighbours
+Direct neighbours:
 1. Legal and business consulting
 - Zulauf Asset Management AG: Asset management.
 - Accuro AG: International management consulting and asset management.
@@ -71,7 +73,6 @@ Direct neighbours
 - IT and technology companies: Smaller IT support and technical consulting service providers.
 - Garages and car repair shops: There are several car repair shops and smaller service companies for vehicles
 - Plumbing and construction: Plumbing and construction installation companies are also represented in this region
-
 
 ########################################################################
 ***Historical aspects:***
