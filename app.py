@@ -74,6 +74,11 @@ def remove_double_asterisks(text):
     pattern = r'\*\*(.*?)\*\*'
     return re.sub(pattern, r'\1', text)
 
+def replace_sharp_s(text):
+    return text.replace("ß", "ss")
+
+
+
 def detect_language(text):
     try:
         lang = detect(text)
@@ -389,7 +394,7 @@ def chat(data):
     result = agent_with_chat_history.invoke({"input": user_message}, config={"configurable": {"session_id": user_id}})
     response = result["output"]
     response_content = remove_double_asterisks(response)
-    # response_content = replace_sharp_s(response_content)
+    response_content = replace_sharp_s(response_content)
 
     #FOR DEBUGGING AND TESTING 
 
