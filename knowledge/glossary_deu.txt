@@ -829,3 +829,4 @@ Job Sharing: Arbeitsplatz, der von zwei oder mehr Mitarbeitern geteilt wird.
 Well-Being Spaces: Bereiche im Büro, die speziell für das Wohlbefinden der Mitarbeiter gestaltet sind.
 Dynamisches Raumlayout: Flexible Gestaltung von Büroflächen, um auf wechselnde Bedürfnisse zu reagieren.
 Digital Workplace: Digitale Plattform, die Tools und Ressourcen für eine nahtlose Remote-Arbeit bereitstellt.
+Mikrolage: Die Mikrolage bezeichnet die nähere Umgebung einer Immobilie. Wichtige Faktoren sind zum Beispiel die Anbindung, die Entfernung zu Geschäften und das Straßenbild. Da die Mikrolage den Marktwert einer Immobilie bestimmt, spielt sie beim Immobilienkauf eine entscheidende Rolle.

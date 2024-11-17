@@ -819,3 +819,4 @@ Job sharing: Workspace shared by two or more employees.
 Well-Being Spaces: Areas in the office that are specifically designed for employee well-being.
 Dynamic space layout: Flexible design of office space to respond to changing needs.
 Digital Workplace: Digital platform that provides tools and resources for seamless remote work.
+Micro location: The micro location refers to the immediate surroundings of a property. Important factors include the connection, the distance to shops and the streetscape. Since the micro location determines the market value of a property, it plays a crucial role when buying property.
