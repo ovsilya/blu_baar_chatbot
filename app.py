@@ -51,7 +51,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 ############################################################
 # Load environment variables and data files
-OPENAI_API_KEY = "sk-proj-KGUXTSrwq2m2wueI4JwKT3BlbkFJHcNZecVcvLRSNxQgMjkM"
+OPENAI_API_KEY = "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"
 
 def read_file(file_name):
     """Helper function to read a file's content."""
