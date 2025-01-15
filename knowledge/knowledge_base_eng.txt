@@ -24,8 +24,8 @@ Open space, focused workstations, and workshop rooms – thanks to the open and 
 Floor 			--- Total Area
 Ground Floor 	--- 1815 m²
 1st Floor 		--- 1720 m²
-2nd Floor 		--- 1969 m²
-3rd Floor 		--- 1013 m²
+2nd Floor 		--- 1969 m² (reserved)
+3rd Floor 		--- 1013 m² (reserved)
 Basement 		--- 1060 m²
 
 ########################################################################
