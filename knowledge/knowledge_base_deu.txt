@@ -25,8 +25,8 @@ Offene Flächen, konzentrierte Arbeitsplätze und Werkstatträume - dank der off
 Etage --- Gesamtfläche
 Erdgeschoss --- 1815 m²
 Erster Stock --- 1720 m²
-Zweiter Stock --- 1969 m²
-Dritter Stock --- 1013 m²
+Zweiter Stock --- 1969 m² (reserviert)
+Dritter Stock --- 1013 m² (reserviert)
 Untergeschoss --- 1060 m²
 
 ########################################################################
