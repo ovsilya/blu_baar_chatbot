@@ -247,9 +247,9 @@ def send_email_to_client(name, email, phone):
         message = Mail(
             from_email='Contactformblubaar@gmail.com',
             to_emails='ovsyannikovilyavl@gmail.com',
-            subject='New Contact Form Submission',
+            subject='Blu Baar - Ein neues Kontaktformular wurde übermittelt!',
             html_content=f"""
-            <h1>New Contact Form Submission</h1>
+            <h2>Kontaktdaten:</h2>
             <p><strong>Name:</strong> {name}</p>
             <p><strong>Email:</strong> {email}</p>
             <p><strong>Phone:</strong> {phone}</p>
