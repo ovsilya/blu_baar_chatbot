@@ -34,7 +34,7 @@ import eventlet
 import eventlet.wsgi
 
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+from sendgrid.helpers.mail import Mail, Email, Personalization
 
 app = Flask(__name__)
 CORS(app)
