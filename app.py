@@ -33,6 +33,9 @@ from langdetect.lang_detect_exception import LangDetectException
 import eventlet
 import eventlet.wsgi
 
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
 app = Flask(__name__)
 CORS(app)
 
@@ -238,6 +241,25 @@ def default_response_deu_tool_func(_):
 def lead_form_tool_func(_):
     return ""
 
+def send_email_to_client(name, email, phone):
+    try:
+        sg = SendGridAPIClient(os.getenv('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'))  # Use environment variable for security
+        message = Mail(
+            from_email='sales@navai.ch',
+            to_emails='ovsyannikovilyavl@gmail.com',
+            subject='New Contact Form Submission',
+            html_content=f"""
+            <h1>New Contact Form Submission</h1>
+            <p><strong>Name:</strong> {name}</p>
+            <p><strong>Email:</strong> {email}</p>
+            <p><strong>Phone:</strong> {phone}</p>
+            """
+        )
+        response = sg.send(message)
+        logging.info(f"Email sent successfully. Status Code: {response.status_code}")
+    except Exception as e:
+        logging.error(f"Error sending email: {e}")
+
 # Create retriever tools for the glossary
 retriever_tool_glossary_eng = create_retriever_tool(
     retriever_glossary_eng,
@@ -438,6 +460,9 @@ def trigger_lead_form(data):
     if phone:
         log_message += f", Phone: {phone}"
     # logger.info(log_message)
+
+    # Send email to the client
+    send_email_to_client(name, email, phone)
 
     # # This code resets status, may be we will need it in the future (not sure)
     # user_form_trigger_status[user_id] = False
