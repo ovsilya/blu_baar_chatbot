@@ -255,6 +255,14 @@ def send_email_to_client(name, email, phone):
             <p><strong>Phone:</strong> {phone}</p>
             """
         )
+
+        # Add BCC email address
+        personalization = Personalization()
+        personalization.add_to(Email('ovsyannikovilyavl@gmail.com'))
+        personalization.add_bcc(Email('ilya.ovsyannikov@badal.io'))  # Add BCC
+        message.add_personalization(personalization)
+
+
         response = sg.send(message)
         logging.info(f"Email sent successfully. Status Code: {response.status_code}")
     except Exception as e:
