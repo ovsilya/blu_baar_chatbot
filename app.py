@@ -245,7 +245,7 @@ def send_email_to_client(name, email, phone):
     try:
         sg = SendGridAPIClient("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")  # Use environment variable for security
         message = Mail(
-            from_email='sales@navai.ch',
+            from_email='Contactformblubaar@gmail.com',
             to_emails='ovsyannikovilyavl@gmail.com',
             subject='New Contact Form Submission',
             html_content=f"""
