@@ -243,7 +243,7 @@ def lead_form_tool_func(_):
 
 def send_email_to_client(name, email, phone):
     try:
-        sg = SendGridAPIClient(os.getenv('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'))  # Use environment variable for security
+        sg = SendGridAPIClient("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")  # Use environment variable for security
         message = Mail(
             from_email='sales@navai.ch',
             to_emails='ovsyannikovilyavl@gmail.com',
