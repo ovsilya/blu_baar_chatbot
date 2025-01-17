@@ -246,7 +246,7 @@ def send_email_to_client(name, email, phone):
         sg = SendGridAPIClient("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")  # Use environment variable for security
         message = Mail(
             from_email='Contactformblubaar@gmail.com',
-            to_emails='ovsyannikovilyavl@gmail.com',
+            to_emails='olivia.feller@sps.swiss',
             subject='Blu Baar - Ein neues Kontaktformular wurde übermittelt!',
             html_content=f"""
             <h2>Kontaktdaten:</h2>
@@ -258,8 +258,8 @@ def send_email_to_client(name, email, phone):
 
         # Add BCC email address
         personalization = Personalization()
-        personalization.add_to(Email('ovsyannikovilyavl@gmail.com'))
-        personalization.add_bcc(Email('ilya.ovsyannikov@badal.io'))  # Add BCC
+        personalization.add_to(Email('olivia.feller@sps.swiss'))
+        personalization.add_bcc(Email('contact-form-blu-baar@navai.ch'))  # Add BCC
         message.add_personalization(personalization)
 
 
