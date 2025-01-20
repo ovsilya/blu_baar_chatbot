@@ -478,11 +478,11 @@ def trigger_lead_form(data):
     language = message_language.get(user_id, 'DEU')  # Default to 'DEU' if language not set
 
     if language == 'ENG':
-        emit('lead_form_response', {"message": "Thank you for your submission!"})
+        emit('lead_form_response', {"message": "Thank you for contacting us. We will get back to you as soon as possible."})
     elif language == 'DEU':
-        emit('lead_form_response', {"message": "Vielen Dank fuer Ihren Beitrag!"})
+        emit('lead_form_response', {"message": "Vielen Dank für die Kontaktaufnahme. Wir werden uns so rasch wie möglich bei Ihnen melden."})
     else:
-        emit('lead_form_response', {"message": "Thank you for your submission!"}) 
+        emit('lead_form_response', {"message": "Thank you for contacting us. We will get back to you as soon as possible."}) 
 
 
 
