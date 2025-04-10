@@ -89,7 +89,7 @@ def detect_language(text):
 
 # Fetch data from Google Sheets and create retrievers for PDF descriptions
 def fetch_google_sheet_data():
-    sheet_url = "https://docs.google.com/spreadsheets/d/1DDbmGi6jXYYmqyx7c-csVnb33aFBNYvUJ3BD4pCbxfA/export?format=csv"
+    sheet_url =os.getenv('GOOGLE_PATH')
     response = requests.get(sheet_url)
     response.raise_for_status()
     data = response.content.decode('utf-8')
