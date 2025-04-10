@@ -53,8 +53,6 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 # logger.addHandler(handler)
 
 ############################################################
-# Load environment variables and data files
-OPENAI_API_KEY = ""
 
 def read_file(file_name):
     """Helper function to read a file's content."""
@@ -123,7 +121,7 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
     return store[session_id]
 
 ############################################################
-embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+embeddings = OpenAIEmbeddings(api_key=os.getenv('OPENAI_API_KEY'))
 folder = "knowledge"
 default_replies_eng = load_default_replies(f'{folder}/default_replies_eng.txt')
 default_replies_deu = load_default_replies(f'{folder}/default_replies_deu.txt')
@@ -243,7 +241,7 @@ def lead_form_tool_func(_):
 
 def send_email_to_client(name, email, phone):
     try:
-        sg = SendGridAPIClient("")  # Use environment variable for security
+        sg = SendGridAPIClient(api_key=os.getenv('SENDGRID_API_KEY'))
         message = Mail(
             from_email='Contactformblubaar@gmail.com',
             to_emails='olivia.feller@sps.swiss',
