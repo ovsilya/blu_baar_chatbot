@@ -54,7 +54,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 ############################################################
 # Load environment variables and data files
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = ""
 
 def read_file(file_name):
     """Helper function to read a file's content."""
@@ -243,7 +243,7 @@ def lead_form_tool_func(_):
 
 def send_email_to_client(name, email, phone):
     try:
-        sg = SendGridAPIClient("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")  # Use environment variable for security
+        sg = SendGridAPIClient("")  # Use environment variable for security
         message = Mail(
             from_email='Contactformblubaar@gmail.com',
             to_emails='olivia.feller@sps.swiss',
